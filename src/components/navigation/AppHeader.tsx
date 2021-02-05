@@ -29,31 +29,40 @@ function AppHeader(props: AppProps) {
     return (
         <div className='side-nav-wrapper'>
             {expanded ?
-            <div className='side-nav pl-5 pr-5 pt-5 pb-5 d-flex flex-column'>
+            <div className='side-nav d-flex flex-column py-5'>
                 <div className='close-nav-toggle' onClick={()=>{setExpanded(false)}}>
 
                     <MDBIcon icon="angle-double-left"/>
                 </div>
 
-                <div className='d-flex align-self-center'>
+                <div className='d-flex align-self-center px-5'>
                     <div className='smaller-dot mb-5 ml-2'>
                     </div>
                 </div>
-                <div className={resolveNavLinkClass(location.pathname, "/",true)}
+                <div className={resolveNavLinkWrapperClass(location.pathname, "/",true)} >
+                    <a href="/"> <div className={resolveNavLinkClass(location.pathname, "/",true)}
+
                      onMouseEnter={() => setFeedImage(home_active)}
-                     onMouseLeave={() => setFeedImage('')}>
+                     onMouseLeave={() => setFeedImage('')}
+                >
                     <div className='mr-2 py-2'><img
                         src={feedImg !== '' ? feedImg : location.pathname === "/" ? home_active : home} width={25}/>
                     </div>
-                    <div className='align-self-center'><MDBNavLink to="/" link>Feed</MDBNavLink></div>
+                    <div className='align-self-center'>Feed</div>
                 </div>
+                    </a>
+                </div>
+                <div className={resolveNavLinkWrapperClass(location.pathname, "/explore",false)}>
+                    <a href="/explore">
                 <div className={resolveNavLinkClass(location.pathname, "/explore",false)}
                      onMouseEnter={() => setExploreImg(loupe_active)}
                      onMouseLeave={() => setExploreImg('')}>
                     <div className='mr-2 py-2'><img
                         src={exploreImg !== '' ? exploreImg :location.pathname.startsWith("/explore")? loupe_active : loupe}
                         width={25}/></div>
-                    <div className='align-self-center'><MDBNavLink to="/explore" link>Explore</MDBNavLink></div>
+                    <div className='align-self-center'>Explore</div>
+                </div>
+                </a>
                 </div>
                 <div className='mt-auto align-self-center '>
                     <div className='profile-image-wrapper'>
@@ -113,9 +122,14 @@ function AppHeader(props: AppProps) {
 
 }
 
+function resolveNavLinkWrapperClass(currentLocation: string, expectedLocation: string,exact:boolean): string {
+    const result=exact?currentLocation===expectedLocation:currentLocation.startsWith(expectedLocation);
+    return result ? 'side-nav-link-wrapper-active d-flex justify-content-center' : 'side-nav-link-wrapper d-flex justify-content-center';
+}
+
 function resolveNavLinkClass(currentLocation: string, expectedLocation: string,exact:boolean): string {
     const result=exact?currentLocation===expectedLocation:currentLocation.startsWith(expectedLocation);
-    return result ? 'd-flex flex-row side-nav-link-active' : 'd-flex flex-row side-nav-link';
+    return result ? 'd-flex flex-row side-nav-link-active align-self-center' : 'd-flex flex-row side-nav-link align-self-center';
 }
 
 export default connect()(AppHeader);

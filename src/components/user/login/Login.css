@@ -6,7 +6,7 @@
 .dot, .smaller-dot, .small-dot {
   height: 110px;
   width: 110px;
-  background-color: white;
+  background-color: #FFF27E;
   border-radius: 50%;
   display: inline-block;
 }

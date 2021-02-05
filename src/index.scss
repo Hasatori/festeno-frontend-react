@@ -13,7 +13,7 @@ $color-light-grey:#DDDDDD;
 .dot,.smaller-dot,.small-dot {
   height: 110px;
   width: 110px;
-  background-color:white;
+  background-color:$color-primary;
   border-radius: 50%;
   display: inline-block;
 }

@@ -13,18 +13,17 @@ $statusDotWidthCollapsed: 4px;
   border-bottom: 2px solid $color-primary !important;
 }
 
-.active {
-  font-weight: bold;
-  color: $color-primary !important;
-}
 
-.side-nav{
+.side-nav {
+  width: 300px;
   position: relative;
 }
+
 .side-nav, .side-nav-collapsed {
   height: 100vh;
   transition: 1s;
 }
+
 .side-nav *, .side-nav-collapsed * {
   transition: 1s;
 }
@@ -33,10 +32,11 @@ $statusDotWidthCollapsed: 4px;
 
 }
 
-.side-nav-wrapper{
+.side-nav-wrapper {
   overflow-y: hidden;
 }
-.open-nav-togler,.close-nav-toggle{
+
+.open-nav-togler, .close-nav-toggle {
   color: $color-secondary;
 
   background-color: $color-background;
@@ -48,19 +48,21 @@ $statusDotWidthCollapsed: 4px;
   top: 0;
   font-size: 1.5rem;
 }
-.open-nav-togler{
+
+.open-nav-togler {
   text-align: center;
   padding-top: 10px;
   font-size: 1rem;
 
 }
-.close-nav-toggle:hover,.open-nav-togler:hover {
+
+.close-nav-toggle:hover, .open-nav-togler:hover {
   color: $color-primary;
   cursor: pointer;
 }
 
 
-.profile-image-status, .profile-image-status-offline, .profile-image-status-online,.profile-image-status-offline-collapsed, .profile-image-status-online-collapsed {
+.profile-image-status, .profile-image-status-offline, .profile-image-status-online, .profile-image-status-offline-collapsed, .profile-image-status-online-collapsed {
   position: absolute;
   right: 0;
   top: $profileImageWidth -$statusDotWidth;
@@ -76,33 +78,46 @@ $statusDotWidthCollapsed: 4px;
 .profile-image-status-online {
   border: $statusDotWidth solid greenyellow;
 }
-.profile-image-status-online-collapsed{
+
+.profile-image-status-online-collapsed {
   border: $statusDotWidthCollapsed solid greenyellow;
 }
-.profile-image-status-offline,.profile-image-status-offline-collapsed {
+
+.profile-image-status-offline, .profile-image-status-offline-collapsed {
   border: $statusDotWidth solid red;
 }
-.profile-image-status-offline-collapsed{
+
+.profile-image-status-offline-collapsed {
   border: $statusDotWidthCollapsed solid red;
 }
+
 .profile-image {
   width: $profileImageWidth;
 }
+
 .profile-image-collapsed {
   width: $profileImageWidthCollapsed;
 }
+
 .profile-image-wrapper {
   position: relative;
 }
 
-.side-nav-link * {
-  color: $color-secondary !important;
+.side-nav-link-wrapper-active {
+  background: radial-gradient(circle, rgba(255, 242, 126, 0) 0%, rgba(24, 24, 24, 0) 76%, rgba(255, 242, 126, 0.41778718323266806) 100%);
+  cursor: pointer;
 }
+
+
 
 .side-nav-link-active * {
   color: $color-primary !important;
 }
 
-.side-nav-link:hover * {
+.side-nav-link *{
+  color: $color-secondary !important;
+}
+
+.side-nav-link-wrapper:hover * {
   color: $color-primary !important;
 }
