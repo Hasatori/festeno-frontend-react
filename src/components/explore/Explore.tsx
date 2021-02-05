@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {useLocation} from 'react-router-dom';
 import "./Explore.css";
 import {MDBBadge, MDBBtn, MDBCol, MDBInput, MDBNavLink, MDBRow} from "mdbreact";
+import NutrientRow from "./NutrientRow";
 
 
 export default function Explore() {
@@ -14,6 +15,7 @@ export default function Explore() {
     const [keywordVal, setKeywordVal] = useState("");
     const location = useLocation();
     const [carbohydrate, setCarbohydrate] = useState(0);
+    const enabled = useState(true);
     const [protein, setProtein] = useState(0);
     const [fat, setFat] = useState(0);
     const [fiber, setFiber] = useState(0);
@@ -23,7 +25,7 @@ export default function Explore() {
             val: carbohydrate,
             setVal: (val: number): void => {
                 setCarbohydrate(val);
-            }
+            },
         },
         {
             name: "Protein",
@@ -65,10 +67,9 @@ export default function Explore() {
                 <MDBRow className='mb-3'>
                     <MDBCol sm='10' md='10' lg='7'>
                         <div className='d-flex flex-column'>
+
                             {nutrientRows.map((nutrient, index, array) => {
-                                return (
-                                    getNutrientRow(nutrient.name, nutrient.val, nutrient.setVal, index)
-                                )
+                                return (<NutrientRow {...nutrient.name} />)
                             })}
                         </div>
                     </MDBCol>
@@ -165,26 +166,3 @@ export default function Explore() {
 
 }
 
-function getNutrientRow(name: string, nutrientVal: number, setNutrientVal: (val: number) => any, index: number) {
-    return (
-        <div className='d-flex flex-row flex-grow-1 justify-content-between'>
-            <div className='d-flex flex-column pb-4'>
-                <div>Nutrient</div>
-                <div
-                    className={index % 2 == 0 ? 'nutrient-dot-active align-self-center' : 'nutrient-dot-disabled align-self-center'}/>
-            </div>
-
-            <div className='mx-2 flex-grow-1 align-self-center'>
-                <input type="range"
-                       className={index % 2 == 0 ? 'custom-range-active' : 'custom-range-disabled'}
-
-                       value={nutrientVal}
-                       onChange={(event => setNutrientVal(Number(event.target.value)))}/>
-            </div>
-            <div className='align-self-center'>
-                <div
-                    className={nutrientVal > 0 ? 'nutrient-indicator-has-value' : 'nutrient-indicator-empty'}>{nutrientVal}</div>
-            </div>
-        </div>
-    )
-}

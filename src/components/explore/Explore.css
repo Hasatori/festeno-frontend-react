@@ -362,7 +362,7 @@ a:hover {
   border-bottom: 5px solid #FFF27E;
 }
 
-.nutrient-indicator-empty, .nutrient-indicator-has-value {
+.nutrient-indicator-disabled, .nutrient-indicator-has-value {
   border: 1px solid #DDDDDD;
   border-radius: 15px;
   padding: 10px 40px;

@@ -71,7 +71,7 @@ $slider-thumb-size: 15px;
 }
 
 
-.nutrient-indicator-empty, .nutrient-indicator-has-value {
+.nutrient-indicator-disabled, .nutrient-indicator-has-value {
   border: 1px solid $color-light-grey;
   border-radius: 15px;
   padding: 10px 40px;
@@ -106,6 +106,7 @@ $slider-thumb-size: 15px;
   padding: 0 !important;
   margin: 0 !important;
 }
+
 $slider-thumb-size: 15px;
 
 // Custom sliders
