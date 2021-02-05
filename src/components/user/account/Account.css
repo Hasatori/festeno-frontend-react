@@ -1,0 +1,8 @@
+.profile-info {
+    text-align: center;
+}
+
+.profile-avatar img {
+    border-radius: 50%;
+    max-width: 250px;
+}

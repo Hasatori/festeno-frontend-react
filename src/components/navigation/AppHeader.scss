@@ -1,0 +1,108 @@
+@import "../../index";
+
+$profileImageWidth: 50px;
+$profileImageWidthCollapsed: 30px;
+$statusDotWidth: 5px;
+$statusDotWidthCollapsed: 4px;
+.header, .side-nav, .side-nav-collapsed {
+  background-color: $color-background;
+  color: $color-secondary;
+}
+
+.navbar {
+  border-bottom: 2px solid $color-primary !important;
+}
+
+.active {
+  font-weight: bold;
+  color: $color-primary !important;
+}
+
+.side-nav{
+  position: relative;
+}
+.side-nav, .side-nav-collapsed {
+  height: 100vh;
+  transition: 1s;
+}
+.side-nav *, .side-nav-collapsed * {
+  transition: 1s;
+}
+
+.side-nav-collapsed {
+
+}
+
+.side-nav-wrapper{
+  overflow-y: hidden;
+}
+.open-nav-togler,.close-nav-toggle{
+  color: $color-secondary;
+
+  background-color: $color-background;
+}
+
+.close-nav-toggle {
+  position: absolute;
+  right: 2%;
+  top: 0;
+  font-size: 1.5rem;
+}
+.open-nav-togler{
+  text-align: center;
+  padding-top: 10px;
+  font-size: 1rem;
+
+}
+.close-nav-toggle:hover,.open-nav-togler:hover {
+  color: $color-primary;
+  cursor: pointer;
+}
+
+
+.profile-image-status, .profile-image-status-offline, .profile-image-status-online,.profile-image-status-offline-collapsed, .profile-image-status-online-collapsed {
+  position: absolute;
+  right: 0;
+  top: $profileImageWidth -$statusDotWidth;
+  border-radius: 50%;
+
+}
+
+.profile-image-status, .profile-image-status-offline-collapsed, .profile-image-status-online-collapsed {
+  top: $profileImageWidthCollapsed -$statusDotWidth;
+
+}
+
+.profile-image-status-online {
+  border: $statusDotWidth solid greenyellow;
+}
+.profile-image-status-online-collapsed{
+  border: $statusDotWidthCollapsed solid greenyellow;
+}
+.profile-image-status-offline,.profile-image-status-offline-collapsed {
+  border: $statusDotWidth solid red;
+}
+.profile-image-status-offline-collapsed{
+  border: $statusDotWidthCollapsed solid red;
+}
+.profile-image {
+  width: $profileImageWidth;
+}
+.profile-image-collapsed {
+  width: $profileImageWidthCollapsed;
+}
+.profile-image-wrapper {
+  position: relative;
+}
+
+.side-nav-link * {
+  color: $color-secondary !important;
+}
+
+.side-nav-link-active * {
+  color: $color-primary !important;
+}
+
+.side-nav-link:hover * {
+  color: $color-primary !important;
+}
