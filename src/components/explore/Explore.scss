@@ -1,8 +1,7 @@
 @import "../../index";
 
-$button-border-radius:11px;
+$button-border-radius: 11px;
 $slider-thumb-size: 15px;
-
 
 
 .divider {
@@ -10,10 +9,12 @@ $slider-thumb-size: 15px;
 
   border-bottom: 1px solid $color-light-grey;
 }
-.multiple-choices-select{
+
+.multiple-choices-select {
   width: 25%;
   border-radius: 10px;
 }
+
 .nutrient-dot-active, .nutrient-dot-disabled {
   height: 20px;
   width: 20px;
@@ -41,13 +42,12 @@ $slider-thumb-size: 15px;
 }
 
 
-.nav-button-active{
+.nav-button-active {
   background-color: $color-background !important;
   color: $color-primary !important;
   border: 1px solid $color-primary;
   border-radius: $button-border-radius;
 }
-
 
 
 .search-tag {
@@ -87,24 +87,53 @@ $slider-thumb-size: 15px;
   width: 100%;
   background-color: transparent;
 }
-.search-tags-wrapper-left-margin{
+
+.search-tags-wrapper-left-margin {
   margin-top: 2.5rem;
 }
-.search-tags-wrapper{
+
+.search-tags-wrapper {
   border: 1px solid $color-light-grey;
   width: 100%;
   height: 100%;
   border-radius: $button-border-radius;
 
 }
-.md-form{
+
+.md-form {
   padding: 0 !important;
   margin: 0 !important;
   margin-top: 10px !important;
 }
-.search-input{
+
+.search-input {
   padding: 0 !important;
   margin: 0 !important;
+}
+
+.autocomplete-wrapper {
+  position: relative;
+
+}
+
+.autocomplete {
+  position: absolute;
+  z-index: 100;
+  background-color: white;
+  width: 100%;
+  border: 1px solid $color-light-grey;
+}
+
+
+.autocomplete-row {
+  border-bottom: 1px solid $color-light-grey;
+  padding: 15px;
+}
+
+.autocomplete-row:hover {
+  color: $color-primary;
+  background-color: $color-background;
+  cursor: pointer;
 }
 
 $slider-thumb-size: 15px;
@@ -112,7 +141,7 @@ $slider-thumb-size: 15px;
 // Custom sliders
 
 /* All the same stuff for Firefox */
-.custom-range-active::-moz-range-thumb,.custom-range-disabled::-moz-range-thumb {
+.custom-range-active::-moz-range-thumb, .custom-range-disabled::-moz-range-thumb {
   border: 3px solid $color-background;
   height: $slider-thumb-size;
   width: $slider-thumb-size;
@@ -120,9 +149,11 @@ $slider-thumb-size: 15px;
   background: $color-secondary;
   cursor: pointer;
 }
+
 .custom-range-disabled::-moz-range-thumb {
   border-color: #A5A5A5;
 }
+
 .custom-range-active::-moz-range-track, .custom-range-disabled::-moz-range-track {
   width: 100%;
   height: $slider-thumb-size*0.8;
@@ -153,7 +184,7 @@ $slider-thumb-size: 15px;
 }
 
 
-.nav-button{
+.nav-button {
 
   color: $color-background;
   background-color: $color-light-grey !important;
@@ -166,6 +197,7 @@ $slider-thumb-size: 15px;
   font-size: 1.3rem;
   display: inline;
 }
+
 .action-button {
   background-color: $color-primary !important;
   font-weight: bold;

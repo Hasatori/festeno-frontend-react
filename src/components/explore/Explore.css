@@ -401,6 +401,29 @@ a:hover {
   margin: 0 !important;
 }
 
+.autocomplete-wrapper {
+  position: relative;
+}
+
+.autocomplete {
+  position: absolute;
+  z-index: 100;
+  background-color: white;
+  width: 100%;
+  border: 1px solid #DDDDDD;
+}
+
+.autocomplete-row {
+  border-bottom: 1px solid #DDDDDD;
+  padding: 15px;
+}
+
+.autocomplete-row:hover {
+  color: #FFF27E;
+  background-color: #181818;
+  cursor: pointer;
+}
+
 /* All the same stuff for Firefox */
 .custom-range-active::-moz-range-thumb, .custom-range-disabled::-moz-range-thumb {
   border: 3px solid #181818;
