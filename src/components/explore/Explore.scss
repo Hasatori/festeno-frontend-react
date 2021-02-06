@@ -110,7 +110,14 @@ $slider-thumb-size: 15px;
   padding: 0 !important;
   margin: 0 !important;
 }
+.search-input:focus + .active {
+  color: $color-background !important;
 
+}
+.search-input:focus{
+  border-bottom:1px solid  $color-background !important;
+  box-shadow: none !important;
+}
 .autocomplete-wrapper {
   position: relative;
 

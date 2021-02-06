@@ -105,7 +105,7 @@ export default function Explore() {
                                         setKeywordVal('');
                                     }
                                 }}>
-                                    <MDBInput type='text' className='search-input'
+                                    <MDBInput type='text' className='search-input' id='inputdd'
                                               label="Keywords, hastags" value={keywordVal}
                                               onChange={(e => setKeywordVal(e.currentTarget.value))}
                                     />
