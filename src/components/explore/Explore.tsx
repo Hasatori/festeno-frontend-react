@@ -118,7 +118,9 @@ export default function Explore() {
                                                     feed.toLowerCase().match(keywordVal.toLowerCase()) && array.indexOf(feed.toLowerCase()) === index
                                                 ).map(value => {
                                                     return  <div className='autocomplete-row' onClick={()=>{
-                                                        setKeywords([...keywords, value]);
+                                                        if (keywords.indexOf(value) === -1) {
+                                                            setKeywords([...keywords, value]);
+                                                        }
                                                         setKeywordVal('');
                                                     }}>{value}</div>
                                                 })
@@ -197,12 +199,12 @@ export default function Explore() {
                                                 ).map(value => {
                                                     return  <div className='autocomplete-row' onClick={()=>{
                                                         if (wantToActive) {
-                                                            if (wantTo.indexOf(wantToDoNotWantToVal) === -1){
+                                                            if (wantTo.indexOf(value) === -1){
                                                                 setWantTo([...wantTo, value]);
                                                             }
 
                                                         } else {
-                                                            if (dontWantTo.indexOf(wantToDoNotWantToVal) === -1) {
+                                                            if (dontWantTo.indexOf(value) === -1) {
                                                                 setDoNotWantTo([...dontWantTo,value])
                                                             }
                                                         }
