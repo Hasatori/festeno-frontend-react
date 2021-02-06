@@ -5,7 +5,7 @@ import plus from "../../assets/images/common/add.svg"
 
 export default function Home() {
     const streamers = new Array(50).fill('');
-    const recipesForRow = new Array(6).fill('Recipe');
+    const recipesForRow = new Array(4).fill('Recipe');
     const rows = new Array(6).fill('Recipe');
     return (
         <div className='d-flex flex-column'>
@@ -26,14 +26,14 @@ export default function Home() {
                     </div>
                 })}
             </div>
-            <div className='mt-5 flex-column'>
+            <div className='mt-5 flex-column mx-5'>
                 {rows.map(value => {
                     return(
                         <div className='mt-3'>
                             <MDBRow>
                                 {recipesForRow.map(value => {
                                     return (
-                                        <MDBCol lg='4' md='6' xl='2' sm='6' className='mt-2'>
+                                        <MDBCol md='6' xl='3' className='mt-5'>
                                             <div className='recipe-wrapper'>
 
                                                 <img className='recipe-image'
