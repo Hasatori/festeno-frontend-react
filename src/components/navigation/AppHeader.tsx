@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useLocation} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import './AppHeader.css';
 import {connect} from "react-redux";
 import {AppProps} from "../../index";
@@ -40,7 +40,7 @@ function AppHeader(props: AppProps) {
                     </div>
                 </div>
                 <div className={resolveNavLinkWrapperClass(location.pathname, "/",true)} >
-                    <a href="/"> <div className={resolveNavLinkClass(location.pathname, "/",true)}
+                    <Link to="/"> <div className={resolveNavLinkClass(location.pathname, "/",true)}
 
                      onMouseEnter={() => setFeedImage(home_active)}
                      onMouseLeave={() => setFeedImage('')}
@@ -50,10 +50,10 @@ function AppHeader(props: AppProps) {
                     </div>
                     <div className='align-self-center'>Feed</div>
                 </div>
-                    </a>
+                    </Link>
                 </div>
                 <div className={resolveNavLinkWrapperClass(location.pathname, "/explore",false)}>
-                    <a href="/explore">
+                    <Link to="/explore">
                 <div className={resolveNavLinkClass(location.pathname, "/explore",false)}
                      onMouseEnter={() => setExploreImg(loupe_active)}
                      onMouseLeave={() => setExploreImg('')}>
@@ -62,7 +62,7 @@ function AppHeader(props: AppProps) {
                         width={25}/></div>
                     <div className='align-self-center'>Explore</div>
                 </div>
-                </a>
+                </Link>
                 </div>
                 <div className='mt-auto align-self-center '>
                     <div className='profile-image-wrapper'>
