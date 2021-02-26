@@ -87,7 +87,7 @@ function AppHeader(props: AppProps) {
                 </div>
                 <div className='d-flex align-self-center mt-3 mb-3'>
 
-                    <img src={logo} width={30} ></img>
+                    <img src={logo} width={35} ></img>
                 </div>
                 <div className={resolveNavLinkClass(location.pathname, "/",true) + '  align-self-center'}
                      onMouseEnter={() => setFeedImage(home_active)}
