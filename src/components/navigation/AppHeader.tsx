@@ -10,6 +10,7 @@ import home from "../../assets/images/common/home.svg";
 import home_active from "../../assets/images/common/home-active.svg";
 import loupe from "../../assets/images/common/loupe.svg";
 import loupe_active from "../../assets/images/common/loupe_active.svg";
+import logo from "../../assets/images/logos/festeno_yellow2.svg";
 import {useMediaQuery} from 'react-responsive'
 
 function AppHeader(props: AppProps) {
@@ -36,8 +37,8 @@ function AppHeader(props: AppProps) {
                 </div>
 
                 <div className='d-flex align-self-center px-5'>
-                    <div className='smaller-dot mb-5 ml-2'>
-                    </div>
+                    <img src={logo} width={70} className='mb-3'></img>
+
                 </div>
                 <div className={resolveNavLinkWrapperClass(location.pathname, "/",true)} >
                     <Link to="/"> <div className={resolveNavLinkClass(location.pathname, "/",true)}
@@ -85,8 +86,8 @@ function AppHeader(props: AppProps) {
                     <MDBIcon icon="angle-double-right"/>
                 </div>
                 <div className='d-flex align-self-center mt-3 mb-3'>
-                    <div className='small-dot'>
-                    </div>
+
+                    <img src={logo} width={30} ></img>
                 </div>
                 <div className={resolveNavLinkClass(location.pathname, "/",true) + '  align-self-center'}
                      onMouseEnter={() => setFeedImage(home_active)}
