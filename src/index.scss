@@ -3,6 +3,7 @@
 $color-primary:#FFF27E;
 $color-secondary:#F9F9F9;
 $color-background:#181818;
+$color-background-transparent:rgba(24,24,24,0.5);
 $color-grey:#4F5150;
 $color-danger:#d9534f;
 $color-light-grey:#DDDDDD;
@@ -304,4 +305,13 @@ a:hover {
 
 .hidden {
   display: none;
+}
+.blur-strong{
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+}
+
+.long-text{
+  width: 80ch;
+  text-align: justify
 }

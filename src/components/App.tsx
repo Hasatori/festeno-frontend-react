@@ -162,7 +162,6 @@ function App(appProps: AppProps) {
                   <div className='d-flex flex-row'>
                 <div><AppHeader {...appProps}/></div>
                 <div className='flex-grow-1 app-body'>
-            <MDBContainer className="mt-4" fluid={true}>
 
                         <Switch>
                             <Route exact path="/" component={Home}/>
@@ -197,7 +196,6 @@ function App(appProps: AppProps) {
                             <Route component={NotFound}/>
                         </Switch>
 
-                    </MDBContainer>
                 </div>
             </div>
 

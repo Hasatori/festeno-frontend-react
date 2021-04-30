@@ -301,6 +301,16 @@ a:hover {
   display: none;
 }
 
+.blur-strong {
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+}
+
+.long-text {
+  width: 80ch;
+  text-align: justify;
+}
+
 .footer {
   background-color: #FFF27E !important;
 }

@@ -54,7 +54,7 @@ export default function Explore() {
     const [wantToDoNotWantToActive,setWantToDoNotWantToActive]=useState(false);
     const [keywordsToActive,setKeyWordsActive]=useState(false);
     return (
-        <div className='d-flex flex-column'>
+        <div className='d-flex flex-column mt-4 ml-2'>
             <div className='d-flex flex-row justify-content-between'>
                 <div><MDBNavLink className={location.hash === "#recipes" ? 'nav-button-active' : 'nav-button'}
                                  to="#recipes" link>Recipes</MDBNavLink> <MDBNavLink
