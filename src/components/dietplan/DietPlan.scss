@@ -1,0 +1,73 @@
+@import "../../index";
+
+$color-period-item-inactive-background:#343434;
+
+
+.period-big-button-active,.period-big-button {
+  color: $color-background;
+  background-color: $color-primary !important;
+  border: 1px solid $color-primary;
+  border-radius: $button-border-radius;
+  padding: 15px 20px;
+  font-size: 1.3rem;
+  display: inline;
+  font-weight: bold;
+}
+
+
+
+
+.period-big-button {
+  color: #FAFAFA;
+  border-color: $color-secondary;
+  background-color: $color-period-item-inactive-background !important;
+}
+
+.period-big-button:hover {
+  cursor: pointer;
+  color: $color-primary;
+  border: 1px solid $color-primary;
+  font-weight: bold;
+  border-radius: $button-border-radius;
+  padding: 15px 20px;
+  font-size: 1.3rem;
+  display: inline;
+}
+
+.period-wrapper{
+  background-color: $color-background;
+  overflow-x: scroll;
+  padding: 5px;
+  border-radius: 15px;
+}
+
+.action-button {
+  background-color: $color-primary !important;
+  font-weight: bold;
+  padding: 10px 50px;
+  font-size: 1.3rem;
+  border-radius: $button-border-radius;
+}
+
+.action-button:hover {
+  color: $color-background;
+}
+
+.meal-time-tick-box{
+  border: 4px solid $color-primary;
+  border-radius: 7px;
+  max-width: 45px;
+  max-height: 45px;
+}
+
+.meal-time-divider{
+  height: 25px;
+  border-left: 4px solid $color-primary;
+  margin-left: 5px;
+}
+
+.meal-time-item{
+  height: 45px;
+  border:1px solid $color-light-grey;
+  border-radius: 7px;
+}
