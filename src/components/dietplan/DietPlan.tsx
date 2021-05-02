@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import "./DietPlan";
+import "./DietPlan.css";
 import {MDBCol, MDBRow} from "mdbreact";
 
 import book from "../../assets/images/common/book.svg";
