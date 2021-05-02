@@ -46,6 +46,8 @@ import {Footer} from './footer/Footer';
 import ConfirmEmailChange from "./user/confirmemilchange/ConfirmEmailChange";
 import {MDBContainer} from "mdbreact";
 import Explore from "./explore/Explore";
+import {Recipes} from "./recipes/Recipes";
+import {DietPlan} from "./dietplan/DietPlan";
 
 function mapStateToProps(state: AppState, props: AppProps) {
     return {
@@ -165,6 +167,8 @@ function App(appProps: AppProps) {
 
                         <Switch>
                             <Route exact path="/" component={Home}/>
+                            <Route exact path="/recipes" component={Recipes}/>
+                            <Route exact path="/diet-plan" component={DietPlan}/>
                             <Route exact path="/explore" component={Explore}/>
                             <PrivateRoute
                                 path={["/account"]}

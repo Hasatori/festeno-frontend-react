@@ -11,6 +11,10 @@ import home_active from "../../assets/images/common/home-active.svg";
 import loupe from "../../assets/images/common/loupe.svg";
 import loupe_active from "../../assets/images/common/loupe_active.svg";
 import logo from "../../assets/images/logos/festeno_yellow2.svg";
+import book from "../../assets/images/common/book.svg";
+import book_active from "../../assets/images/common/book_active.svg";
+import calendar from "../../assets/images/common/calendar.svg";
+import calendar_active from "../../assets/images/common/calendar_active.svg";
 import {useMediaQuery} from 'react-responsive'
 
 function AppHeader(props: AppProps) {
@@ -21,6 +25,8 @@ function AppHeader(props: AppProps) {
     const bgPink = {backgroundColor: '#181818'}
     const [exploreImg, setExploreImg] = useState('');
     const [feedImg, setFeedImage] = useState('');
+    const [calendarImg, setCalendarImage] = useState('');
+    const [bookImg, setBookImage] = useState('');
     const isSmallScreen = useMediaQuery({query: '(min-width: 1400px)'});
     const [expanded, setExpanded] = useState(isSmallScreen);
     useEffect(() => {
@@ -51,6 +57,32 @@ function AppHeader(props: AppProps) {
                     </div>
                     <div className='align-self-center'>Feed</div>
                 </div>
+                    </Link>
+                </div>
+                <div className={resolveNavLinkWrapperClass(location.pathname, "/recipes",true)} >
+                    <Link to="/recipes"> <div className={resolveNavLinkClass(location.pathname, "/recipes",true)}
+
+                                       onMouseEnter={() => setBookImage(book_active)}
+                                       onMouseLeave={() => setBookImage('')}
+                    >
+                        <div className='mr-2 py-2'><img
+                            src={bookImg !== '' ? bookImg : location.pathname.startsWith("/recipes") ? book_active : book} width={25}/>
+                        </div>
+                        <div className='align-self-center'>Recipes</div>
+                    </div>
+                    </Link>
+                </div>
+                <div className={resolveNavLinkWrapperClass(location.pathname, "/diet-plan",true)} >
+                    <Link to="/diet-plan"> <div className={resolveNavLinkClass(location.pathname, "/diet-plan",true)}
+
+                                              onMouseEnter={() => setCalendarImage(calendar_active)}
+                                              onMouseLeave={() => setCalendarImage('')}
+                    >
+                        <div className='mr-2 py-2'><img
+                            src={calendarImg !== '' ? calendarImg : location.pathname.startsWith("/diet-plan") ? calendar_active : calendar} width={25}/>
+                        </div>
+                        <div className='align-self-center'>Diet plan</div>
+                    </div>
                     </Link>
                 </div>
                 <div className={resolveNavLinkWrapperClass(location.pathname, "/explore",false)}>
@@ -97,6 +129,20 @@ function AppHeader(props: AppProps) {
                         width={25}/></MDBNavLink>
                     </div>
 
+                </div>
+                <div className={resolveNavLinkClass(location.pathname, "/recipes",false) + '  align-self-center'}
+                     onMouseEnter={() => setBookImage(book_active)}
+                     onMouseLeave={() => setBookImage('')}>
+                    <div className='py-2'><MDBNavLink to="/recipes" link><img
+                        src={bookImg !== '' ? bookImg : location.pathname.startsWith("/recipes") ? book_active : book}
+                        width={25}/></MDBNavLink></div>
+                </div>
+                <div className={resolveNavLinkClass(location.pathname, "/diet-plan",false) + '  align-self-center'}
+                     onMouseEnter={() => setCalendarImage(calendar_active)}
+                     onMouseLeave={() => setCalendarImage('')}>
+                    <div className='py-2'><MDBNavLink to="/diet-plan" link><img
+                        src={calendarImg !== '' ? calendarImg : location.pathname.startsWith("/diet-plan") ? calendar_active : calendar}
+                        width={25}/></MDBNavLink></div>
                 </div>
                 <div className={resolveNavLinkClass(location.pathname, "/explore",false) + '  align-self-center'}
                      onMouseEnter={() => setExploreImg(loupe_active)}
