@@ -45,6 +45,10 @@
   background-color: #F9F9F9 !important;
 }
 
+.background-color-background {
+  background-color: #181818 !important;
+}
+
 .background-color-grey {
   background-color: #4F5150 !important;
 }
@@ -318,7 +322,6 @@ a:hover {
   border-radius: 11px;
   padding: 15px 20px;
   font-size: 1.3rem;
-  display: inline;
   font-weight: bold;
 }
 
@@ -336,7 +339,6 @@ a:hover {
   border-radius: 11px;
   padding: 15px 20px;
   font-size: 1.3rem;
-  display: inline;
 }
 
 .period-wrapper {

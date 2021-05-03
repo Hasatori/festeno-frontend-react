@@ -1,8 +1,8 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./DietPlan.css";
-import {MDBCol, MDBRow} from "mdbreact";
+import {MDBCol, MDBContainer, MDBRow} from "mdbreact";
 
-import book from "../../assets/images/common/book.svg";
+import book from "../../assets/images/common/book_active.svg";
 
 const periodTypes = ["Weeks", "Days"]
 
@@ -11,9 +11,14 @@ export function DietPlan() {
     const [periodType, setPeriodType] = useState("Days");
     const [day, setDay] = useState(1);
     const [week, setWeek] = useState(1);
+    const [montDaysCount,setMonthDaysCount] = useState((new Date( 2021,month, 0).getDate()));
+    useEffect(()=>{
+        console.log(month);
+        setMonthDaysCount((new Date( 2021,month, 0).getDate()));
+    },[month])
     const mealTimes = ["Breakfast", "Snack", "Lunch", "Snack", "Dinner"];
     return (
-        <div className="p-4 d-flex flex-column">
+        <MDBContainer className="p-4 d-flex flex-column ">
             <div className='d-flex flex-row justify-content-between'>
                 <div className="d-flex flex-row">
                     <div className="h1-responsive mr-3">Diet plan</div>
@@ -43,9 +48,9 @@ export function DietPlan() {
                         })}
                     </select>
                 </div>
-                {new Array(new Date(month, 2021, 0).getDate()).fill('').map((item, index) => {
+                {new Array(montDaysCount).fill('').map((item, index) => {
                         ++index;
-                        let weekDay = new Date(month, 2021, index).getDay();
+                        let weekDay = new Date(2021,month,  index).getDay();
                         if (periodType === "Days") {
                             return (<div
                                 className={index === day ? "period-big-button-active d-flex flex-column ml-2" : "period-big-button d-flex flex-column ml-2"}
@@ -62,8 +67,16 @@ export function DietPlan() {
                                             onClick={(event) => setWeek(weekNumber)}
                                 >
                                     <div>{weekNumber}.week</div>
-                                    <div> {index - 6}.{month} - {index}.{month}</div>
+                                    <div> {index - 6}.{month+1} - {index}.{month+1}</div>
                                    </div>
+                            }else if(index === montDaysCount){
+                                const weekNumber = Math.ceil(index/7);
+                                return <div className={weekNumber === week ? "period-big-button-active d-flex flex-column ml-2" : "period-big-button d-flex flex-column ml-2"}
+                                            onClick={(event) => setWeek(weekNumber)}
+                                >
+                                    <div>{weekNumber}.week</div>
+                                    <div> 29.{month+1} - {montDaysCount}.{month+1}</div>
+                                </div>
                             }
 
                         }
@@ -80,8 +93,8 @@ export function DietPlan() {
                                     <MDBCol size="1" className="align-self-center">{mealTime}</MDBCol>
                                     <MDBCol size="9" className="align-self-center text-center">Pečený sloní
                                         chobot</MDBCol>
-                                    <MDBCol size="1" className="align-self-center">
-                                        <img src={book} width={35}/>
+                                    <MDBCol size="1" className="align-self-center text-right">
+                                        <img src={book} className="background-color-background p-2 rounded" width={35}/>
                                     </MDBCol>
                                 </MDBRow>
                                 {index !== mealTimes.length - 1 ?
@@ -94,9 +107,28 @@ export function DietPlan() {
                     })}
 
                 </div>
-                : periodType === "Weeks" ? <div>Weeks</div> : ""}
+                : periodType === "Weeks" ? <MDBRow className="mt-5">
+                    {
+                        new Array(7).fill('').map((val,index)=>{
+                            const day = week*7-6+index;
+                            let date = new Date( 2021,month, day);
+                            let weekDay = date.getDay();
+                            if (day <= montDaysCount) {
+                                return (
+                                    <MDBCol size={"3"}>
+                                        <div className="period-big-button" onClick={()=>{
+                                            setDay(day);
+                                            setPeriodType("Days");
+                                        }}>{day}.{month + 1} {getDayOfWeek(weekDay)}</div>
+                                    </MDBCol>
+                                )
+                            }
+                        })
+                    }
 
-        </div>
+                </MDBRow> : ""}
+
+        </MDBContainer>
     )
 }
 
@@ -127,65 +159,93 @@ function getDayOfWeekAbr(dayOfWeekNumber: number) {
     return day;
 }
 
+
+function getDayOfWeek(dayOfWeekNumber: number) {
+    let day;
+    switch (dayOfWeekNumber) {
+        case 0:
+            day = "Sunday";
+            break;
+        case 1:
+            day = "Monday";
+            break;
+        case 2:
+            day = "Tuesday";
+            break;
+        case 3:
+            day = "Wednesday";
+            break;
+        case 4:
+            day = "Thursday";
+            break;
+        case 5:
+            day = "Friday";
+            break;
+        case 6:
+            day = "Saturday";
+    }
+    return day;
+}
+
 const months = [
     {
         "abbreviation": "Jan",
         "name": "January",
-        "number": 1
+        "number": 0
     },
     {
         "abbreviation": "Feb",
         "name": "February",
-        "number": 2
+        "number": 1
     },
     {
         "abbreviation": "Mar",
         "name": "March",
-        "number": 3
+        "number": 2
     },
     {
         "abbreviation": "Apr",
         "name": "April",
-        "number": 4
+        "number": 3
     },
     {
         "abbreviation": "May",
         "name": "May",
-        "number": 5
+        "number": 4
     },
     {
         "abbreviation": "Jun",
         "name": "June",
-        "number": 6
+        "number": 5
     },
     {
         "abbreviation": "Jul",
         "name": "July",
-        "number": 7
+        "number": 6
     },
     {
         "abbreviation": "Aug",
         "name": "August",
-        "number": 8
+        "number": 7
     },
     {
         "abbreviation": "Sep",
         "name": "September",
-        "number": 9
+        "number": 8
     },
     {
         "abbreviation": "Oct",
         "name": "October",
-        "number": 10
+        "number": 9
     },
     {
         "abbreviation": "Nov",
         "name": "November",
-        "number": 11
+        "number": 10
     },
     {
         "abbreviation": "Dec",
         "name": "December",
-        "number": 12
+        "number": 11
     }
 ]
