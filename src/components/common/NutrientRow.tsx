@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import "./NutrientRow.css";
 
 export default function NutrientRow(name:string) {
     const [enabled,setEnabled]=useState(true);

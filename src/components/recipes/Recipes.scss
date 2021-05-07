@@ -1,0 +1,22 @@
+@import "../../index";
+
+
+.grey-wrapper{
+  background-color: $color-light-grey;
+  border-radius: 10px;
+}
+
+.wrapper-item{
+  display: inline;
+  background-color: $color-secondary ;
+  border-radius: 10px;
+  margin-right: 10px;
+  padding: 11px 10px 11px 0px;
+}
+.item-miniature{
+  display:inline;
+}
+.item-body{
+  display: inline;
+
+}

@@ -1,0 +1,48 @@
+@import "../../index";
+
+$slider-thumb-size: 15px;
+
+// Custom sliders
+
+/* All the same stuff for Firefox */
+.custom-range-active::-moz-range-thumb, .custom-range-disabled::-moz-range-thumb {
+  border: 3px solid $color-background;
+  height: $slider-thumb-size;
+  width: $slider-thumb-size;
+  border-radius: 50%;
+  background: $color-secondary;
+  cursor: pointer;
+}
+
+.custom-range-disabled::-moz-range-thumb {
+  border-color: #A5A5A5;
+}
+
+.custom-range-active::-moz-range-track, .custom-range-disabled::-moz-range-track {
+  width: 100%;
+  height: $slider-thumb-size*0.8;
+  background: $color-background;
+  border-radius: 15px;
+}
+
+.custom-range-disabled::-moz-range-track {
+  background-color: #A5A5A5;
+}
+
+.custom-range-active::-moz-range-progress, .custom-range-disabled::-moz-range-progress {
+  height: $slider-thumb-size*0.8;
+  width: 100%;
+  -webkit-appearance: none;
+  background-color: $color-primary;
+  border-radius: 15px 0 0 15px;
+  border-bottom: 2px solid $color-background;
+  border-left: 2px solid $color-background;
+  border-right: 0 solid $color-background;
+  border-top: 2px solid $color-background;
+}
+
+.custom-range-disabled::-moz-range-progress {
+  background-color: #DDDDDD;
+  border-color: #A5A5A5;
+
+}

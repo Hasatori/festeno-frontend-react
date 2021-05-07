@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {useLocation} from 'react-router-dom';
 import "./Explore.css";
 import {MDBBadge, MDBBtn, MDBCol, MDBInput, MDBNavLink, MDBRow} from "mdbreact";
-import NutrientRow from "./NutrientRow";
+import NutrientRow from "../common/NutrientRow";
 
 
 export default function Explore() {
@@ -56,7 +56,7 @@ export default function Explore() {
     return (
         <div className='d-flex flex-column mt-4 ml-2'>
             <div className='d-flex flex-row justify-content-between'>
-                <div><MDBNavLink className={location.hash === "#book" ? 'nav-button-active' : 'nav-button'}
+                <div><MDBNavLink className={location.hash === "#recipes" ? 'nav-button-active' : 'nav-button'}
                                  to="#recipes" link>Recipes</MDBNavLink> <MDBNavLink
                     className={(location.hash === "#diet-plan" || (location.hash === "" && location.pathname === "/explore")) ? 'nav-button-active' : 'nav-button'}
                     to={"#diet-plan"}
