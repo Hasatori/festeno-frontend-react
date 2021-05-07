@@ -315,6 +315,15 @@ a:hover {
   text-align: justify !important;
 }
 
+.neutral-button {
+  background-color: #DDDDDD !important;
+  border-radius: 11px;
+}
+
+.neutral-button:hover {
+  color: #181818;
+}
+
 .streamer-image, .streamer-image-smaller {
   border: 5px solid #FFF27E;
   border-radius: 15px;

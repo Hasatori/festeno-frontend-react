@@ -315,6 +315,15 @@ a:hover {
   text-align: justify !important;
 }
 
+.neutral-button {
+  background-color: #DDDDDD !important;
+  border-radius: 11px;
+}
+
+.neutral-button:hover {
+  color: #181818;
+}
+
 .divider {
   content: "";
   border-bottom: 1px solid #DDDDDD;
@@ -338,15 +347,6 @@ a:hover {
 .nutrient-dot-disabled {
   background-color: white;
   border: 3px solid #A5A5A5;
-}
-
-.neutral-button {
-  background-color: #DDDDDD !important;
-  border-radius: 11px;
-}
-
-.neutral-button:hover {
-  color: #181818;
 }
 
 .nav-button-active {

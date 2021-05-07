@@ -320,3 +320,14 @@ a:hover {
   max-width: 80ch;
   text-align: justify !important;
 }
+
+
+.neutral-button {
+
+  background-color: $color-light-grey !important;
+  border-radius: $button-border-radius;
+}
+
+.neutral-button:hover {
+  color: $color-background;
+}

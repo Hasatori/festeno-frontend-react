@@ -315,6 +315,15 @@ a:hover {
   text-align: justify !important;
 }
 
+.neutral-button {
+  background-color: #DDDDDD !important;
+  border-radius: 11px;
+}
+
+.neutral-button:hover {
+  color: #181818;
+}
+
 .login-container {
   text-align: center;
 }

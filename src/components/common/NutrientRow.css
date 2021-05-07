@@ -315,6 +315,15 @@ a:hover {
   text-align: justify !important;
 }
 
+.neutral-button {
+  background-color: #DDDDDD !important;
+  border-radius: 11px;
+}
+
+.neutral-button:hover {
+  color: #181818;
+}
+
 /* All the same stuff for Firefox */
 .custom-range-active::-moz-range-thumb, .custom-range-disabled::-moz-range-thumb {
   border: 3px solid #181818;

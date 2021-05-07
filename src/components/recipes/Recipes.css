@@ -315,6 +315,15 @@ a:hover {
   text-align: justify !important;
 }
 
+.neutral-button {
+  background-color: #DDDDDD !important;
+  border-radius: 11px;
+}
+
+.neutral-button:hover {
+  color: #181818;
+}
+
 .grey-wrapper {
   background-color: #DDDDDD;
   border-radius: 10px;
@@ -334,6 +343,18 @@ a:hover {
 
 .item-body {
   display: inline;
+}
+
+.details-change-section-button, .details-change-section-button-active {
+  border: 1px solid #DDDDDD;
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.details-change-section-button-active, .details-change-section-button:hover {
+  cursor: pointer;
+  background-color: #181818;
+  color: #FFF27E;
 }
 
 /*# sourceMappingURL=Recipes.css.map */

@@ -20,3 +20,17 @@
   display: inline;
 
 }
+
+.details-change-section-button,.details-change-section-button-active{
+ border: 1px solid $color-light-grey;
+  padding: 10px;
+  border-radius: 15px;
+}
+
+
+.details-change-section-button-active,.details-change-section-button:hover{
+  cursor: pointer;
+  background-color: $color-background;
+  color: $color-primary;
+
+}
