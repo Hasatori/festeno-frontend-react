@@ -98,6 +98,7 @@ function AppHeader(props: AppProps) {
                 </Link>
                 </div>
                 <div className='mt-auto align-self-center '>
+                    <Link to="/profile">
                     <div className='profile-image-wrapper'>
                         <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-1.jpg"
                              className="rounded float-right profile-image" alt="aligment"/>
@@ -105,7 +106,7 @@ function AppHeader(props: AppProps) {
                         </div>
 
                     </div>
-
+                    </Link>
 
                 </div>
             </div>
