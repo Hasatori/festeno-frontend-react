@@ -324,39 +324,6 @@ a:hover {
   color: #181818;
 }
 
-.streamer-image, .streamer-image-smaller {
-  border: 5px solid #FFF27E;
-  border-radius: 15px;
-  width: 60px;
-  height: 60px;
-}
-
-.streamer-image-smaller {
-  border: 3px solid #FFF27E;
-  width: 45px;
-  height: 45px;
-}
-
-.streamer-row {
-  overflow: hidden;
-}
-
-.streamer-image-wrapper {
-  position: relative;
-}
-
-.live-status {
-  position: absolute;
-  bottom: -15%;
-  left: 25%;
-  background-color: #d9534f;
-  color: white;
-  border-radius: 35%;
-  border: 0px;
-  padding: 0 5px 0 5px;
-  font-size: 0.75rem;
-}
-
 .recipe-wrapper {
   width: 100% !important;
   height: 100% !important;
@@ -415,6 +382,52 @@ a:hover {
 .recipe-author-image {
   width: 40px;
   border-radius: 15%;
+}
+
+.action-button {
+  background-color: #FFF27E !important;
+  color: #181818;
+  font-weight: bold;
+  border: 1px solid #DDDDDD;
+  border-radius: 11px;
+  opacity: 0.9;
+}
+
+.action-button:hover {
+  opacity: 1;
+}
+
+.streamer-image, .streamer-image-smaller {
+  border: 5px solid #FFF27E;
+  border-radius: 15px;
+  width: 60px;
+  height: 60px;
+}
+
+.streamer-image-smaller {
+  border: 3px solid #FFF27E;
+  width: 45px;
+  height: 45px;
+}
+
+.streamer-row {
+  overflow: hidden;
+}
+
+.streamer-image-wrapper {
+  position: relative;
+}
+
+.live-status {
+  position: absolute;
+  bottom: -15%;
+  left: 25%;
+  background-color: #d9534f;
+  color: white;
+  border-radius: 35%;
+  border: 0px;
+  padding: 0 5px 0 5px;
+  font-size: 0.75rem;
 }
 
 .streaming-overlay {

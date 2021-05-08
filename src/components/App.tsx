@@ -168,7 +168,7 @@ function App(appProps: AppProps) {
 
                         <Switch>
                             <Route exact path="/" component={Home}/>
-                            <Route exact path="/recipes" component={Recipes}/>
+                            <Route  path="/recipes" component={Recipes}/>
                             <Route exact path="/diet-plan" component={DietPlan}/>
                             <Route exact path="/explore" component={Explore}/>
                             <Route exact path="/profile" component={Profile}/>

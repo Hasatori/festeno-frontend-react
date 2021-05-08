@@ -72,6 +72,20 @@ function AppHeader(props: AppProps) {
                     </div>
                     </Link>
                 </div>
+                <div className={resolveNavLinkWrapperClass(location.pathname, "/recipes/mine-recipes",true)} >
+                    <Link to="/recipes/mine-recipes"> <div className={resolveNavLinkClass(location.pathname, "/recipes/mine-recipes",true)}
+                    >
+                        <div className='ml-5 align-self-left'>Mine recipes</div>
+                    </div>
+                    </Link>
+                </div>
+                <div className={resolveNavLinkWrapperClass(location.pathname, "/recipes/create",true)} >
+                    <Link to="/recipes/create"> <div className={resolveNavLinkClass(location.pathname, "/recipes/create",true)}
+                    >
+                        <div className='ml-5 text-left'>Create</div>
+                    </div>
+                    </Link>
+                </div>
                 <div className={resolveNavLinkWrapperClass(location.pathname, "/diet-plan",true)} >
                     <Link to="/diet-plan"> <div className={resolveNavLinkClass(location.pathname, "/diet-plan",true)}
 

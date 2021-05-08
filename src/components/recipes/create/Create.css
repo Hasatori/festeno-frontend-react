@@ -397,8 +397,37 @@ a:hover {
   opacity: 1;
 }
 
-.footer {
-  background-color: #FFF27E !important;
+.grey-wrapper {
+  background-color: #DDDDDD;
+  border-radius: 10px;
 }
 
-/*# sourceMappingURL=Footer.css.map */
+.wrapper-item {
+  display: inline;
+  background-color: #F9F9F9;
+  border-radius: 10px;
+  margin-right: 10px;
+  padding: 11px 10px 11px 0px;
+}
+
+.item-miniature {
+  display: inline;
+}
+
+.item-body {
+  display: inline;
+}
+
+.details-change-section-button, .details-change-section-button-active {
+  border: 1px solid #DDDDDD;
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.details-change-section-button-active, .details-change-section-button:hover {
+  cursor: pointer;
+  background-color: #181818;
+  color: #FFF27E;
+}
+
+/*# sourceMappingURL=Create.css.map */
