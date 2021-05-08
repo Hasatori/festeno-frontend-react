@@ -4,7 +4,7 @@ $profileImageWidth: 50px;
 $profileImageWidthCollapsed: 30px;
 $statusDotWidth: 5px;
 $statusDotWidthCollapsed: 4px;
-.header, .side-nav, .side-nav-collapsed {
+.header, .side-nav, .side-nav-collapsed,.top-nav {
   background-color: $color-background;
   color: $color-secondary;
 }
@@ -116,4 +116,12 @@ $statusDotWidthCollapsed: 4px;
 
 .side-nav-link-wrapper:hover * {
   color: $color-primary !important;
+}
+
+.top-nav{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 10px;
+  z-index: 1000;
 }

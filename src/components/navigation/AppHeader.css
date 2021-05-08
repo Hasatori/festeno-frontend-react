@@ -403,7 +403,7 @@ a:hover {
   opacity: 1;
 }
 
-.header, .side-nav, .side-nav-collapsed {
+.header, .side-nav, .side-nav-collapsed, .top-nav {
   background-color: #181818;
   color: #F9F9F9;
 }
@@ -502,6 +502,14 @@ a:hover {
 
 .side-nav-link-wrapper:hover * {
   color: #FFF27E !important;
+}
+
+.top-nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 10px;
+  z-index: 1000;
 }
 
 /*# sourceMappingURL=AppHeader.css.map */
