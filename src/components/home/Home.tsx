@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './Home.css';
 import {MDBBtn, MDBCol, MDBIcon, MDBRow} from "mdbreact";
 import plus from "../../assets/images/common/add.svg"
+import {Link} from "react-router-dom";
 
 export default function Home() {
     const streamers = new Array(50).fill('');
@@ -138,6 +139,7 @@ export default function Home() {
                                     {recipesForRow.map(value => {
                                         return (
                                             <MDBCol md='6' xl='3' className='mt-5'>
+                                                <Link to="/recipes/recipe/adasdad54536s4fg65ds4fa5s4f">
                                                 <div className='recipe-wrapper'>
 
                                                     <img className='recipe-image'
@@ -162,6 +164,7 @@ export default function Home() {
                                                     </div>
                                                     <div className='recipe-name'>Nejlepší pochutina světa</div>
                                                 </div>
+                                                </Link>
                                             </MDBCol>
                                         )
                                     })}

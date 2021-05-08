@@ -81,10 +81,10 @@ export default function Explore() {
                         <div className='d-flex flex-column'>
                             <div>
                                 {types.map((val) => {
-                                    return <MDBBtn className='neutral-button'>{val}</MDBBtn>
+                                    return <div className='ml-2 neutral-button'>{val}</div>
                                 })}
                             </div>
-                            <div className='mt-2'>
+                            <div className='mt-3'>
 
                                 <select className="browser-default custom-select multiple-choices-select">
                                     <option value="1">1 week</option>

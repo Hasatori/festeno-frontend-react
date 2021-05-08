@@ -45,6 +45,10 @@
   background-color: #F9F9F9 !important;
 }
 
+.background-color-success {
+  background-color: #02C016 !important;
+}
+
 .background-color-background {
   background-color: #181818 !important;
 }
@@ -316,7 +320,9 @@ a:hover {
 }
 
 .neutral-button {
-  background-color: #DDDDDD !important;
+  padding: 10px;
+  display: inline;
+  background-color: #DDDDDD;
   border-radius: 11px;
 }
 

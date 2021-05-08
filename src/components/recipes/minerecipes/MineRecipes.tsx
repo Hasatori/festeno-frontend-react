@@ -1,5 +1,6 @@
 import React from "react";
 import {MDBCol, MDBNavLink, MDBRow} from "mdbreact";
+import { Link } from "react-router-dom";
 
 
 export default function MineRecipes() {
@@ -23,30 +24,32 @@ export default function MineRecipes() {
                                 {recipesForRow.map(value => {
                                     return (
                                         <MDBCol md='6' xl='3' className='mt-5'>
-                                            <div className='recipe-wrapper'>
+                                            <Link to="/recipes/recipe/adasdad54536s4fg65ds4fa5s4f">
+                                                <div className='recipe-wrapper'>
 
-                                                <img className='recipe-image'
-                                                     src={require(`../../../assets/images/recipes/recipe${Math.floor(Math.random() * 50)}.jpg`)}/>
+                                                    <img className='recipe-image'
+                                                         src={require(`../../../assets/images/recipes/recipe${Math.floor(Math.random() * 50)}.jpg`)}/>
 
-                                                <div className='recipe-author'>
-                                                    <div className='d-flex flex-row'>
-                                                        <div><img
-                                                            src={`https://mdbootstrap.com/img/Photos/Avatars/avatar-${Math.floor(Math.random() * 15) + 1}.jpg`}
-                                                            className='recipe-author-image' alt="aligment"/></div>
-                                                        <div className='ml-2 d-flex flex-column '>
-                                                            <div><small className='hr-bold'>Pepa</small></div>
-                                                            <div><small>2m</small></div>
+                                                    <div className='recipe-author'>
+                                                        <div className='d-flex flex-row'>
+                                                            <div><img
+                                                                src={`https://mdbootstrap.com/img/Photos/Avatars/avatar-${Math.floor(Math.random() * 15) + 1}.jpg`}
+                                                                className='recipe-author-image' alt="aligment"/></div>
+                                                            <div className='ml-2 d-flex flex-column '>
+                                                                <div><small className='hr-bold'>Pepa</small></div>
+                                                                <div><small>2m</small></div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div className='recipe-header'>
+                                                    <div className='recipe-header'>
 
-                                                </div>
-                                                <div className='recipe-body'>
+                                                    </div>
+                                                    <div className='recipe-body'>
 
+                                                    </div>
+                                                    <div className='recipe-name'>Nejlepší pochutina světa</div>
                                                 </div>
-                                                <div className='recipe-name'>Nejlepší pochutina světa</div>
-                                            </div>
+                                            </Link>
                                         </MDBCol>
                                     )
                                 })}

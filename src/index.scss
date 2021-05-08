@@ -7,6 +7,7 @@ $color-background-transparent:rgba(24,24,24,0.5);
 $color-grey:#4F5150;
 $color-danger:#d9534f;
 $color-light-grey:#DDDDDD;
+$color-success:#02C016;
 $button-border-radius: 11px;
 
 .hover-pointer-cursor:hover{
@@ -46,6 +47,10 @@ $button-border-radius: 11px;
 }
 .background-color-secondary{
   background-color:$color-secondary !important;
+}
+
+.background-color-success{
+background-color: $color-success !important;
 }
 
 .background-color-background{
@@ -323,8 +328,9 @@ a:hover {
 
 
 .neutral-button {
-
-  background-color: $color-light-grey !important;
+  padding: 10px;
+  display: inline;
+  background-color: $color-light-grey;
   border-radius: $button-border-radius;
 }
 
