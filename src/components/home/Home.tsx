@@ -3,6 +3,7 @@ import './Home.css';
 import {MDBBtn, MDBCol, MDBIcon, MDBRow} from "mdbreact";
 import plus from "../../assets/images/common/add.svg"
 import {Link} from "react-router-dom";
+import {useMediaQuery} from "react-responsive";
 
 export default function Home() {
     const streamers = new Array(50).fill('');
@@ -12,8 +13,9 @@ export default function Home() {
     const [streamerImg, setStreamerImg] = useState(`https://mdbootstrap.com/img/Photos/Avatars/avatar-${Math.floor(Math.random() * 15) + 1}.jpg`);
     const [comments, setComments] = useState<string[]>(["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."]);
     const [comment, setComment] = useState("");
+    const isSmallScreen = useMediaQuery({query: '(max-width: 700px)'});
     return (
-        <div className="mx-0 px-0">
+        <div className={isSmallScreen?"mx-0 px-0 mt-5":"mx-0 px-0"}>
             <div className={watchingStreamer ? 'streaming-overlay visible' : 'streaming-overlay'}>
                 <MDBCol md={"8"} sm={"12"} xs={"4"} className="streaming-container">
                     <div className="d-flex flex-column pt-5">
@@ -131,14 +133,14 @@ export default function Home() {
                     )}
                 </div>
 
-                <div className='mt-5 flex-column mx-5'>
+                <div className='mt-5 flex-column mx-2'>
                     {rows.map(value => {
                         return (
                             <div className='mt-3'>
                                 <MDBRow>
                                     {recipesForRow.map(value => {
                                         return (
-                                            <MDBCol md='6' xl='3' className='mt-5'>
+                                            <MDBCol md='6' lg='3' sm="12" className='mt-5 px-4'>
                                                 <Link to="/recipes/recipe/adasdad54536s4fg65ds4fa5s4f">
                                                 <div className='recipe-wrapper'>
 

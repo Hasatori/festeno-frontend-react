@@ -3,6 +3,7 @@ import {useLocation} from 'react-router-dom';
 import "./Explore.css";
 import {MDBBadge, MDBBtn, MDBCol, MDBInput, MDBNavLink, MDBRow} from "mdbreact";
 import NutrientRow from "../common/NutrientRow";
+import {useMediaQuery} from "react-responsive";
 
 
 export default function Explore() {
@@ -51,10 +52,11 @@ export default function Explore() {
             }
         }
     ];
+    const isSmallScreen = useMediaQuery({query: '(max-width: 700px)'});
     const [wantToDoNotWantToActive,setWantToDoNotWantToActive]=useState(false);
     const [keywordsToActive,setKeyWordsActive]=useState(false);
     return (
-        <div className='d-flex flex-column mt-4 ml-2'>
+        <div className={isSmallScreen?"mx-2 px-0 pt-2 mt-5":"mx-3 px-0 mt-3"}>
             <div className='d-flex flex-row justify-content-between'>
                 <div><MDBNavLink className={location.hash === "#recipes" ? 'nav-button-active' : 'nav-button'}
                                  to="#recipes" link>Recipes</MDBNavLink> <MDBNavLink

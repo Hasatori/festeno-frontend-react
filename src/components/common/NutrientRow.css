@@ -391,6 +391,7 @@ a:hover {
 }
 
 .action-button {
+  display: inline-block;
   background-color: #FFF27E !important;
   color: #181818;
   font-weight: bold;

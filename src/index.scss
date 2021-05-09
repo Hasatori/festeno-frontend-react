@@ -397,6 +397,7 @@ a:hover {
   border-radius: 15%;
 }
 .action-button {
+  display: inline-block;
   background-color: $color-primary !important;
   color: $color-background;
   font-weight: bold;

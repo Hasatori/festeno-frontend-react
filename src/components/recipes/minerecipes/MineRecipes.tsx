@@ -1,29 +1,30 @@
 import React from "react";
 import {MDBCol, MDBNavLink, MDBRow} from "mdbreact";
 import { Link } from "react-router-dom";
+import {useMediaQuery} from "react-responsive";
 
 
 export default function MineRecipes() {
     const recipesForRow = new Array(4).fill('Recipe');
     const rows = new Array(6).fill('Recipe');
-
+    const isSmallScreen = useMediaQuery({query: '(max-width: 700px)'});
     return (
-        <div className='d-flex flex-column mt-4 m-4'>
-            <div className='d-flex flex-row justify-content-between'>
-                <div className='align-self-center h1-responsive'>Mine recipes</div>
+        <div className={isSmallScreen?"mx-0 pt-2 mt-5":"mx-0 px-0"}>
+            <MDBRow className='d-flex flex-row justify-content-between mx-3 mt-2'>
+                <MDBCol xs={"9"} className='align-self-center h1-responsive'>Mine recipes</MDBCol>
 
-                <div className='d-flex'>
-                    <MDBNavLink className='action-button' to="/recipes/create">Create new</MDBNavLink>
-                </div>
-            </div>
-            <div className='mt-5 flex-column mx-5'>
+                <MDBCol xs={"3"} >
+                    <Link  to="/recipes/create"> <div className='action-button float-right' >Create new</div></Link>
+                </MDBCol>
+            </MDBRow>
+            <div className='mt-5 flex-column mx-2'>
                 {rows.map(value => {
                     return (
                         <div className='mt-3'>
                             <MDBRow>
                                 {recipesForRow.map(value => {
                                     return (
-                                        <MDBCol md='6' xl='3' className='mt-5'>
+                                        <MDBCol md='6' lg='3' sm="12" className='mt-5 px-4'>
                                             <Link to="/recipes/recipe/adasdad54536s4fg65ds4fa5s4f">
                                                 <div className='recipe-wrapper'>
 

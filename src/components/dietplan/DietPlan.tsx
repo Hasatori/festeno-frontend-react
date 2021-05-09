@@ -3,6 +3,8 @@ import "./DietPlan.css";
 import {MDBCol, MDBContainer, MDBRow} from "mdbreact";
 
 import book from "../../assets/images/common/book_active.svg";
+import {Link} from "react-router-dom";
+import {useMediaQuery} from "react-responsive";
 
 const periodTypes = ["Weeks", "Days"]
 
@@ -11,33 +13,32 @@ export function DietPlan() {
     const [periodType, setPeriodType] = useState("Days");
     const [day, setDay] = useState(1);
     const [week, setWeek] = useState(1);
-    const [montDaysCount,setMonthDaysCount] = useState((new Date( 2021,month, 0).getDate()));
-    useEffect(()=>{
+    const [montDaysCount, setMonthDaysCount] = useState((new Date(2021, month, 0).getDate()));
+    const isSmallScreen = useMediaQuery({query: '(max-width: 700px)'});
+    useEffect(() => {
         console.log(month);
-        setMonthDaysCount((new Date( 2021,month, 0).getDate()));
-    },[month])
+        setMonthDaysCount((new Date(2021, month, 0).getDate()));
+    }, [month])
     const mealTimes = ["Breakfast", "Snack", "Lunch", "Snack", "Dinner"];
     return (
-        <MDBContainer className="p-4 d-flex flex-column ">
-            <div className='d-flex flex-row justify-content-between'>
-                <div className="d-flex flex-row">
+        <MDBContainer className={isSmallScreen?"mt-5":" mt-3"}>
+            <MDBRow>
+                <MDBCol md={"4"} lg={"3"} xl={"3"} className='mt-2'>
                     <div className="h1-responsive mr-3">Diet plan</div>
-                    <div className="align-self-center">
-                        <select className="browser-default custom-select" onChange={(event => {
-                            setMonth(Number(event.target.value))
-                        })}>
-                            {months.map((month) => {
-                                return (
-                                    <option value={month.number}>{month.name}</option>
-                                )
-                            })}
-                        </select>
-                    </div>
-                </div>
-                <div className="d-flex">
-                    <button className='action-button'>Generate new</button>
-                </div>
-            </div>
+                </MDBCol>
+                <MDBCol md={"4"} lg={"3"} xl={"3"}  className='mt-2'>   <select className="browser-default custom-select float-left" onChange={(event => {
+                    setMonth(Number(event.target.value))
+                })}>
+                    {months.map((month) => {
+                        return (
+                            <option value={month.number}>{month.name}</option>
+                        )
+                    })}
+                </select></MDBCol>
+                <MDBCol md={"4"} lg={"6"} xl={"6"}  className='mt-2'>
+                    <button className='action-button float-right'>Generate new</button>
+                </MDBCol>
+            </MDBRow>
             <div className="d-flex flex-row mt-5 period-wrapper">
                 <div>
                     <select className="browser-default custom-select mr-5" onChange={(event => {
@@ -50,7 +51,7 @@ export function DietPlan() {
                 </div>
                 {new Array(montDaysCount).fill('').map((item, index) => {
                         ++index;
-                        let weekDay = new Date(2021,month,  index).getDay();
+                        let weekDay = new Date(2021, month, index).getDay();
                         if (periodType === "Days") {
                             return (<div
                                 className={index === day ? "period-big-button-active d-flex flex-column ml-2" : "period-big-button d-flex flex-column ml-2"}
@@ -62,20 +63,22 @@ export function DietPlan() {
                         }
                         if (periodType === "Weeks") {
                             if (index % 7 === 0) {
-                                const weekNumber = Math.ceil(index/7);
-                                return <div className={weekNumber === week ? "period-big-button-active d-flex flex-column ml-2" : "period-big-button d-flex flex-column ml-2"}
-                                            onClick={(event) => setWeek(weekNumber)}
+                                const weekNumber = Math.ceil(index / 7);
+                                return <div
+                                    className={weekNumber === week ? "period-big-button-active d-flex flex-column ml-2" : "period-big-button d-flex flex-column ml-2"}
+                                    onClick={(event) => setWeek(weekNumber)}
                                 >
                                     <div>{weekNumber}.week</div>
-                                    <div> {index - 6}.{month+1} - {index}.{month+1}</div>
-                                   </div>
-                            }else if(index === montDaysCount){
-                                const weekNumber = Math.ceil(index/7);
-                                return <div className={weekNumber === week ? "period-big-button-active d-flex flex-column ml-2" : "period-big-button d-flex flex-column ml-2"}
-                                            onClick={(event) => setWeek(weekNumber)}
+                                    <div> {index - 6}.{month + 1} - {index}.{month + 1}</div>
+                                </div>
+                            } else if (index === montDaysCount) {
+                                const weekNumber = Math.ceil(index / 7);
+                                return <div
+                                    className={weekNumber === week ? "period-big-button-active d-flex flex-column ml-2" : "period-big-button d-flex flex-column ml-2"}
+                                    onClick={(event) => setWeek(weekNumber)}
                                 >
                                     <div>{weekNumber}.week</div>
-                                    <div> 29.{month+1} - {montDaysCount}.{month+1}</div>
+                                    <div> 29.{month + 1} - {montDaysCount}.{month + 1}</div>
                                 </div>
                             }
 
@@ -109,14 +112,14 @@ export function DietPlan() {
                 </div>
                 : periodType === "Weeks" ? <MDBRow className="mt-5">
                     {
-                        new Array(7).fill('').map((val,index)=>{
-                            const day = week*7-6+index;
-                            let date = new Date( 2021,month, day);
+                        new Array(7).fill('').map((val, index) => {
+                            const day = week * 7 - 6 + index;
+                            let date = new Date(2021, month, day);
                             let weekDay = date.getDay();
                             if (day <= montDaysCount) {
                                 return (
                                     <MDBCol size={"3"}>
-                                        <div className="period-big-button" onClick={()=>{
+                                        <div className="period-big-button" onClick={() => {
                                             setDay(day);
                                             setPeriodType("Days");
                                         }}>{day}.{month + 1} {getDayOfWeek(weekDay)}</div>

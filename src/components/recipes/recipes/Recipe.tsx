@@ -5,6 +5,7 @@ import {useHistory, useParams} from "react-router-dom";
 import {MDBCol, MDBIcon, MDBNavLink, MDBRow} from "mdbreact";
 import star_filled from "../../../assets/images/common/star_filled.svg"
 import star_empty from "../../../assets/images/common/star_empty.svg"
+import {useMediaQuery} from "react-responsive";
 
 const ingredients: Ingredient[] = [
     {name: "máslo", unit: "180g"},
@@ -40,8 +41,9 @@ export default function Recipe() {
             val: "0",
         }
     ];
+    const isSmallScreen = useMediaQuery({query: '(max-width: 700px)'});
     return (
-        <div className='d-flex flex-column mt-4 m-4'>
+        <div className={isSmallScreen?"mx-2 px-0 pt-2 mt-5":"mx-3 px-0 mt-2"}>
             <div className='d-flex flex-row justify-content-between'>
                 <div className='align-self-center'>
                     <div

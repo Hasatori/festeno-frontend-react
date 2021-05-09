@@ -21,33 +21,20 @@ import {useMediaQuery} from 'react-responsive'
 import {connect} from "react-redux";
 
 function AppHeader(props: AppProps) {
-    const [open, setOpen] = useState(false);
     const {t, i18n} = useTranslation();
-    let [flagName] = getLanguageFlagPairFromLocale(i18n.language);
     const location = useLocation();
-    const bgPink = {backgroundColor: '#181818'}
     const [exploreImg, setExploreImg] = useState('');
     const [feedImg, setFeedImage] = useState('');
     const [calendarImg, setCalendarImage] = useState('');
     const [bookImg, setBookImage] = useState('');
-    const isMediumScreen = useMediaQuery({query: '(min-width: 1400px)'});
-    const [expanded, setExpanded] = useState(isMediumScreen);
-    const [sideNavOpen, setSideNavOpen] = useState(true);
-    useEffect(() => {
-        setExpanded(isMediumScreen);
-
-    }, [isMediumScreen]);
+    const isMediumScreen = useMediaQuery({query: '(max-width: 1400px)'});
+    const isSmallScreen = useMediaQuery({query: '(max-width: 700px)'});
+    const [sideNavOpen, setSideNavOpen] = useState(false);
     return (
-        !isMobile ?
+        !isMobile && !isSmallScreen ?
             <div className='side-nav-wrapper'>
-                {expanded ?
+                {!isMediumScreen ?
                     <div className='side-nav d-flex flex-column py-5'>
-                        <div className='close-nav-toggle' onClick={() => {
-                            setExpanded(false)
-                        }}>
-
-                            <MDBIcon icon="angle-double-left"/>
-                        </div>
 
                         <div className='d-flex align-self-center px-5'>
                             <img src={logo} width={70} className='mb-3'></img>
@@ -126,7 +113,7 @@ function AppHeader(props: AppProps) {
                                 </div>
                             </Link>
                         </div>
-                        <div className='mt-auto align-self-center '>
+                        <div className='mt-auto align-self-center ' onClick={(event => setSideNavOpen(false))}>
                             <Link to="/profile">
                                 <div className='profile-image-wrapper'>
                                     <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-1.jpg"
@@ -142,12 +129,6 @@ function AppHeader(props: AppProps) {
 
                     :
                     <div className='side-nav-collapsed pb-5 d-flex flex-column'>
-                        <div className='open-nav-togler' onClick={() => {
-                            setExpanded(true)
-                        }}>
-
-                            <MDBIcon icon="angle-double-right"/>
-                        </div>
                         <div className='d-flex align-self-center mt-3 mb-3'>
 
                             <img src={logo} width={35}></img>
@@ -185,7 +166,8 @@ function AppHeader(props: AppProps) {
                                 src={exploreImg !== '' ? exploreImg : location.pathname.startsWith("/explore") ? loupe_active : loupe}
                                 width={25}/></MDBNavLink></div>
                         </div>
-                        <div className='mt-auto align-self-center '>
+                        <div className='mt-auto align-self-center ' onClick={(event => setSideNavOpen(false))}>
+                            <Link to="/profile">
                             <div className='profile-image-wrapper'>
                                 <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-1.jpg"
                                      className="rounded float-right profile-image-collapsed" alt="aligment"/>
@@ -193,7 +175,7 @@ function AppHeader(props: AppProps) {
                                 </div>
 
                             </div>
-
+                            </Link>
 
                         </div>
                     </div>
@@ -232,7 +214,8 @@ function AppHeader(props: AppProps) {
                             width={25}/>Explore</MDBNavLink></div>
 
                     </div>
-                    <div className='mt-auto align-self-center '>
+                    <div className='mt-auto align-self-center ' onClick={(event => setSideNavOpen(false))}>
+                        <Link to="/profile">
                         <div className='profile-image-wrapper'>
                             <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-1.jpg"
                                  className="rounded float-right profile-image-collapsed" alt="aligment"/>
@@ -241,7 +224,7 @@ function AppHeader(props: AppProps) {
 
                         </div>
 
-
+                        </Link>
                     </div>
                 </div>
                 }

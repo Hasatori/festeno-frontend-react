@@ -1,6 +1,6 @@
 import "./Create.css";
 import React, {useState} from "react";
-import {useLocation} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import {MDBBtn, MDBCol, MDBContainer, MDBIcon, MDBInput, MDBNavLink, MDBRow} from "mdbreact";
 import NutrientRow from "../../common/NutrientRow";
 
@@ -59,19 +59,19 @@ export default function Create() {
         location.hash = "#create-new-from-scratch";
     }
     return (
-        <div className='d-flex flex-column mt-4 m-4'>
-            <div className='d-flex flex-row justify-content-between'>
-                <div className='align-self-center'><MDBNavLink
+        <div className='d-flex flex-column mt-5 mx-2'>
+            <MDBRow >
+                <MDBCol md={"4"} lg={"3"} xl={"3"} className=''><Link
                     className={location.hash === "#create-new-from-scratch" || (location.hash === "" && location.pathname === "/recipes") ? 'nav-button-active' : 'nav-button'}
-                    to="#create-new-from-scratch" link>Create new recipe from scratch</MDBNavLink> <MDBNavLink
-                    className={(location.hash === "#upload-from-existing-page") ? 'nav-button-active' : 'nav-button'}
+                    to="#create-new-from-scratch" >Create new recipe from scratch</Link></MDBCol>
+                <MDBCol  md={"4"} lg={"3"} xl={"3"} className=''> <Link
+                    className={(location.hash === "#upload-from-existing-page") ? 'nav-button-active float-left' : 'nav-button '}
                     to={"#upload-from-existing-page"}
-                    link>Upload from existing page</MDBNavLink></div>
-
-                <div className='d-flex'>
-                    <button className='action-button'>Save</button>
-                </div>
-            </div>
+                    >Upload from existing page</Link></MDBCol>
+                <MDBCol  md={"4"} lg={"6"} xl={"6"} >
+                    <button className='action-button float-right'>Save</button>
+                </MDBCol>
+            </MDBRow>
             <div className='divider mt-3 mb-5'/>
             {location.hash == "#create-new-from-scratch" &&
             <>
