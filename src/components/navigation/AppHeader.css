@@ -477,7 +477,7 @@ a:hover {
 }
 
 .profile-image-status, .profile-image-status-offline-collapsed, .profile-image-status-online-collapsed {
-  top: 25px;
+  top: 35px;
 }
 
 .profile-image-status-online {
@@ -501,7 +501,7 @@ a:hover {
 }
 
 .profile-image-collapsed {
-  width: 30px;
+  width: 40px;
 }
 
 .profile-image-wrapper {
@@ -531,6 +531,17 @@ a:hover {
   width: 100%;
   padding: 10px;
   z-index: 1000;
+}
+
+.additional-action, .additional-action-active {
+  border: 1px solid #F9F9F9;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.additional-action:hover, .additional-action-active {
+  cursor: pointer;
+  border-color: #FFF27E;
 }
 
 /*# sourceMappingURL=AppHeader.css.map */

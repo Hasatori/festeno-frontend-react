@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Link, useLocation} from 'react-router-dom';
 import './AppHeader.css';
 import {AppProps} from "../../index";
-import {MDBIcon, MDBNavLink} from 'mdbreact';
+import {MDBNavLink} from 'mdbreact';
 import {useTranslation} from "react-i18next";
-import {getLanguageFlagPairFromLocale} from "../../i18n/I18nConfig";
 import home from "../../assets/images/common/home.svg";
 import home_active from "../../assets/images/common/home-active.svg";
 import loupe from "../../assets/images/common/loupe.svg";
@@ -16,6 +15,10 @@ import calendar from "../../assets/images/common/calendar.svg";
 import calendar_active from "../../assets/images/common/calendar_active.svg";
 import hamburger from "../../assets/images/common/hamburger-icon.svg";
 import close_icon from "../../assets/images/common/close-icon.svg";
+import signOut from "../../assets/images/common/sign-out.svg";
+import signOut_active from "../../assets/images/common/sign-out-active.svg";
+import settings from "../../assets/images/common/settings.svg";
+import settings_active from "../../assets/images/common/settings_active.svg";
 import {isMobile} from "react-device-detect";
 import {useMediaQuery} from 'react-responsive'
 import {connect} from "react-redux";
@@ -27,6 +30,8 @@ function AppHeader(props: AppProps) {
     const [feedImg, setFeedImage] = useState('');
     const [calendarImg, setCalendarImage] = useState('');
     const [bookImg, setBookImage] = useState('');
+    const [signOutImg, setSignOutImg] = useState('');
+    const [settingImg, setSettingsImg] = useState('');
     const isMediumScreen = useMediaQuery({query: '(max-width: 1400px)'});
     const isSmallScreen = useMediaQuery({query: '(max-width: 700px)'});
     const [sideNavOpen, setSideNavOpen] = useState(false);
@@ -113,8 +118,21 @@ function AppHeader(props: AppProps) {
                                 </div>
                             </Link>
                         </div>
-                        <div className='mt-auto align-self-center ' onClick={(event => setSideNavOpen(false))}>
-                            <Link to="/profile">
+                        <div className='mt-auto d-flex flex-column'>
+                            <div className={'mt-auto align-self-center additional-action'}
+                                 onMouseEnter={() => setSignOutImg(signOut_active)}
+                                 onMouseLeave={() => setSignOutImg('')}>
+                                <img src={signOutImg !== '' ? signOut_active : signOut} width={20}/>
+                            </div>
+                            <Link to="/profile"
+                                  className={location.pathname === "/profile" ? ' mt-3 align-self-center additional-action-active' : 'mt-3 align-self-center additional-action'}
+                                  onMouseEnter={() => setSettingsImg(settings_active)}
+                                  onMouseLeave={() => setSettingsImg('')}>
+                                <img
+                                    src={settingImg !== '' || location.pathname === "/profile" ? settings_active : settings}
+                                    width={20}/>
+                            </Link>
+                            <div className='mt-3 align-self-center ' onClick={(event => setSideNavOpen(false))}>
                                 <div className='profile-image-wrapper'>
                                     <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-1.jpg"
                                          className="rounded float-right profile-image" alt="aligment"/>
@@ -122,15 +140,13 @@ function AppHeader(props: AppProps) {
                                     </div>
 
                                 </div>
-                            </Link>
-
+                            </div>
                         </div>
-                    </div>
 
+                    </div>
                     :
                     <div className='side-nav-collapsed pb-5 d-flex flex-column'>
                         <div className='d-flex align-self-center mt-3 mb-3'>
-
                             <img src={logo} width={35}></img>
                         </div>
                         <div className={resolveNavLinkClass(location.pathname, "/", true) + '  align-self-center'}
@@ -140,7 +156,6 @@ function AppHeader(props: AppProps) {
                                 src={feedImg !== '' ? feedImg : location.pathname === "/" ? home_active : home}
                                 width={25}/></MDBNavLink>
                             </div>
-
                         </div>
                         <div
                             className={resolveNavLinkClass(location.pathname, "/recipes", false) + '  align-self-center'}
@@ -166,18 +181,31 @@ function AppHeader(props: AppProps) {
                                 src={exploreImg !== '' ? exploreImg : location.pathname.startsWith("/explore") ? loupe_active : loupe}
                                 width={25}/></MDBNavLink></div>
                         </div>
-                        <div className='mt-auto align-self-center ' onClick={(event => setSideNavOpen(false))}>
-                            <Link to="/profile">
-                            <div className='profile-image-wrapper'>
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-1.jpg"
-                                     className="rounded float-right profile-image-collapsed" alt="aligment"/>
-                                <div className='profile-image-status-online-collapsed'>
-                                </div>
-
+                        <div className='mt-auto d-flex flex-column'>
+                            <div className={'mt-auto align-self-center additional-action'}
+                                 onMouseEnter={() => setSignOutImg(signOut_active)}
+                                 onMouseLeave={() => setSignOutImg('')}>
+                                <img src={signOutImg !== '' ? signOut_active : signOut} width={20}/>
                             </div>
+                            <Link to="/profile"
+                                  className={location.pathname === "/profile" ? ' mt-3 align-self-center additional-action-active' : 'mt-3 align-self-center additional-action'}
+                                  onMouseEnter={() => setSettingsImg(settings_active)}
+                                  onMouseLeave={() => setSettingsImg('')}>
+                                <img
+                                    src={settingImg !== '' || location.pathname === "/profile" ? settings_active : settings}
+                                    width={20}/>
                             </Link>
+                            <div className='mt-3 align-self-center ' onClick={(event => setSideNavOpen(false))}>
+                                <div className='profile-image-wrapper'>
+                                    <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-1.jpg"
+                                         className="rounded float-right profile-image-collapsed" alt="aligment"/>
+                                    <div className='profile-image-status-online-collapsed'>
+                                    </div>
 
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                 }
             </div>
@@ -214,17 +242,30 @@ function AppHeader(props: AppProps) {
                             width={25}/>Explore</MDBNavLink></div>
 
                     </div>
-                    <div className='mt-auto align-self-center ' onClick={(event => setSideNavOpen(false))}>
-                        <Link to="/profile">
-                        <div className='profile-image-wrapper'>
-                            <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-1.jpg"
-                                 className="rounded float-right profile-image-collapsed" alt="aligment"/>
-                            <div className='profile-image-status-online-collapsed'>
-                            </div>
 
+                    <div className='mt-auto d-flex flex-column'>
+                        <div className={'mt-auto align-self-center additional-action'}
+                             onMouseEnter={() => setSignOutImg(signOut_active)}
+                             onMouseLeave={() => setSignOutImg('')}>
+                            <img src={signOutImg !== '' ? signOut_active : signOut} width={20}/>
                         </div>
-
+                        <Link to="/profile"
+                              className={location.pathname === "/profile" ? ' mt-3 align-self-center additional-action-active' : 'mt-3 align-self-center additional-action'}
+                              onMouseEnter={() => setSettingsImg(settings_active)}
+                              onMouseLeave={() => setSettingsImg('')}>
+                            <img
+                                src={settingImg !== '' || location.pathname === "/profile" ? settings_active : settings}
+                                width={20}/>
                         </Link>
+                        <div className='mt-3 align-self-center ' onClick={(event => setSideNavOpen(false))}>
+                            <div className='profile-image-wrapper'>
+                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-1.jpg"
+                                     className="rounded float-right profile-image-collapsed" alt="aligment"/>
+                                <div className='profile-image-status-online-collapsed'>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
                 }
@@ -236,14 +277,12 @@ function AppHeader(props: AppProps) {
 
 }
 
-function resolveNavLinkWrapperClass(currentLocation: string, expectedLocation: string, exact: boolean): string
-{
+function resolveNavLinkWrapperClass(currentLocation: string, expectedLocation: string, exact: boolean): string {
     const result = exact ? currentLocation === expectedLocation : currentLocation.startsWith(expectedLocation);
     return result ? 'side-nav-link-wrapper-active d-flex justify-content-center' : 'side-nav-link-wrapper d-flex justify-content-center';
 }
 
-function resolveNavLinkClass(currentLocation: string, expectedLocation: string, exact: boolean): string
-{
+function resolveNavLinkClass(currentLocation: string, expectedLocation: string, exact: boolean): string {
     const result = exact ? currentLocation === expectedLocation : currentLocation.startsWith(expectedLocation);
     return result ? 'd-flex flex-row side-nav-link-active align-self-center' : 'd-flex flex-row side-nav-link align-self-center';
 }

@@ -1,7 +1,7 @@
 @import "../../index";
 
 $profileImageWidth: 50px;
-$profileImageWidthCollapsed: 30px;
+$profileImageWidthCollapsed: 40px;
 $statusDotWidth: 5px;
 $statusDotWidthCollapsed: 4px;
 .header, .side-nav, .side-nav-collapsed,.top-nav {
@@ -124,4 +124,15 @@ $statusDotWidthCollapsed: 4px;
   width: 100%;
   padding: 10px;
   z-index: 1000;
+}
+
+.additional-action,.additional-action-active{
+  border: 1px solid $color-secondary;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.additional-action:hover,.additional-action-active {
+  cursor: pointer;
+  border-color: $color-primary;
 }

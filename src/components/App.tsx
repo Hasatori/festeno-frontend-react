@@ -46,7 +46,7 @@ import ConfirmEmailChange from "./user/confirmemilchange/ConfirmEmailChange";
 import Explore from "./explore/Explore";
 import {Recipes} from "./recipes/Recipes";
 import {DietPlan} from "./dietplan/DietPlan";
-import Profile from "./profile/Profile";
+import Profile from "./user/profile/Profile";
 
 function mapStateToProps(state: AppState, props: AppProps) {
     return {
