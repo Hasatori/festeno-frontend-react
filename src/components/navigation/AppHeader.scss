@@ -21,7 +21,6 @@ $statusDotWidthCollapsed: 4px;
 
 .side-nav, .side-nav-collapsed {
   height: 100vh;
-
 }
 
 .side-nav-collapsed {
@@ -118,13 +117,6 @@ $statusDotWidthCollapsed: 4px;
   color: $color-primary !important;
 }
 
-.top-nav{
-  position: fixed;
-  top: 0;
-  width: 100%;
-  padding: 10px;
-  z-index: 1000;
-}
 
 .additional-action,.additional-action-active{
   border: 1px solid $color-secondary;
