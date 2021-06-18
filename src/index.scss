@@ -1,76 +1,104 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
 
-$color-primary:#FFF27E;
-$color-secondary:#F9F9F9;
-$color-background:#181818;
-$color-background-transparent:rgba(24,24,24,0.5);
-$color-grey:#4F5150;
-$color-danger:#d9534f;
-$color-light-grey:#DDDDDD;
-$color-success:#02C016;
+$color-primary: #FFF27E;
+$color-secondary: #F9F9F9;
+$color-background: #181818;
+$color-background-transparent: rgba(24, 24, 24, 0.5);
+$color-grey: #4F5150;
+$color-danger: #d9534f;
+$color-light-grey: #DDDDDD;
+$color-success: #02C016;
 $button-border-radius: 11px;
 
-.hover-pointer-cursor:hover{
+body {
+  background-color: $color-secondary !important;
+}
+
+.hover-pointer-cursor:hover {
   cursor: pointer;
 }
-.dot,.smaller-dot,.small-dot {
+
+.dot, .smaller-dot, .small-dot {
   height: 110px;
   width: 110px;
-  background-color:$color-primary;
+  background-color: $color-primary;
   border-radius: 50%;
   display: inline-block;
 }
-.smaller-dot{
+
+.smaller-dot {
   height: 70px;
   width: 70px;
 }
 
-.small-dot{
+.small-dot {
   height: 30px;
   width: 30px;
 }
 
-.my-font{
+.link-yellow {
+  color: $color-primary;
+  text-decoration: underline;
+  opacity: 0.9;
+}
+
+.link-yellow:hover {
+  color: $color-primary;
+  text-decoration: underline;
+  opacity: 1;
+}
+
+.my-font {
   font-family: 'Dancing Script', cursive;
 }
-.color-background{
-  color:$color-background !important;
-}
-.color-secondary{
-  color:$color-secondary !important;
-}
-.color-primary{
-  color:$color-primary !important;
-}
-.background-color-primary{
-  background-color:$color-primary !important;
-}
-.background-color-secondary{
-  background-color:$color-secondary !important;
+
+.color-background {
+  color: $color-background !important;
 }
 
-.background-color-success{
-background-color: $color-success !important;
+.color-secondary {
+  color: $color-secondary !important;
 }
 
-.background-color-background{
-  background-color:$color-background !important;
+.color-primary {
+  color: $color-primary !important;
 }
-.background-color-grey{
-  background-color:$color-grey !important;
+
+.background-color-primary {
+  background-color: $color-primary !important;
 }
-.border-grey{
+
+.background-color-secondary {
+  background-color: $color-secondary !important;
+}
+
+.background-color-success {
+  background-color: $color-success !important;
+}
+
+.background-color-background {
+  background-color: $color-background !important;
+}
+
+.background-color-grey {
+  background-color: $color-grey !important;
+}
+
+.border-grey {
   border: 1px solid #B2B2B2 !important;
 }
+
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-button{
+
+button {
   text-transform: none !important;
-  box-shadow: none!important;
+  box-shadow: none !important;
 }
+
 *:before,
 *:after {
   -webkit-box-sizing: border-box;
@@ -91,9 +119,9 @@ body {
   padding: 0;
   font-size: 16px;
   font-weight: 400;
-  font-family: "Calibri Light" ,serif !important;
-/*  color: $color-secondary !important;
-  background-color: $color-background !important;*/
+  font-family: "Calibri Light", serif !important;
+  /*  color: $color-secondary !important;
+    background-color: $color-background !important;*/
 }
 
 .container {
@@ -309,6 +337,7 @@ a:hover {
   padding: 10px;
   color: rgba(0, 0, 0, .45);
 }
+
 .visible {
   display: block;
 }
@@ -316,12 +345,13 @@ a:hover {
 .hidden {
   display: none;
 }
-.blur-strong{
+
+.blur-strong {
   filter: blur(8px);
   -webkit-filter: blur(8px);
 }
 
-.long-text{
+.long-text {
   max-width: 80ch;
   text-align: justify !important;
 }
@@ -338,21 +368,25 @@ a:hover {
   color: $color-background;
 }
 
+.bold {
+  font-weight: bold;
+}
 
-.recipe-wrapper{
+.recipe-wrapper {
   width: 100% !important;
   height: 100% !important;
   position: relative;
   border-radius: 15%;
 }
 
-.recipe-image{
+.recipe-image {
   border-radius: 15%;
   width: 100% !important;
   height: 100% !important;
   object-fit: cover;
 }
-.recipe-author{
+
+.recipe-author {
 
   border-radius: 10%;
   position: absolute;
@@ -362,7 +396,7 @@ a:hover {
   z-index: 10;
 }
 
-.recipe-name{
+.recipe-name {
   padding-left: 15px;
   position: absolute;
   bottom: 10%;
@@ -370,7 +404,8 @@ a:hover {
   color: $color-secondary;
 
 }
-.recipe-body{
+
+.recipe-body {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -378,10 +413,11 @@ a:hover {
   height: 20%;
   background-color: transparent;
   opacity: 0.7;
-  border-radius:0 0 30% 30%;
+  border-radius: 0 0 30% 30%;
   filter: blur(0.5rem);
 }
-.recipe-header{
+
+.recipe-header {
   position: absolute;
   top: 0;
   left: 0;
@@ -389,13 +425,15 @@ a:hover {
   height: 20%;
   background-color: $color-background;
   opacity: 0.4;
-  border-radius: 30% 30% 0 0 ;
+  border-radius: 30% 30% 0 0;
   filter: blur(0.5rem);
 }
-.recipe-author-image{
+
+.recipe-author-image {
   width: 40px;
   border-radius: 15%;
 }
+
 .action-button {
   display: inline-block;
   background-color: $color-primary !important;

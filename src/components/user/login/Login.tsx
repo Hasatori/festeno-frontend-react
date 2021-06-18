@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import './Login.css';
 import {Link, RouteComponentProps} from 'react-router-dom'
-import {MDBBtn, MDBCard, MDBCardBody, MDBCardFooter, MDBCol, MDBContainer, MDBRow} from "mdbreact";
+import {MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow} from "mdbreact";
 import O2AuthAuthentication from "../oauth2/O2AuthAuthentication";
 import {connect} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
-import logo from "../../../assets/images/logos/logo.svg"
+import logo from "../../../assets/images/logos/festeno_yellow2.svg";
 import {
     loginActionCreator,
     loginRecoveryCodeActionCreator,
@@ -98,72 +98,73 @@ function Login(props: RouteComponentProps & LoginProps) {
 
     if (!props.twoFactorRequired) {
         return (
-
-                <MDBRow className='custom-center-row'>
-
-                    <MDBCol md="5" >
+            <div className="background-overlay">
+            <MDBContainer className="custom-center-row">
+                <MDBRow>
+                    <MDBCol md="5" className="pt-5">
                         <div className='d-flex flex-column'>
-                            <div className='d-flex align-self-center dot mb-5'>
+                            <div className='d-flex align-self-center'><img src={logo} width={100} className='mb-3'/>
                             </div>
-                            <div className='d-flex align-self-center my-font color-primary m-0 p-0'><h1 className='brand-text'>Festeno</h1></div>
-                            <div className='align-self-end pr-5'><p className='m-0'>Be part of a culinary world,</p><p className='pl-5 m-0'>Be connected by food</p></div>
+                            <div className='d-flex align-self-center my-font color-primary m-0 p-0'><h1
+                                className='brand-text'>Festeno</h1></div>
+                            <div className='align-self-end pr-5 color-secondary bold'><p className='m-0'>Be part of a culinary world,</p><p
+                                className='pl-5 m-0'>Be connected by food</p></div>
                         </div>
                     </MDBCol>
                     <MDBCol md="1"/>
                     <MDBCol className='mt-5 mx-auto p-3' md='5' sm="8" center>
-                      {/*  <MDBCard>
+                        <div className="mb-3"><span className="color-secondary">{t('ns1:newUserLoginQuestion')}</span>
+                            <Link className="ml-1 link-yellow"
+                                  to="/signup">{t('ns1:signupLabel')}!</Link></div>
+                        <form onSubmit={handleRegularLogin}
+                              noValidate>
+                            <label
+                                htmlFor="email"
+                                className="color-primary m-0 p-0"
+                            >
+                                {t('ns1:usernameOrEmailLabel')}
+                            </label>
+                            <input
+                                type="email"
+                                id="email"
+                                className="form-control background-color-grey border-grey color-secondary"
+                                value={email} onChange={(event) => setEmail(event.target.value)} required
+                            />
+                            <br/>
+                            <br/>
+                            <label
+                                htmlFor="password"
+                                className="color-primary m-0 p-0"
+                            >
+                                {t('ns1:passwordLabel')}
+                            </label>
+                            <input
+                                type="password"
+                                id="password"
+                                className="form-control background-color-grey border-grey color-secondary"
+                                value={password} onChange={(event) => setPassword(event.target.value)} required
+                            />
+                            <br/>
+                            <br/>
+                            <div className="d-flex"><span className="link"> <Link className="link-yellow"
+                                to="/forgotten-password">{t('ns1:forgotPasswordQuestion')}</Link></span>
+                            </div>
+                            <div className='d-flex flex-row justify-content-around mt-3'>
+                                <div className='align-self-center flex-grow-1'><MDBBtn
+                                    className="background-color-primary color-background rounded z-depth-1 w-100 bold"
+                                    type="submit"
+                                    disabled={props.loading}>{t('ns1:loginLabel')}</MDBBtn></div>
+                                <div className='align-self-center flex-grow-1 text-center color-secondary'>or</div>
+                                <div
+                                    className='align-self-center flex-grow-0 px-2 py-1'>
+                                    <O2AuthAuthentication {...props} registration={false}/>
+                                </div>
+                            </div>
 
-                            <MDBCardBody className="p-5">*/}
-                            {/*    <p className="h4 text-center">{t('ns1:loginHeading')}</p>*/}
-                        <span className="font-weight-light-blue mb-5">{t('ns1:newUserLoginQuestion')}
-                            <Link className="ml-1"
-                                  to="/signup">{t('ns1:signupLabel')}!</Link></span>
-                                <form onSubmit={handleRegularLogin}
-                                      noValidate>
-                                    <label
-                                        htmlFor="email"
-                                        className="color-primary m-0 p-0"
-                                    >
-                                        {t('ns1:emailLabel')}
-                                    </label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        className="form-control background-color-grey border-grey color-secondary"
-                                        value={email} onChange={(event) => setEmail(event.target.value)} required
-                                    />
-                                    <br/>
-                                    <br/>
-                                    <label
-                                        htmlFor="password"
-                                        className="color-primary m-0 p-0"
-                                    >
-                                        {t('ns1:passwordLabel')}
-                                    </label>
-                                    <input
-                                        type="password"
-                                        id="password"
-                                        className="form-control background-color-grey border-grey color-secondary"
-                                        value={password} onChange={(event) => setPassword(event.target.value)} required
-                                    />
-                                    <br/>
-                                    <br/>
-                                    <div className="d-flex"><span className="link"> <Link
-                                        to="/forgotten-password">{t('ns1:forgotPasswordQuestion')}</Link></span>
-                                    </div>
-                                            <div className='d-flex flex-row justify-content-around mt-3'>
-                                                <div className='align-self-center flex-grow-1'> <MDBBtn className="background-color-primary color-background rounded z-depth-1 w-100" type="submit"
-                                                              disabled={props.loading}>{t('ns1:loginLabel')}</MDBBtn></div>
-                                                <div className='align-self-center flex-grow-1 text-center'>or</div>
-                                                <div className='align-self-center flex-grow-0 background-color-secondary rounded px-2 py-1'>
-                                                    <O2AuthAuthentication {...props} registration={false}/>
-                                                </div>
-                                            </div>
 
+                        </form>
 
-                                </form>
-
-                         {/*   </MDBCardBody>
+                        {/*   </MDBCardBody>
                             <MDBCardFooter>
                                 <div className="text-center mb-1">{t('ns1:orLoginWithSuggestion')}</div>
 
@@ -175,7 +176,8 @@ function Login(props: RouteComponentProps & LoginProps) {
 
 
                 </MDBRow>
-
+            </MDBContainer>
+            </div>
         );
     } else if (userRecoveryCode) {
         return (<MDBContainer className="mt-5">

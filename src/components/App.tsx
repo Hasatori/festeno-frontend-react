@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Redirect, Route, Switch} from 'react-router-dom';
+import {Redirect, Route, Switch, useLocation} from 'react-router-dom';
 import AppHeader from './navigation/AppHeader';
 import Home from './home/Home';
 import Signup from './user/signup/Signup';
@@ -42,9 +42,7 @@ import {
 import ActivateAccount from "./user/activateaccount/ActivateAccount";
 import {CookiesConsent} from "./modal/CookiesConsent";
 import {AppProps, store} from "../index";
-import {Footer} from './footer/Footer';
 import ConfirmEmailChange from "./user/confirmemilchange/ConfirmEmailChange";
-import {MDBContainer} from "mdbreact";
 import Explore from "./explore/Explore";
 import {Recipes} from "./recipes/Recipes";
 import {DietPlan} from "./dietplan/DietPlan";
@@ -116,7 +114,8 @@ function toastEmitter(type: string): ToastOptions {
 };
 
 function App(appProps: AppProps) {
-
+    const location = useLocation();
+    const showMenu = location.pathname !== "/login" && location.pathname !== "/signup"
     useEffect(() => {
         if (typeof appProps.warningMessage !== "undefined") {
             toast.warning('⚠    ' + appProps.warningMessage, toastEmitter(WARNING));
@@ -162,52 +161,51 @@ function App(appProps: AppProps) {
         <div className="app">
             <LoadingIndicator {...appProps}/>
             <CookiesConsent/>
-                  <div className='d-flex flex-row'>
-                <div><AppHeader {...appProps}/></div>
+            <div className='d-flex flex-row'>
+                {(showMenu ? <div><AppHeader {...appProps}/></div> : <></>)}
                 <div className='flex-grow-1 app-body'>
+                    <Switch>
+                        <Route exact path="/" component={Home}/>
+                        <Route path="/recipes" component={Recipes}/>
+                        <Route exact path="/diet-plan" component={DietPlan}/>
+                        <Route exact path="/explore" component={Explore}/>
+                        <Route exact path="/profile" component={Profile}/>
+                        <PrivateRoute
+                            path={["/account"]}
+                            {...{
+                                authenticated: appProps.authenticated,
+                                authenticationPath: '/login',
+                                redirectPathOnAuthentication: "/account"
+                            }} exact={true}
+                            render={(props) => <Account/>}/>
 
-                        <Switch>
-                            <Route exact path="/" component={Home}/>
-                            <Route  path="/recipes" component={Recipes}/>
-                            <Route exact path="/diet-plan" component={DietPlan}/>
-                            <Route exact path="/explore" component={Explore}/>
-                            <Route exact path="/profile" component={Profile}/>
-                            <PrivateRoute
-                                path={["/account"]}
-                                {...{
-                                    authenticated: appProps.authenticated,
-                                    authenticationPath: '/login',
-                                    redirectPathOnAuthentication: "/account"
-                                }} exact={true}
-                                render={(props) => <Account/>}/>
-
-                            <Route path={"/login"}
-                                   render={(props) => appProps.authenticated ? <Redirect to='account'/> :
-                                       <Login twoFactorRequired={false} login={() => {
-                                       }} loginTwoFactor={() => {
-                                       }} loginRecoveryCode={() => {
-                                       }} loading={appProps.loading}  {...props} />}/>
-                            <Route path="/signup"
-                                   render={(props) => <Signup {...props} />}/>
-                            <Route path="/forgotten-password"
-                                   render={(props) => <ForgottenPassword {...props}/>}/>
-                            <Route path="/password-reset"
-                                   render={(props) => <PasswordReset {...props}/>}/>
-                            <Route path="/oauth2/redirect"
-                                   render={(props) => <OAuth2RedirectHandler {...appProps}{...props}/>}/>
-                            <Route path="/activate-account*"
-                                   render={(props) => <ActivateAccount {...appProps}{...props}/>}/>
-                            <Route path="/confirm-email-change*"
-                                   render={(props) => <ConfirmEmailChange {...appProps}{...props}/>}/>
-                            <Route component={NotFound}/>
-                        </Switch>
+                        <Route path={"/login"}
+                               render={(props) => appProps.authenticated ? <Redirect to='account'/> :
+                                   <Login twoFactorRequired={false} login={() => {
+                                   }} loginTwoFactor={() => {
+                                   }} loginRecoveryCode={() => {
+                                   }} loading={appProps.loading}  {...props} />}/>
+                        <Route path="/signup"
+                               render={(props) => <Signup {...appProps} />}/>
+                        <Route path="/forgotten-password"
+                               render={(props) => <ForgottenPassword {...props}/>}/>
+                        <Route path="/password-reset"
+                               render={(props) => <PasswordReset {...props}/>}/>
+                        <Route path="/oauth2/redirect"
+                               render={(props) => <OAuth2RedirectHandler {...appProps}{...props}/>}/>
+                        <Route path="/activate-account*"
+                               render={(props) => <ActivateAccount {...appProps}{...props}/>}/>
+                        <Route path="/confirm-email-change*"
+                               render={(props) => <ConfirmEmailChange {...appProps}{...props}/>}/>
+                        <Route component={NotFound}/>
+                    </Switch>
 
                 </div>
             </div>
 
 
             <ToastContainer newestOnTop={true}/>
-          {/*  <Footer/>*/}
+            {/*  <Footer/>*/}
         </div>
 
     );

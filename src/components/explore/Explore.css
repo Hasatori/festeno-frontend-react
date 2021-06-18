@@ -1,4 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
+body {
+  background-color: #F9F9F9 !important;
+}
+
 .hover-pointer-cursor:hover {
   cursor: pointer;
 }
@@ -19,6 +23,18 @@
 .small-dot {
   height: 30px;
   width: 30px;
+}
+
+.link-yellow {
+  color: #FFF27E;
+  text-decoration: underline;
+  opacity: 0.9;
+}
+
+.link-yellow:hover {
+  color: #FFF27E;
+  text-decoration: underline;
+  opacity: 1;
 }
 
 .my-font {
@@ -328,6 +344,10 @@ a:hover {
 
 .neutral-button:hover {
   color: #181818;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 .recipe-wrapper {

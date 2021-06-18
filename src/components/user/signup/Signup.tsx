@@ -2,21 +2,18 @@ import * as React from "react";
 import {useState} from "react";
 import './Signup.css';
 import {Link} from 'react-router-dom'
-import O2AuthAuthentication from "../oauth2/O2AuthAuthentication";
 import {connect} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
 import {signUp} from "../../../redux/actiontype/UserActionTypes";
 import {getFormControlClass, isEmailValid, isPasswordValid} from "../../../util/APIUtils";
-import {MDBCard, MDBCardBody, MDBCardFooter, MDBCol, MDBContainer, MDBIcon, MDBRow} from "mdbreact";
+import {MDBBtn, MDBCol, MDBContainer, MDBIcon, MDBRow} from "mdbreact";
 import {useTranslation} from "react-i18next";
-
-const googleLogo = require("../../../assets/images/logos/google-logo.png");
-const githubLogo = require('../../../assets/images/logos/github-logo.png');
-const fbLogo = require("../../../assets/images/logos/fb-logo.png");
+import logo from "../../../assets/images/logos/festeno_yellow2.svg";
 
 interface SignUpProps {
     signUp: (signUpRequest: SignUpRequest) => void;
+    loading: boolean
 }
 
 function mapDispatchToProps(dispatch: ThunkDispatch<any, any, AnyAction>) {
@@ -30,8 +27,8 @@ function Signup(props: SignUpProps) {
     const [nameValid, setNameValid] = useState(false);
     const [nameValidationStarted, setNameValidationStarted] = useState(false);
     const [email, setEmail] = useState('');
-    const [emailValidationStarted, setEmailValidationStarted] = useState(false);
     const [emailValid, setEmailValid] = useState(false);
+    const [emailValidationStarted, setEmailValidationStarted] = useState(false);
     const [password, setPassword] = useState('');
     const [passwordValidationStarted, setPasswordValidationStarted] = useState(false);
     const [passwordValid, setPasswordValid] = useState(false);
@@ -47,24 +44,29 @@ function Signup(props: SignUpProps) {
 
 
     return (
-        <MDBContainer className="mt-5">
-            <MDBRow>
-                <MDBCol md="3"/>
-                <MDBCol md="6">
-                    <MDBCard>
-
-                        <MDBCardBody className="p-5">
-                            <p className="h4 text-center">{t('ns1:signupHeading')}</p>
-                            <br/>
-                            {<O2AuthAuthentication {...props} registration={true}/>}
-                            <div className="or-separator">
-                                <span className="or-text">OR</span>
+        <div className="background-overlay">
+            <MDBContainer className="custom-center-row">
+                <MDBRow>
+                    <MDBCol md="5" className="pt-5">
+                        <div className='d-flex flex-column'>
+                            <div className='d-flex align-self-center'><img src={logo} width={100} className='mb-3'/>
                             </div>
+                            <div className='d-flex align-self-center my-font color-primary m-0 p-0'><h1
+                                className='brand-text'>Festeno</h1></div>
+                            <div className='align-self-end pr-5 color-secondary bold'><p className='m-0'>Be part of a culinary world,</p><p
+                                className='pl-5 m-0'>Be connected by food</p></div>
+                        </div>
+                    </MDBCol>
+                    <MDBCol md="1"/>
+                    <MDBCol className='mt-5 mx-auto p-3' md='5' sm="8" center>
+                        <div className="mb-3"><span className="color-secondary">{t('ns1:alreadyHavenAnAccountQuestion')}</span>
+                            <Link className="ml-1 link-yellow"
+                                  to="/login">{t('ns1:loginLabel')}!</Link></div>
                             <form onSubmit={handleSubmit}
                                   noValidate>
                                 <div className="form-item">
-                                    <input type="text" name="name"
-                                           className={getFormControlClass(nameValidationStarted, nameValid)}
+                                    <input type="text"
+                                           className={getFormControlClass(nameValidationStarted, nameValid)+" background-color-grey border-grey color-secondary"}
                                            placeholder={t('ns1:nameLabel')}
                                            value={name} onChange={(event) => {
                                         setNameValidationStarted(true);
@@ -74,13 +76,14 @@ function Signup(props: SignUpProps) {
 
                                     />
                                     <small className='required error-color'><MDBIcon icon="asterisk"/></small>
+
                                     <div className="invalid-feedback text-left">
                                         {t('ns1:invalidNameMessage')}
                                     </div>
                                 </div>
                                 <div className="form-item">
-                                    <input type="email" name="email"
-                                           className={getFormControlClass(emailValidationStarted, emailValid)}
+                                    <input type="email"
+                                           className={getFormControlClass(emailValidationStarted, emailValid)+" background-color-grey border-grey color-secondary"}
                                            placeholder={t('ns1:emailLabel')}
                                            value={email} onChange={(event) => {
                                         setEmailValidationStarted(true);
@@ -88,49 +91,45 @@ function Signup(props: SignUpProps) {
                                         setEmail(event.target.value);
 
                                     }} required
+
                                     />
                                     <small className='required error-color'><MDBIcon icon="asterisk"/></small>
-                                    <div className="invalid-feedback text-left">
-                                        {t('ns1:invalidEmailMessage')}
-                                    </div>
+                                    {emailValidationStarted && !isEmailValid(email)?
+                                        <div className="text-left invalid-feedback visible">
+                                            {t('ns1:invalidEmailMessage')}
+                                        </div>:<></>}
                                 </div>
                                 <div className="form-item">
-                                    <input type="password" name="password"
-                                           className={getFormControlClass(passwordValidationStarted, passwordValid)}
+
+                                    <input type="password"
+                                           className={getFormControlClass(passwordValidationStarted, passwordValid)+" background-color-grey border-grey color-secondary"}
                                            placeholder={t('ns1:passwordLabel')}
                                            value={password} onChange={(event) => {
                                         setPasswordValidationStarted(true);
                                         setPasswordValid(isPasswordValid(event.target.value));
                                         setPassword(event.target.value);
 
-                                    }} required/>
+                                    }} required
+                                    />
                                     <small className='required error-color'><MDBIcon icon="asterisk"/></small>
                                     <div className="invalid-feedback text-left">
                                         {t('ns1:invalidPasswordFormatMessage')}
                                     </div>
-                                </div>
 
-                                <div className="form-item">
-                                    <button type="submit"
-                                            className="btn btn-block btn-primary">   {t('ns1:signupLabel')}</button>
                                 </div>
+                                    <div className='align-self-center flex-grow-1'><MDBBtn
+                                        className="background-color-primary color-background rounded z-depth-1 w-100 bold"
+                                        type="submit"
+                                        disabled={props.loading}>{t('ns1:signupLabel')}</MDBBtn></div>
+
                             </form>
-                            <span className="font-weight-light-blue flex-center">{t('ns1:newUserLoginQuestion')}
-                                <Link className="ml-1"
-                                      to="/signup">{t('ns1:signupLabel')}!</Link></span>
-                        </MDBCardBody>
-                        <MDBCardFooter>
-                            <div className="text-center mb-1">{t('ns1:orLoginWithSuggestion')}</div>
-
-                            {<O2AuthAuthentication {...props} registration={false}/>}
-                        </MDBCardFooter>
-                    </MDBCard>
-                </MDBCol>
-                <MDBCol md="3"/>
+                    </MDBCol>
+                    <MDBCol md="1"/>
 
 
-            </MDBRow>
-        </MDBContainer>
+                </MDBRow>
+            </MDBContainer>
+        </div>
     );
 }
 
