@@ -351,46 +351,22 @@ a:hover {
 }
 
 .recipe-wrapper {
-  width: 100% !important;
-  height: 100% !important;
-  position: relative;
-  border-radius: 15%;
+  border-radius: 15% 15% 0 0 !important;
 }
 
 .recipe-image {
-  border-radius: 15%;
+  border-radius: 15% 15% 0 0 !important;
   width: 100% !important;
-  height: 100% !important;
+  height: 200px;
   object-fit: cover;
 }
 
-.recipe-author {
-  border-radius: 10%;
-  position: absolute;
-  left: 7%;
-  top: 5%;
-  color: #F9F9F9;
-  z-index: 10;
-}
-
-.recipe-name {
-  padding-left: 15px;
-  position: absolute;
-  bottom: 10%;
-  font-weight: bold;
-  color: #F9F9F9;
-}
-
-.recipe-body {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 20%;
-  background-color: transparent;
-  opacity: 0.7;
-  border-radius: 0 0 30% 30%;
-  filter: blur(0.5rem);
+.recipe-footer {
+  color: #181818;
+  background-color: #F9F9F9;
+  border: 1px solid #DDDDDD;
+  padding: 15px;
+  margin: 0;
 }
 
 .recipe-header {
@@ -407,7 +383,7 @@ a:hover {
 
 .recipe-author-image {
   width: 40px;
-  border-radius: 15%;
+  border-radius: 50%;
 }
 
 .action-button {
