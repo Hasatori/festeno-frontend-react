@@ -1,7 +1,7 @@
 import {connect} from "react-redux";
 import React, {ChangeEvent, useState} from "react";
 import {RouteComponentProps} from "react-router-dom";
-import {ProfileImage, User} from "../../App";
+import {Image, User} from "../../App";
 import {AppState} from "../../../redux/store/Store";
 import {getFormControlClass, isEmailValid} from "../../../util/APIUtils";
 import {MDBBtn} from "mdbreact";
@@ -30,7 +30,7 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any, any, AnyAction>) {
 
 function Profile(props: ProfileProps) {
     let user: User = props.user;
-    let [file, setFile] = useState<ProfileImage | undefined>(undefined);
+    let [file, setFile] = useState<Image | undefined>(undefined);
     let [email, setEmail] = useState(user.email);
     let [name, setName] = useState(user.name);
     const [emailValidationStarted, setEmailValidationStarted] = useState(false);
@@ -168,7 +168,7 @@ function Profile(props: ProfileProps) {
 export interface UpdateProfileRequest {
     email?: string,
     name?: string,
-    profileImage?: ProfileImage
+    profileImage?: Image
 
 }
 

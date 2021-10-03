@@ -214,13 +214,13 @@ function App(appProps: AppProps) {
 export interface User {
     name: string;
     email: string;
-    profileImage: ProfileImage;
+    profileImage: Image;
     twoFactorEnabled: boolean;
     backupCodes: string[]
 
 }
 
-export interface ProfileImage {
+export interface Image {
     name?: string;
     type?: string;
     data?: string;

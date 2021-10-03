@@ -1,5 +1,9 @@
-import {Action, ActionCreator} from "redux";
+import {Action, ActionCreator, AnyAction, Dispatch} from "redux";
 import configureStore from "../store/Store";
+import {ThunkAction} from "redux-thunk";
+import axios from "axios";
+import {Recipe} from "../reducer/GeneralReducer";
+import i18next from "i18next";
 
 export const IN_PROGRESS = "IN_PROGRESS";
 export const SUCCESS = "SUCCESS";
@@ -11,7 +15,7 @@ export const DISMISS_INFO = "DISMISS_INFO";
 export const WARNING = "WARNING";
 export const DISMISS_WARNING = "DISMISS_WARNING";
 export const DONE = "DONE";
-
+export const LOAD_FEED = "LOAD_FEED";
 
 export interface InProgressAction extends Action {
     type: typeof IN_PROGRESS,
@@ -58,6 +62,11 @@ export interface DismissWarning extends Action {
     type: typeof DISMISS_WARNING
 }
 
+export interface LoadFeed extends Action {
+    type: typeof LOAD_FEED
+    recipes: Array<Recipe>
+
+}
 
 export const inProgressActionCreator: ActionCreator<InProgressAction> = (message: string) => {
     return configureStore().dispatch({type: IN_PROGRESS, message: message});
@@ -90,6 +99,26 @@ export const dismissInfo: ActionCreator<DismissInfo> = () => {
 export const dismissFailure: ActionCreator<DismissFailure> = () => {
     return configureStore().dispatch({type: DISMISS_FAILURE});
 };
+
+export const loadFeed: ActionCreator<ThunkAction<void,
+    void,
+    void,
+    AnyAction>> = () => {
+    return async (dispatch: Dispatch) => {
+        dispatch(inProgressActionCreator("Loading feed"));
+        axios({
+            url: process.env.REACT_APP_REST_API_URL + "/recipes/feed",
+            method: 'GET'
+        }).then((response) => {
+            dispatch({type: LOAD_FEED, recipes: response.data})
+            dispatch(doneActionCreator(""));
+        }).catch(error => {
+            dispatch(failureActionCreator((error.response && error.response.data && error.response.data.message) || i18next.t('ns1:defaultErrorMessage')));
+        });
+    };
+};
+
+
 export type GeneralActionTypes =
     InProgressAction
     | FailureAction
@@ -100,4 +129,5 @@ export type GeneralActionTypes =
     | InfoAction
     | DismissInfo
     | WarningAction
-    | DismissWarning;
+    | DismissWarning
+    | LoadFeed;

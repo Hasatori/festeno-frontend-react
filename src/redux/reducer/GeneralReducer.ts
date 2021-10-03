@@ -1,8 +1,10 @@
 import {DISMISS_SUCCESS, FAILURE, GeneralActionTypes, IN_PROGRESS, SUCCESS} from "../actiontype/GeneralActionTypes";
+import {Image, User} from "../../components/App";
 
 
 const initialState = {
-    loading: false
+    loading: false,
+    feed: new Array<Recipe>()
 } as GeneralState;
 
 export interface GeneralState {
@@ -11,7 +13,18 @@ export interface GeneralState {
     failureMessage: string | undefined,
     successMessage: string | undefined,
     warningMessage: string | undefined,
-    infoMessage: string | undefined
+    infoMessage: string | undefined,
+    feed: Array<Recipe>
+}
+
+export interface Recipe {
+    title: string,
+    cookingTimeInMinutes: number,
+    rating: number,
+    description: number,
+    portions: number,
+    author: User,
+    layoutImage: Image
 }
 
 const notLoading = {
@@ -75,6 +88,11 @@ export default function generalReducer(state = initialState, action: GeneralActi
                 ...state,
                 ...notLoading,
             };
+        case "LOAD_FEED":
+            return {
+                ...state,
+                feed: action.recipes
+            }
         default:
             return state;
     }

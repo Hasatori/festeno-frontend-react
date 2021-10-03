@@ -352,6 +352,8 @@ a:hover {
 
 .recipe-wrapper {
   border-radius: 15% 15% 0 0 !important;
+  max-width: 300px;
+  margin: auto;
 }
 
 .recipe-image {
