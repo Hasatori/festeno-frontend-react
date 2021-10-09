@@ -15,15 +15,21 @@ import {Link, useLocation} from "react-router-dom";
 import settings_active from "../../../assets/images/common/settings_active.svg";
 import settings from "../../../assets/images/common/settings.svg";
 import React, {useState} from "react";
-import {HeaderProps, resolveNavLinkClass} from "../AppHeader";
+import {HeaderProps, resolveNavLinkClass, resolveNavLinkWrapperClass} from "../AppHeader";
 import {useTranslation} from "react-i18next";
 import "./SmallScreenNav.css"
 import {Routes} from "../../../util/Constants";
+import login_active from "../../../assets/images/common/login_active.svg";
+import login from "../../../assets/images/common/login.svg";
+import signUp_active from "../../../assets/images/common/signUp_active.svg";
+import signUp from "../../../assets/images/common/signUp.svg";
 
 export function SmallScreenNav(props: HeaderProps) {
     const {t, i18n} = useTranslation();
     const location = useLocation();
     const [navOpen, setNavOpen] = useState(false);
+    const [loginImage, setLoginImg] = useState('');
+    const [signUpImage, setSignUpImg] = useState('');
     return (
         <div className="top-nav">
             <div className="d-flex flex-row justify-content-between pl-2 pr-2">
@@ -87,7 +93,34 @@ export function SmallScreenNav(props: HeaderProps) {
 
                         </div>
                     </div>
-                </div>:<></>
+                </div>:
+                    <div className='mt-auto d-flex flex-column'>
+
+                        <div className={resolveNavLinkWrapperClass(location.pathname, Routes.LOGIN, true)}>
+                            <Link to={Routes.LOGIN}>
+                                <div className={resolveNavLinkClass(location.pathname, Routes.LOGIN, false)}
+                                     onMouseEnter={() => setLoginImg(login_active)}
+                                     onMouseLeave={() => setLoginImg('')}>
+                                    <div className='mr-2 py-2'><img
+                                        src={loginImage !== '' ? loginImage : location.pathname.startsWith(Routes.LOGIN) ? login_active : login}
+                                        width={25}/></div>
+                                    <div className='align-self-center'>Login</div>
+                                </div>
+                            </Link>
+                        </div>
+                        <div className={resolveNavLinkWrapperClass(location.pathname, Routes.SIGNUP, true)}>
+                            <Link to={Routes.SIGNUP}>
+                                <div className={resolveNavLinkClass(location.pathname, Routes.SIGNUP, false)}
+                                     onMouseEnter={() => setSignUpImg(signUp_active)}
+                                     onMouseLeave={() => setSignUpImg('')}>
+                                    <div className='mr-2 py-2'><img
+                                        src={signUpImage !== '' ? signUpImage : location.pathname.startsWith(Routes.SIGNUP) ? signUp_active : signUp}
+                                        width={25}/></div>
+                                    <div className='align-self-center'>Signup</div>
+                                </div>
+                            </Link>
+                        </div>
+                    </div>
                 }
             </div>
             }

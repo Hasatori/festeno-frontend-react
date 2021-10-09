@@ -4,6 +4,7 @@ import {ThunkAction} from "redux-thunk";
 import axios from "axios";
 import {Recipe} from "../reducer/GeneralReducer";
 import i18next from "i18next";
+import API from "../../util/APIUtils";
 
 export const IN_PROGRESS = "IN_PROGRESS";
 export const SUCCESS = "SUCCESS";
@@ -106,7 +107,7 @@ export const loadFeed: ActionCreator<ThunkAction<void,
     AnyAction>> = () => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator("Loading feed"));
-        axios({
+        API({
             url: process.env.REACT_APP_REST_API_URL + "/recipes/feed",
             method: 'GET'
         }).then((response) => {

@@ -2,7 +2,7 @@ import {User} from "../../components/App";
 import {Action, ActionCreator, AnyAction, Dispatch} from "redux";
 import {ThunkAction} from "redux-thunk";
 import {LoginRequest, TwoFactorLoginRequest} from "../../components/user/login/Login";
-import {AccountActivationRequest} from "../../util/APIUtils";
+import API, {AccountActivationRequest} from "../../util/APIUtils";
 
 
 import {
@@ -96,10 +96,10 @@ export const loginActionCreator: ActionCreator<ThunkAction<// The type of the la
     LoginSuccessAction>> = (loginRequest: LoginRequest) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(""));
-        axios({
+        API({
             url: process.env.REACT_APP_REST_API_URL + "/auth/login",
             method: 'POST',
-            data: JSON.stringify(loginRequest)
+            data: loginRequest
         }).then((response: AxiosResponse<UserLoggedInResponse>) => {
             if (response.data.twoFactorRequired) {
                 dispatch({type: LOGIN_TWO_FACTOR})
@@ -121,7 +121,7 @@ export const refreshTokenActionCreator: ActionCreator<ThunkAction<void,
     void,
     AnyAction>> = () => {
     return async (dispatch: Dispatch) => {
-        axios({
+        API({
             url: process.env.REACT_APP_REST_API_URL + "/auth/refresh-token",
             method: 'POST'
         }).then((response) => {
@@ -134,7 +134,7 @@ export const refreshTokenActionCreator: ActionCreator<ThunkAction<void,
 export const loginTwoFactorActionCreator: ActionCreator<ThunkAction<void, void, TwoFactorLoginRequest, LoginSuccessAction>> = (loginRequest: TwoFactorLoginRequest) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(""));
-        axios({
+        API({
             url: process.env.REACT_APP_REST_API_URL + "/auth/login/verify",
             method: 'POST',
             data: JSON.stringify(loginRequest)
@@ -150,7 +150,7 @@ export const loginTwoFactorActionCreator: ActionCreator<ThunkAction<void, void, 
 export const loginRecoveryCodeActionCreator: ActionCreator<ThunkAction<void, void, TwoFactorLoginRequest, LoginSuccessAction>> = (loginRequest: TwoFactorLoginRequest) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(""));
-        axios({
+        API({
             url: process.env.REACT_APP_REST_API_URL + "/auth/login/recovery-code",
             method: 'POST',
             data: JSON.stringify(loginRequest)
@@ -167,7 +167,7 @@ export const loginRecoveryCodeActionCreator: ActionCreator<ThunkAction<void, voi
 export const logoutActionCreator: ActionCreator<ThunkAction<void, void, void, LoginSuccessAction>> = () => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(""));
-        axios({
+        API({
             url: process.env.REACT_APP_REST_API_URL + "/logout",
             method: 'POST'
         }).then(response => {
@@ -183,7 +183,7 @@ export const logoutActionCreator: ActionCreator<ThunkAction<void, void, void, Lo
 export const loadCurrentlyLoggedInUser: ActionCreator<ThunkAction<void, void, TwoFactorLoginRequest, LoginSuccessAction>> = () => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
-        axios({
+        API({
             url: process.env.REACT_APP_REST_API_URL + "/user/me",
             method: 'GET'
         }).then(response => {
@@ -199,7 +199,7 @@ export const loadCurrentlyLoggedInUser: ActionCreator<ThunkAction<void, void, Tw
 export const activateAccount: ActionCreator<ThunkAction<void, void, TwoFactorLoginRequest, GeneralActionTypes>> = (accountActivationRequest: AccountActivationRequest) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
-        axios({
+        API({
             url: process.env.REACT_APP_REST_API_URL + "/auth/activateAccount",
             method: 'POST',
             data: JSON.stringify(accountActivationRequest)
@@ -217,7 +217,7 @@ export const activateAccount: ActionCreator<ThunkAction<void, void, TwoFactorLog
 export const confirmEmailChange: ActionCreator<ThunkAction<void, void, TwoFactorLoginRequest, GeneralActionTypes>> = (accountActivationRequest: AccountActivationRequest) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
-        axios({
+        API({
             url: process.env.REACT_APP_REST_API_URL + "/auth/confirm-email-change",
             method: 'POST',
             data: JSON.stringify(accountActivationRequest)
@@ -236,7 +236,7 @@ export const confirmEmailChange: ActionCreator<ThunkAction<void, void, TwoFactor
 export const signUp: ActionCreator<ThunkAction<void, void, TwoFactorLoginRequest, GeneralActionTypes>> = (signupRequest: SignUpRequest) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
-        axios({
+        API({
             url: process.env.REACT_APP_REST_API_URL + "/auth/signup",
             method: 'POST',
             data: JSON.stringify(signupRequest)
@@ -254,7 +254,7 @@ export const signUp: ActionCreator<ThunkAction<void, void, TwoFactorLoginRequest
 export const forgottenPasswordRequest: ActionCreator<ThunkAction<void, void, TwoFactorLoginRequest, GeneralActionTypes>> = (email: string) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
-        axios({
+        API({
             url: process.env.REACT_APP_REST_API_URL + "/auth/forgottenPassword",
             method: 'POST',
             data: JSON.stringify({email: email})
@@ -271,7 +271,7 @@ export const forgottenPasswordRequest: ActionCreator<ThunkAction<void, void, Two
 export const resetPassword: ActionCreator<ThunkAction<void, void, TwoFactorLoginRequest, GeneralActionTypes>> = (resetPasswordRequest: ResetPasswordRequest) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
-        axios({
+        API({
             url: process.env.REACT_APP_REST_API_URL + "/auth/passwordReset",
             method: 'POST',
             data: JSON.stringify(resetPasswordRequest)
@@ -287,7 +287,7 @@ export const resetPassword: ActionCreator<ThunkAction<void, void, TwoFactorLogin
 export const changePassword: ActionCreator<ThunkAction<void, void, TwoFactorLoginRequest, GeneralActionTypes>> = (changePasswordRequest: ChangePasswordRequest) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
-        axios({
+        API({
             url: process.env.REACT_APP_REST_API_URL + "/changePassword",
             method: 'POST',
             data: JSON.stringify(changePasswordRequest)
@@ -304,7 +304,7 @@ export const changePassword: ActionCreator<ThunkAction<void, void, TwoFactorLogi
 export const cancelAccount: ActionCreator<ThunkAction<void, void, LoginRequest, GeneralActionTypes>> = (loginRequest: LoginRequest) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
-        axios({
+        API({
             url: process.env.REACT_APP_REST_API_URL + "/cancel-account",
             method: 'POST'
         }).then(response => {
@@ -321,7 +321,7 @@ export const cancelAccount: ActionCreator<ThunkAction<void, void, LoginRequest, 
 export const updateProfile: ActionCreator<ThunkAction<void, void, UpdateProfileRequest, GeneralActionTypes>> = (updateProfileRequest: UpdateProfileRequest) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
-        axios({
+        API({
             url: process.env.REACT_APP_REST_API_URL + "/update-profile",
             method: 'POST',
             data: JSON.stringify(updateProfileRequest)
@@ -338,7 +338,7 @@ export const updateProfile: ActionCreator<ThunkAction<void, void, UpdateProfileR
 export const enableTwoFactor: ActionCreator<ThunkAction<void, void, VerifyTwoFactor, GeneralActionTypes>> = (verifyTwoFactor: VerifyTwoFactor) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
-        axios({
+        API({
             url: process.env.REACT_APP_REST_API_URL + "/verifyTwoFactor",
             method: 'POST',
             data: JSON.stringify(verifyTwoFactor)
@@ -356,7 +356,7 @@ export const enableTwoFactor: ActionCreator<ThunkAction<void, void, VerifyTwoFac
 export const disableTwoFactor: ActionCreator<ThunkAction<void, void, void, GeneralActionTypes>> = () => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
-        axios({
+        API({
             url: process.env.REACT_APP_REST_API_URL + "/disable-two-factor",
             method: 'POST'
         }).then(response => {
@@ -372,7 +372,7 @@ export const disableTwoFactor: ActionCreator<ThunkAction<void, void, void, Gener
 export const getNewBackupCodes: ActionCreator<ThunkAction<void, void, void, GeneralActionTypes>> = () => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
-        axios({
+        API({
             url: process.env.REACT_APP_REST_API_URL + "/getNewBackupCodes",
             method: 'POST',
         }).then(response => {

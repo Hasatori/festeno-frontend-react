@@ -26,7 +26,7 @@ API.interceptors.response.use(
                 .then((res) => {
                     if (res.status === 200) {
                         store.dispatch({type: TOKEN_REFRESHED, accessToken: res.data.accessToken});
-                        return axios(originalRequest);
+                        return API(originalRequest);
                     }
                 }).catch(error => {
                     store.dispatch({type:LOGOUT_USER})
