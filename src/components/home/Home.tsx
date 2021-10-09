@@ -53,7 +53,7 @@ function Home(props: HomeProps) {
                             <MDBRow>
                                 {props.feed.map((recipe: Recipe, index) => {
                                     return (
-                                        <MDBCol md='6' xl='3' o sm="12" className='mt-5 px-4'>
+                                        <MDBCol md='6' xl='3' sm="12" className='mt-5 px-4'>
                                             <Link to={`${Routes.RECIPE}/adasdad54536s4fg65ds4fa5s4f`}>
                                                 <div className='d-flex flex-column recipe-wrapper z-depth-1'>
 
@@ -61,7 +61,7 @@ function Home(props: HomeProps) {
                                                               src={`data:${recipe.layoutImage.type};base64,${recipe.layoutImage.data}`}/>
                                                     </div>
                                                     <div className='recipe-footer d-flex flex-column'>
-                                                        <div className="mb-3 h6-responsive">{recipe.title}</div>
+                                                        <div className="mb-3 h5-responsive"><strong>{recipe.title}</strong></div>
                                                         <div
                                                             className="d-flex flex-column justify-content-between">
                                                             <div className="d-flex flex-row">
