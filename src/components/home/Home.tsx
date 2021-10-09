@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import './Home.css';
-import {MDBCol, MDBContainer, MDBRow} from "mdbreact";
+import {MDBBadge, MDBCol, MDBContainer, MDBRow} from "mdbreact";
 import {Link} from "react-router-dom";
 import {useMediaQuery} from "react-responsive";
 import heart_empty from "../../assets/images/common/heart_empty.svg";
@@ -60,8 +60,13 @@ function Home(props: HomeProps) {
                                                     <div><img className='recipe-image'
                                                               src={`data:${recipe.layoutImage.type};base64,${recipe.layoutImage.data}`}/>
                                                     </div>
-                                                    <div className='recipe-footer d-flex flex-column'>
+                                                    <div className='recipe-footer d-flex flex-column position-relative'>
                                                         <div className="mb-3 h5-responsive"><strong>{recipe.title}</strong></div>
+                                                        <div className="tags">
+                                                            {recipe.tags.slice(0,3).map(value => {
+                                                                return (<MDBBadge color="info" className='recipe-tag'>{value}</MDBBadge>)
+                                                            })}
+                                                        </div>
                                                         <div
                                                             className="d-flex flex-column justify-content-between">
                                                             <div className="d-flex flex-row">

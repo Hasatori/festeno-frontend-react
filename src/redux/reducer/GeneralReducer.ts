@@ -25,6 +25,7 @@ export interface Recipe {
     portions: number,
     author: User,
     layoutImage: Image
+    tags: Array<string>
 }
 
 const notLoading = {

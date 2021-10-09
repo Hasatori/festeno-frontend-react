@@ -383,6 +383,18 @@ a:hover {
   filter: blur(0.5rem);
 }
 
+.recipe-tag {
+  display: block;
+  padding: 5px;
+  margin: 5px;
+}
+
+.tags {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
 .recipe-author-image {
   width: 40px;
   border-radius: 50%;
