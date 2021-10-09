@@ -14,11 +14,12 @@ import {Link, useLocation} from "react-router-dom";
 import settings_active from "../../../assets/images/common/settings_active.svg";
 import settings from "../../../assets/images/common/settings.svg";
 import React, {useState} from "react";
-import {resolveNavLinkClass} from "../AppHeader";
+import {HeaderProps, resolveNavLinkClass} from "../AppHeader";
 import {useTranslation} from "react-i18next";
 import "./MediumScreenNav.css"
+import {Routes} from "../../../util/Constants";
 
-export function MediumScreenNav() {
+export function MediumScreenNav(props: HeaderProps) {
     const {t, i18n} = useTranslation();
     const location = useLocation();
     const [exploreImg, setExploreImg] = useState('');
@@ -33,62 +34,68 @@ export function MediumScreenNav() {
                 <div className='d-flex align-self-center mt-3 mb-3'>
                     <img src={logo} width={35}></img>
                 </div>
-                <div className={resolveNavLinkClass(location.pathname, "/", true) + '  align-self-center'}
+                <div className={resolveNavLinkClass(location.pathname, Routes.HOME, true) + '  align-self-center'}
                      onMouseEnter={() => setFeedImage(home_active)}
                      onMouseLeave={() => setFeedImage('')}>
-                    <div className='py-2'><MDBNavLink to="/" link><img
-                        src={feedImg !== '' ? feedImg : location.pathname === "/" ? home_active : home}
+                    <div className='py-2'><MDBNavLink to={Routes.HOME} link><img
+                        src={feedImg !== '' ? feedImg : location.pathname === Routes.HOME ? home_active : home}
                         width={25}/></MDBNavLink>
                     </div>
                 </div>
+                {props.authenticated ?
+                    <>
+                        <div
+                            className={resolveNavLinkClass(location.pathname, Routes.RECIPES, false) + '  align-self-center'}
+                            onMouseEnter={() => setBookImage(book_active)}
+                            onMouseLeave={() => setBookImage('')}>
+                            <div className='py-2'><MDBNavLink to={Routes.RECIPES} link><img
+                                src={bookImg !== '' ? bookImg : location.pathname.startsWith(Routes.RECIPES) ? book_active : book}
+                                width={25}/></MDBNavLink></div>
+                        </div>
+                        <div
+                            className={resolveNavLinkClass(location.pathname, Routes.DIET_PLAN, false) + '  align-self-center'}
+                            onMouseEnter={() => setCalendarImage(calendar_active)}
+                            onMouseLeave={() => setCalendarImage('')}>
+                            <div className='py-2'><MDBNavLink to={Routes.DIET_PLAN} link><img
+                                src={calendarImg !== '' ? calendarImg : location.pathname.startsWith(Routes.DIET_PLAN) ? calendar_active : calendar}
+                                width={25}/></MDBNavLink></div>
+                        </div>
+                    </> : <></>}
                 <div
-                    className={resolveNavLinkClass(location.pathname, "/recipes", false) + '  align-self-center'}
-                    onMouseEnter={() => setBookImage(book_active)}
-                    onMouseLeave={() => setBookImage('')}>
-                    <div className='py-2'><MDBNavLink to="/recipes" link><img
-                        src={bookImg !== '' ? bookImg : location.pathname.startsWith("/recipes") ? book_active : book}
-                        width={25}/></MDBNavLink></div>
-                </div>
-                <div
-                    className={resolveNavLinkClass(location.pathname, "/diet-plan", false) + '  align-self-center'}
-                    onMouseEnter={() => setCalendarImage(calendar_active)}
-                    onMouseLeave={() => setCalendarImage('')}>
-                    <div className='py-2'><MDBNavLink to="/diet-plan" link><img
-                        src={calendarImg !== '' ? calendarImg : location.pathname.startsWith("/diet-plan") ? calendar_active : calendar}
-                        width={25}/></MDBNavLink></div>
-                </div>
-                <div
-                    className={resolveNavLinkClass(location.pathname, "/explore", false) + '  align-self-center'}
+                    className={resolveNavLinkClass(location.pathname, Routes.EXPLORE, false) + '  align-self-center'}
                     onMouseEnter={() => setExploreImg(loupe_active)}
                     onMouseLeave={() => setExploreImg('')}>
-                    <div className='py-2'><MDBNavLink to="/explore" link><img
-                        src={exploreImg !== '' ? exploreImg : location.pathname.startsWith("/explore") ? loupe_active : loupe}
+                    <div className='py-2'><MDBNavLink to={Routes.EXPLORE} link><img
+                        src={exploreImg !== '' ? exploreImg : location.pathname.startsWith(Routes.EXPLORE) ? loupe_active : loupe}
                         width={25}/></MDBNavLink></div>
                 </div>
-                <div className='mt-auto d-flex flex-column'>
-                    <div className={'mt-auto align-self-center additional-action'}
-                         onMouseEnter={() => setSignOutImg(signOut_active)}
-                         onMouseLeave={() => setSignOutImg('')}>
-                        <img src={signOutImg !== '' ? signOut_active : signOut} width={20}/>
-                    </div>
-                    <Link to="/profile"
-                          className={location.pathname === "/profile" ? ' mt-3 align-self-center additional-action-active' : 'mt-3 align-self-center additional-action'}
-                          onMouseEnter={() => setSettingsImg(settings_active)}
-                          onMouseLeave={() => setSettingsImg('')}>
-                        <img
-                            src={settingImg !== '' || location.pathname === "/profile" ? settings_active : settings}
-                            width={20}/>
-                    </Link>
-                    <div className='mt-3 align-self-center '>
-                        <div className='profile-image-wrapper'>
-                            <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-1.jpg"
-                                 className="rounded float-right profile-image-collapsed" alt="aligment"/>
-                            <div className='profile-image-status-online-collapsed'>
-                            </div>
 
+                {props.authenticated ?
+                    <div className='mt-auto d-flex flex-column'>
+                        <div className={'mt-auto align-self-center additional-action'}
+                             onMouseEnter={() => setSignOutImg(signOut_active)}
+                             onMouseLeave={() => setSignOutImg('')}>
+                            <img src={signOutImg !== '' ? signOut_active : signOut} width={20}/>
                         </div>
-                    </div>
-                </div>
+                        <Link to={Routes.PROFILE}
+                              className={location.pathname === Routes.PROFILE ? ' mt-3 align-self-center additional-action-active' : 'mt-3 align-self-center additional-action'}
+                              onMouseEnter={() => setSettingsImg(settings_active)}
+                              onMouseLeave={() => setSettingsImg('')}>
+                            <img
+                                src={settingImg !== '' || location.pathname === Routes.PROFILE ? settings_active : settings}
+                                width={20}/>
+                        </Link>
+                        <div className='mt-3 align-self-center '>
+                            <div className='profile-image-wrapper'>
+                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-1.jpg"
+                                     className="rounded float-right profile-image-collapsed" alt="aligment"/>
+                                <div className='profile-image-status-online-collapsed'>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>:<></>
+                }
 
             </div>
         </div>

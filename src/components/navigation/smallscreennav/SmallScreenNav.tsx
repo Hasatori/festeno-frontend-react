@@ -15,11 +15,12 @@ import {Link, useLocation} from "react-router-dom";
 import settings_active from "../../../assets/images/common/settings_active.svg";
 import settings from "../../../assets/images/common/settings.svg";
 import React, {useState} from "react";
-import {resolveNavLinkClass} from "../AppHeader";
+import {HeaderProps, resolveNavLinkClass} from "../AppHeader";
 import {useTranslation} from "react-i18next";
 import "./SmallScreenNav.css"
+import {Routes} from "../../../util/Constants";
 
-export function SmallScreenNav(){
+export function SmallScreenNav(props: HeaderProps) {
     const {t, i18n} = useTranslation();
     const location = useLocation();
     const [navOpen, setNavOpen] = useState(false);
@@ -32,41 +33,49 @@ export function SmallScreenNav(){
             </div>
             {navOpen &&
             <div className='side-nav-collapsed pb-5 d-flex flex-column'>
-                <div className={resolveNavLinkClass(location.pathname, "/", true) + '  align-self-left'}>
-                    <div className='py-2' onClick={(event => setNavOpen(false))}><MDBNavLink to="/" link><img
+                <div className={resolveNavLinkClass(location.pathname, Routes.HOME, true) + '  align-self-left'}>
+                    <div className='py-2' onClick={(event => setNavOpen(false))}><MDBNavLink to={Routes.HOME} link><img
                         src={location.pathname === "/" ? home_active : home}
                         width={25}/>Feed</MDBNavLink>
                     </div>
                 </div>
-                <div className={resolveNavLinkClass(location.pathname, "/recipes", false) + '  align-self-center'}>
-                    <div className='py-2' onClick={(event => setNavOpen(false))}><MDBNavLink to="/recipes" link><img
-                        src={location.pathname.startsWith("/recipes") ? book_active : book}
-                        width={25}/>Recipes</MDBNavLink></div>
-                </div>
-                <div
-                    className={resolveNavLinkClass(location.pathname, "/diet-plan", false) + '  align-self-center'}>
-                    <div className='py-2' onClick={(event => setNavOpen(false))}><MDBNavLink to="/diet-plan"
-                                                                                                 link><img
-                        src={location.pathname.startsWith("/diet-plan") ? calendar_active : calendar}
-                        width={25}/>Diet plan</MDBNavLink></div>
-                </div>
-                <div className={resolveNavLinkClass(location.pathname, "/explore", false) + '  align-self-center'}>
-                    <div className='py-2' onClick={(event => setNavOpen(false))}><MDBNavLink to="/explore" link><img
-                        src={location.pathname.startsWith("/explore") ? loupe_active : loupe}
+                {props.authenticated ?
+                    <>
+                        <div
+                            className={resolveNavLinkClass(location.pathname, Routes.RECIPES, false) + '  align-self-center'}>
+                            <div className='py-2' onClick={(event => setNavOpen(false))}><MDBNavLink to={Routes.RECIPES}
+                                                                                                     link><img
+                                src={location.pathname.startsWith(Routes.RECIPES) ? book_active : book}
+                                width={25}/>Recipes</MDBNavLink></div>
+                        </div>
+                        <div
+                            className={resolveNavLinkClass(location.pathname, Routes.DIET_PLAN, false) + '  align-self-center'}>
+                            <div className='py-2' onClick={(event => setNavOpen(false))}><MDBNavLink
+                                to={Routes.DIET_PLAN}
+                                link><img
+                                src={location.pathname.startsWith(Routes.DIET_PLAN) ? calendar_active : calendar}
+                                width={25}/>Diet plan</MDBNavLink></div>
+                        </div>
+                    </> : <></>}
+
+                <div className={resolveNavLinkClass(location.pathname, Routes.EXPLORE, false) + '  align-self-center'}>
+                    <div className='py-2' onClick={(event => setNavOpen(false))}><MDBNavLink to={Routes.EXPLORE}
+                                                                                             link><img
+                        src={location.pathname.startsWith(Routes.EXPLORE) ? loupe_active : loupe}
                         width={25}/>Explore</MDBNavLink></div>
 
                 </div>
-
+                {props.authenticated ?
                 <div className='mt-auto d-flex flex-column'>
                     <div className={'mt-auto align-self-center additional-action'}>
                         <img src={signOut} width={20}/>
                     </div>
-                    <Link to="/profile"
-                          className={location.pathname === "/profile" ? ' mt-3 align-self-center additional-action-active' : 'mt-3 align-self-center additional-action'}
+                    <Link to={Routes.PROFILE}
+                          className={location.pathname === Routes.PROFILE ? ' mt-3 align-self-center additional-action-active' : 'mt-3 align-self-center additional-action'}
                           onClick={(event => setNavOpen(false))}
                     >
                         <img
-                            src={location.pathname === "/profile" ? settings_active : settings}
+                            src={location.pathname === Routes.PROFILE ? settings_active : settings}
                             width={20}/>
                     </Link>
                     <div className='mt-3 align-self-center ' onClick={(event => setNavOpen(false))}>
@@ -78,7 +87,8 @@ export function SmallScreenNav(){
 
                         </div>
                     </div>
-                </div>
+                </div>:<></>
+                }
             </div>
             }
 

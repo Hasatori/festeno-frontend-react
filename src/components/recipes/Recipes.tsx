@@ -4,15 +4,16 @@ import "./Recipes.css";
 import Create from "./create/Create";
 import MineRecipes from "./minerecipes/MineRecipes";
 import Recipe from "./recipes/Recipe";
+import {Routes} from "../../util/Constants";
 
 
 export function Recipes() {
     const location = useLocation();
     return (
         <div>
-            <Route exact path={["/recipes/mine-recipes", "/recipes"]} component={MineRecipes}/>
-            <Route exact path={"/recipes/create"} component={Create}/>
-            <Route exact path={"/recipes/recipe/:id"} component={Recipe}/>
+            <Route exact path={[Routes.MY_RECIPES, Routes.RECIPES]} component={MineRecipes}/>
+            <Route exact path={Routes.CREATE_RECIPE} component={Create}/>
+            <Route exact path={`${Routes.RECIPE}/:id`} component={Recipe}/>
         </div>
     )
 }

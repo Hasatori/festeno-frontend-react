@@ -9,3 +9,23 @@ export function FACEBOOK_AUTH_URL(locale: string): string {
 export function GITHUB_AUTH_URL(locale: string): string {
     return process.env.REACT_APP_REST_API_URL + '/oauth2/authorize/github?redirect_uri=' + process.env.REACT_APP_OAUTH2_REDIRECT_URI + '&language=' + locale
 };
+
+
+export enum Routes {
+    HOME = '/',
+    EXPLORE = '/explore',
+    DIET_PLAN = '/diet-plan',
+    RECIPES = '/recipes',
+    MY_RECIPES = '/recipes/my-recipes',
+    CREATE_RECIPE = '/recipes/create',
+    RECIPE = '/recipes/recipe',
+    ACCOUNT = '/account',
+    LOGIN = '/login',
+    SIGNUP = '/signup',
+    PROFILE = '/profile',
+    FORGOTTEN_PASSWORD = '/signup',
+    PASSWORD_RESET = '/password-reset',
+    OAUTH2_REDIRECT = '/oauth2/redirect',
+    ACTIVATE_ACCOUNT = '/activate-account',
+    CONFIRM_EMAIL_CHANGE = '/confirm-email-change'
+}

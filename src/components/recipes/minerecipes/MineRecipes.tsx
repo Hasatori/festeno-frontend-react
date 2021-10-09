@@ -7,6 +7,7 @@ import star_filled from "../../../assets/images/common/star_filled.svg";
 import heart_empty from "../../../assets/images/common/heart_empty.svg";
 import heart_filled from "../../../assets/images/common/heart_filled.svg";
 import './MineRecipes.css'
+import {Routes} from "../../../util/Constants";
 
 export default function MineRecipes() {
     const recipesForRow = new Array(8).fill('Recipe');
@@ -15,7 +16,7 @@ export default function MineRecipes() {
     return (
         <div className={isSmallScreen?"mx-0 pt-2 mt-5 relative":"mx-0 px-0  relative"}>
             <div className="d-flex flex-center mt-5"><h1>My recipes</h1></div>
-            <div className="floating-action-button p-3"><Link  to="/recipes/create"> <div className='action-button' >+</div></Link></div>
+            <div className="floating-action-button p-3"><Link  to={Routes.CREATE_RECIPE}> <div className='action-button' >+</div></Link></div>
             <div className='mt-5 flex-column mx-2'>
                 {rows.map(value => {
                     return (
@@ -25,7 +26,7 @@ export default function MineRecipes() {
                                 {recipesForRow.map((value,index) => {
                                     return (
                                         <MDBCol md='6' xl='3' sm="12" className='mt-5 px-4'>
-                                            <Link to="/recipes/recipe/adasdad54536s4fg65ds4fa5s4f">
+                                            <Link to={`${Routes.RECIPE}/adasdad54536s4fg65ds4fa5s4f`}>
                                                 <div className='d-flex flex-column recipe-wrapper z-depth-1'>
 
                                                     <div > <img className='recipe-image'

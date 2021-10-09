@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {useTranslation} from "react-i18next";
 import {MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardText, MDBCardTitle} from 'mdbreact';
+import {Routes} from "../../util/Constants";
 
 function NotFound() {
     const {t} = useTranslation();
@@ -13,7 +14,7 @@ function NotFound() {
                 <MDBCardText className='text-center'>
                     {t('ns1:pageNotFoundMessage')}
                 </MDBCardText>
-                <Link to="/" >
+                <Link to={Routes.HOME} >
                 <MDBBtn className="flex-center" color="primary" href="#">{t('ns1:goBackButton')}</MDBBtn>
                 </Link>
             </MDBCardBody>

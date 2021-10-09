@@ -10,6 +10,7 @@ import {getFormControlClass, isEmailValid, isPasswordValid} from "../../../util/
 import {MDBBtn, MDBCol, MDBContainer, MDBIcon, MDBRow} from "mdbreact";
 import {useTranslation} from "react-i18next";
 import logo from "../../../assets/images/logos/festeno_yellow2.svg";
+import {Routes} from "../../../util/Constants";
 
 interface SignUpProps {
     signUp: (signUpRequest: SignUpRequest) => void;
@@ -61,7 +62,7 @@ function Signup(props: SignUpProps) {
                     <MDBCol className='mt-5 mx-auto p-3' md='5' sm="8" center>
                         <div className="mb-3"><span className="color-secondary">{t('ns1:alreadyHavenAnAccountQuestion')}</span>
                             <Link className="ml-1 link-yellow"
-                                  to="/login">{t('ns1:loginLabel')}!</Link></div>
+                                  to={Routes.LOGIN}>{t('ns1:loginLabel')}!</Link></div>
                             <form onSubmit={handleSubmit}
                                   noValidate>
                                 <div className="form-item">

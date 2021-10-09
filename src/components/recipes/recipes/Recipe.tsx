@@ -6,6 +6,7 @@ import {MDBCol, MDBIcon, MDBNavLink, MDBRow} from "mdbreact";
 import star_filled from "../../../assets/images/common/star_filled.svg"
 import star_empty from "../../../assets/images/common/star_empty.svg"
 import {useMediaQuery} from "react-responsive";
+import {Routes} from "../../../util/Constants";
 
 const ingredients: Ingredient[] = [
     {name: "máslo", unit: "180g"},
@@ -54,7 +55,7 @@ export default function Recipe() {
                 </div>
 
                 <div className='d-flex'>
-                    <MDBNavLink className='action-button ' to="/recipes/create">Create new</MDBNavLink>
+                    <MDBNavLink className='action-button ' to={Routes.CREATE_RECIPE}>Create new</MDBNavLink>
                 </div>
             </div>
             <div className='divider mt-3 mb-5'/>

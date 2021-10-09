@@ -13,11 +13,12 @@ import signOut from "../../../assets/images/common/sign-out.svg";
 import settings_active from "../../../assets/images/common/settings_active.svg";
 import settings from "../../../assets/images/common/settings.svg";
 import React, {useState} from "react";
-import {resolveNavLinkClass, resolveNavLinkWrapperClass} from "../AppHeader";
+import {HeaderProps, resolveNavLinkClass, resolveNavLinkWrapperClass} from "../AppHeader";
 import {useTranslation} from "react-i18next";
 import './BigScreenNav.css';
+import {Routes} from "../../../util/Constants";
 
-export function BigScreenNav() {
+export function BigScreenNav(props: HeaderProps) {
 
     const {t, i18n} = useTranslation();
     const location = useLocation();
@@ -34,7 +35,7 @@ export function BigScreenNav() {
                     <img src={logo} width={70} className='mb-3'/>
                 </div>
                 <div className={resolveNavLinkWrapperClass(location.pathname, "/", true)}>
-                    <Link to="/">
+                    <Link to={Routes.HOME}>
                         <div className={resolveNavLinkClass(location.pathname, "/", true)}
 
                              onMouseEnter={() => setFeedImage(home_active)}
@@ -48,88 +49,94 @@ export function BigScreenNav() {
                         </div>
                     </Link>
                 </div>
-                <div className={resolveNavLinkWrapperClass(location.pathname, "/recipes", true)}>
-                    <Link to="/recipes">
-                        <div className={resolveNavLinkClass(location.pathname, "/recipes", true)}
+                {props.authenticated ?
+                    <>
+                        <div className={resolveNavLinkWrapperClass(location.pathname, Routes.RECIPES, true)}>
+                            <Link to={Routes.RECIPES}>
+                                <div className={resolveNavLinkClass(location.pathname, Routes.RECIPES, true)}
 
-                             onMouseEnter={() => setBookImage(book_active)}
-                             onMouseLeave={() => setBookImage('')}
-                        >
-                            <div className='mr-2 py-2'><img
-                                src={bookImg !== '' ? bookImg : location.pathname.startsWith("/recipes") ? book_active : book}
-                                width={25}/>
-                            </div>
-                            <div className='align-self-center'>Recipes</div>
+                                     onMouseEnter={() => setBookImage(book_active)}
+                                     onMouseLeave={() => setBookImage('')}
+                                >
+                                    <div className='mr-2 py-2'><img
+                                        src={bookImg !== '' ? bookImg : location.pathname.startsWith(Routes.RECIPES) ? book_active : book}
+                                        width={25}/>
+                                    </div>
+                                    <div className='align-self-center'>Recipes</div>
+                                </div>
+                            </Link>
                         </div>
-                    </Link>
-                </div>
-                <div className={resolveNavLinkWrapperClass(location.pathname, "/recipes/mine-recipes", true)}>
-                    <Link to="/recipes/mine-recipes">
-                        <div className={resolveNavLinkClass(location.pathname, "/recipes/mine-recipes", true)}
-                        >
-                            <div className='ml-5 align-self-left'>Mine recipes</div>
+                        <div className={resolveNavLinkWrapperClass(location.pathname, Routes.MY_RECIPES, true)}>
+                            <Link to={Routes.MY_RECIPES}>
+                                <div className={resolveNavLinkClass(location.pathname, Routes.MY_RECIPES, true)}
+                                >
+                                    <div className='ml-5 align-self-left'>Mine recipes</div>
+                                </div>
+                            </Link>
                         </div>
-                    </Link>
-                </div>
-                <div className={resolveNavLinkWrapperClass(location.pathname, "/recipes/create", true)}>
-                    <Link to="/recipes/create">
-                        <div className={resolveNavLinkClass(location.pathname, "/recipes/create", true)}
-                        >
-                            <div className='ml-5 text-left'>Create</div>
+                        <div className={resolveNavLinkWrapperClass(location.pathname, Routes.CREATE_RECIPE, true)}>
+                            <Link to={Routes.CREATE_RECIPE}>
+                                <div className={resolveNavLinkClass(location.pathname, Routes.CREATE_RECIPE, true)}
+                                >
+                                    <div className='ml-5 text-left'>Create</div>
+                                </div>
+                            </Link>
                         </div>
-                    </Link>
-                </div>
-                <div className={resolveNavLinkWrapperClass(location.pathname, "/diet-plan", true)}>
-                    <Link to="/diet-plan">
-                        <div className={resolveNavLinkClass(location.pathname, "/diet-plan", true)}
+                        <div className={resolveNavLinkWrapperClass(location.pathname, Routes.DIET_PLAN, true)}>
+                            <Link to={Routes.DIET_PLAN}>
+                                <div className={resolveNavLinkClass(location.pathname, Routes.DIET_PLAN, true)}
 
-                             onMouseEnter={() => setCalendarImage(calendar_active)}
-                             onMouseLeave={() => setCalendarImage('')}
-                        >
-                            <div className='mr-2 py-2'><img
-                                src={calendarImg !== '' ? calendarImg : location.pathname.startsWith("/diet-plan") ? calendar_active : calendar}
-                                width={25}/>
-                            </div>
-                            <div className='align-self-center'>Diet plan</div>
+                                     onMouseEnter={() => setCalendarImage(calendar_active)}
+                                     onMouseLeave={() => setCalendarImage('')}
+                                >
+                                    <div className='mr-2 py-2'><img
+                                        src={calendarImg !== '' ? calendarImg : location.pathname.startsWith(Routes.DIET_PLAN) ? calendar_active : calendar}
+                                        width={25}/>
+                                    </div>
+                                    <div className='align-self-center'>Diet plan</div>
+                                </div>
+                            </Link>
                         </div>
-                    </Link>
-                </div>
-                <div className={resolveNavLinkWrapperClass(location.pathname, "/explore", false)}>
-                    <Link to="/explore">
-                        <div className={resolveNavLinkClass(location.pathname, "/explore", false)}
+                    </>
+                    : <></>}
+
+                <div className={resolveNavLinkWrapperClass(location.pathname, Routes.EXPLORE, false)}>
+                    <Link to={Routes.EXPLORE}>
+                        <div className={resolveNavLinkClass(location.pathname, Routes.EXPLORE, false)}
                              onMouseEnter={() => setExploreImg(loupe_active)}
                              onMouseLeave={() => setExploreImg('')}>
                             <div className='mr-2 py-2'><img
-                                src={exploreImg !== '' ? exploreImg : location.pathname.startsWith("/explore") ? loupe_active : loupe}
+                                src={exploreImg !== '' ? exploreImg : location.pathname.startsWith(Routes.EXPLORE) ? loupe_active : loupe}
                                 width={25}/></div>
                             <div className='align-self-center'>Explore</div>
                         </div>
                     </Link>
                 </div>
-                <div className='mt-auto d-flex flex-column'>
-                    <div className={'mt-auto align-self-center additional-action'}
-                         onMouseEnter={() => setSignOutImg(signOut_active)}
-                         onMouseLeave={() => setSignOutImg('')}>
-                        <img src={signOutImg !== '' ? signOut_active : signOut} width={20}/>
-                    </div>
-                    <Link to="/profile"
-                          className={location.pathname === "/profile" ? ' mt-3 align-self-center additional-action-active' : 'mt-3 align-self-center additional-action'}
-                          onMouseEnter={() => setSettingsImg(settings_active)}
-                          onMouseLeave={() => setSettingsImg('')}>
-                        <img
-                            src={settingImg !== '' || location.pathname === "/profile" ? settings_active : settings}
-                            width={20}/>
-                    </Link>
-                    <div className='mt-3 align-self-center'>
-                        <div className='profile-image-wrapper'>
-                            <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-1.jpg"
-                                 className="rounded float-right profile-image" alt="aligment"/>
-                            <div className='profile-image-status-online'>
-                            </div>
-
+                {props.authenticated ?
+                    <div className='mt-auto d-flex flex-column'>
+                        <div className={'mt-auto align-self-center additional-action'}
+                             onMouseEnter={() => setSignOutImg(signOut_active)}
+                             onMouseLeave={() => setSignOutImg('')}>
+                            <img src={signOutImg !== '' ? signOut_active : signOut} width={20}/>
                         </div>
-                    </div>
-                </div>
+                        <Link to={Routes.PROFILE}
+                              className={location.pathname === Routes.PROFILE ? ' mt-3 align-self-center additional-action-active' : 'mt-3 align-self-center additional-action'}
+                              onMouseEnter={() => setSettingsImg(settings_active)}
+                              onMouseLeave={() => setSettingsImg('')}>
+                            <img
+                                src={settingImg !== '' || location.pathname === Routes.PROFILE ? settings_active : settings}
+                                width={20}/>
+                        </Link>
+                        <div className='mt-3 align-self-center'>
+                            <div className='profile-image-wrapper'>
+                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-1.jpg"
+                                     className="rounded float-right profile-image" alt="aligment"/>
+                                <div className='profile-image-status-online'>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div> : <></>}
 
             </div>
         </div>

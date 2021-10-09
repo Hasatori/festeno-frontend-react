@@ -16,6 +16,7 @@ import {AppState} from "../../../redux/store/Store";
 import {failureActionCreator} from "../../../redux/actiontype/GeneralActionTypes";
 import {store} from "../../../index";
 import {useTranslation} from "react-i18next";
+import {Routes} from "../../../util/Constants";
 
 function mapDispatchToProps(dispatch: ThunkDispatch<any, any, AnyAction>) {
     return {
@@ -115,7 +116,7 @@ function Login(props: RouteComponentProps & LoginProps) {
                     <MDBCol className='mt-5 mx-auto p-3' md='5' sm="8" center>
                         <div className="mb-3"><span className="color-secondary">{t('ns1:newUserLoginQuestion')}</span>
                             <Link className="ml-1 link-yellow"
-                                  to="/signup">{t('ns1:signupLabel')}!</Link></div>
+                                  to={Routes.SIGNUP}>{t('ns1:signupLabel')}!</Link></div>
                         <form onSubmit={handleRegularLogin}
                               noValidate>
                             <label
@@ -147,7 +148,7 @@ function Login(props: RouteComponentProps & LoginProps) {
                             <br/>
                             <br/>
                             <div className="d-flex"><span className="link"> <Link className="link-yellow"
-                                to="/forgotten-password">{t('ns1:forgotPasswordQuestion')}</Link></span>
+                                to={Routes.FORGOTTEN_PASSWORD}>{t('ns1:forgotPasswordQuestion')}</Link></span>
                             </div>
                             <div className='d-flex flex-row justify-content-around mt-3'>
                                 <div className='align-self-center flex-grow-1'><MDBBtn

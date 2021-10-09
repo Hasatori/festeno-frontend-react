@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import {Link, useLocation} from "react-router-dom";
 import {MDBBtn, MDBCol, MDBContainer, MDBIcon, MDBInput, MDBNavLink, MDBRow} from "mdbreact";
 import NutrientRow from "../../common/NutrientRow";
+import {Routes} from "../../../util/Constants";
 
 
 const ingredients: Ingredient[] = [
@@ -62,7 +63,7 @@ export default function Create() {
         <div className='d-flex flex-column mt-5 mx-2'>
             <MDBRow >
                 <MDBCol md={"4"} lg={"3"} xl={"3"} className=''><Link
-                    className={location.hash === "#create-new-from-scratch" || (location.hash === "" && location.pathname === "/recipes") ? 'nav-button-active' : 'nav-button'}
+                    className={location.hash === "#create-new-from-scratch" || (location.hash === "" && location.pathname === Routes.RECIPES) ? 'nav-button-active' : 'nav-button'}
                     to="#create-new-from-scratch" >Create new recipe from scratch</Link></MDBCol>
                 <MDBCol  md={"4"} lg={"3"} xl={"3"} className=''> <Link
                     className={(location.hash === "#upload-from-existing-page") ? 'nav-button-active float-left' : 'nav-button '}

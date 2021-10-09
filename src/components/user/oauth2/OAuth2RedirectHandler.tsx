@@ -5,6 +5,7 @@ import {AppProps, store} from "../../../index";
 import {getUrlParameter} from "../../../util/APIUtils";
 import {successActionCreator} from "../../../redux/actiontype/GeneralActionTypes";
 import {isMobile} from 'react-device-detect';
+import {Routes} from "../../../util/Constants";
 
 function OAuth2RedirectHandler(props: AppProps & RouteComponentProps) {
     const token = getUrlParameter(props.location.search, 'token');
@@ -13,13 +14,13 @@ function OAuth2RedirectHandler(props: AppProps & RouteComponentProps) {
     /*if (isMobile) {
         window.location.href = "exp://192.168.1.179:19000?token=" + token + "&expires=" + expires + "&error=" + error;
         return <Redirect to={{
-            pathname: "/profile",
+            pathname: Routes.PROFILE,
             state: {from: props.location}
         }}/>;
     } else */if (token) {
         store.dispatch(successActionCreator('Logged in'));
         return <Redirect to={{
-            pathname: "/profile",
+            pathname: Routes.PROFILE,
             state: {from: props.location}
         }}/>;
     } else {

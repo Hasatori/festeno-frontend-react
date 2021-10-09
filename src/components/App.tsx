@@ -47,6 +47,7 @@ import Explore from "./explore/Explore";
 import {Recipes} from "./recipes/Recipes";
 import {DietPlan} from "./dietplan/DietPlan";
 import Profile from "./user/profile/Profile";
+import {Routes} from "../util/Constants";
 
 function mapStateToProps(state: AppState, props: AppProps) {
     return {
@@ -115,7 +116,7 @@ function toastEmitter(type: string): ToastOptions {
 
 function App(appProps: AppProps) {
     const location = useLocation();
-    const showMenu = location.pathname !== "/login" && location.pathname !== "/signup"
+    const showMenu = location.pathname !== "/login" && location.pathname !== Routes.SIGNUP
     useEffect(() => {
         if (typeof appProps.warningMessage !== "undefined") {
             toast.warning('⚠    ' + appProps.warningMessage, toastEmitter(WARNING));
@@ -165,37 +166,58 @@ function App(appProps: AppProps) {
                 {(showMenu ? <div><AppHeader {...appProps}/></div> : <></>)}
                 <div className='flex-grow-1 app-body'>
                     <Switch>
-                        <Route exact path="/" component={Home}/>
-                        <Route path="/recipes" component={Recipes}/>
-                        <Route exact path="/diet-plan" component={DietPlan}/>
-                        <Route exact path="/explore" component={Explore}/>
-                        <Route exact path="/profile" component={Profile}/>
+                        <Route exact path={Routes.HOME} component={Home}/>
+                        <Route exact path={Routes.EXPLORE} component={Explore}/>
                         <PrivateRoute
-                            path={["/account"]}
+                            path={[Routes.DIET_PLAN]}
                             {...{
                                 authenticated: appProps.authenticated,
-                                authenticationPath: '/login',
-                                redirectPathOnAuthentication: "/account"
+                                authenticationPath: Routes.LOGIN,
+                                redirectPathOnAuthentication: Routes.DIET_PLAN
+                            }} exact={true}
+                            render={(props) => <DietPlan/>}/>
+                        <PrivateRoute
+                            path={[Routes.PROFILE]}
+                            {...{
+                                authenticated: appProps.authenticated,
+                                authenticationPath: Routes.LOGIN,
+                                redirectPathOnAuthentication: Routes.PROFILE
+                            }} exact={true}
+                            render={(props) => <Profile/>}/>
+                        <PrivateRoute
+                            path={[Routes.RECIPES]}
+                            {...{
+                                authenticated: appProps.authenticated,
+                                authenticationPath: Routes.LOGIN,
+                                redirectPathOnAuthentication: Routes.RECIPES
+                            }} exact={false}
+                            render={(props) => <Recipes/>}/>
+                        <PrivateRoute
+                            path={[Routes.ACCOUNT]}
+                            {...{
+                                authenticated: appProps.authenticated,
+                                authenticationPath: Routes.LOGIN,
+                                redirectPathOnAuthentication: Routes.ACCOUNT
                             }} exact={true}
                             render={(props) => <Account/>}/>
 
-                        <Route path={"/login"}
+                        <Route path={Routes.LOGIN}
                                render={(props) => appProps.authenticated ? <Redirect to='account'/> :
                                    <Login twoFactorRequired={false} login={() => {
                                    }} loginTwoFactor={() => {
                                    }} loginRecoveryCode={() => {
                                    }} loading={appProps.loading}  {...props} />}/>
-                        <Route path="/signup"
+                        <Route path={Routes.SIGNUP}
                                render={(props) => <Signup {...appProps} />}/>
-                        <Route path="/forgotten-password"
+                        <Route path={Routes.FORGOTTEN_PASSWORD}
                                render={(props) => <ForgottenPassword {...props}/>}/>
-                        <Route path="/password-reset"
+                        <Route path={Routes.PASSWORD_RESET}
                                render={(props) => <PasswordReset {...props}/>}/>
-                        <Route path="/oauth2/redirect"
+                        <Route path={Routes.OAUTH2_REDIRECT}
                                render={(props) => <OAuth2RedirectHandler {...appProps}{...props}/>}/>
-                        <Route path="/activate-account*"
+                        <Route path={`${Routes.ACTIVATE_ACCOUNT}*`}
                                render={(props) => <ActivateAccount {...appProps}{...props}/>}/>
-                        <Route path="/confirm-email-change*"
+                        <Route path={`${Routes.CONFIRM_EMAIL_CHANGE}*`}
                                render={(props) => <ConfirmEmailChange {...appProps}{...props}/>}/>
                         <Route component={NotFound}/>
                     </Switch>

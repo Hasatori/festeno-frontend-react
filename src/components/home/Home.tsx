@@ -13,6 +13,7 @@ import {AnyAction} from "redux";
 import {loadFeed} from "../../redux/actiontype/GeneralActionTypes";
 import {AppState} from "../../redux/store/Store";
 import {Recipe} from "../../redux/reducer/GeneralReducer";
+import {Routes} from "../../util/Constants";
 
 interface HomeProps {
     loadFeed: () => void;
@@ -54,7 +55,7 @@ function Home(props: HomeProps) {
                                         {props.feed.map((recipe: Recipe, index) => {
                                             return (
                                                 <MDBCol md='6' xl='3' o sm="12" className='mt-5 px-4'>
-                                                    <Link to="/recipes/recipe/adasdad54536s4fg65ds4fa5s4f">
+                                                    <Link to={`${Routes.RECIPE}/adasdad54536s4fg65ds4fa5s4f`}>
                                                         <div className='d-flex flex-column recipe-wrapper z-depth-1'>
 
                                                             <div><img className='recipe-image'
