@@ -165,6 +165,7 @@ function App(appProps: AppProps) {
                     <Switch>
                         <Route exact path={Routes.HOME} component={Home}/>
                         <Route exact path={Routes.EXPLORE} component={Explore}/>
+                        <Route path={Routes.RECIPES} render={(props) => <Recipes  {...appProps} />}/>
                         <PrivateRoute
                             path={[Routes.DIET_PLAN]}
                             {...{
@@ -181,14 +182,7 @@ function App(appProps: AppProps) {
                                 redirectPathOnAuthentication: Routes.PROFILE
                             }} exact={true}
                             render={(props) => <Profile/>}/>
-                        <PrivateRoute
-                            path={[Routes.RECIPES]}
-                            {...{
-                                authenticated: appProps.authenticated,
-                                authenticationPath: Routes.LOGIN,
-                                redirectPathOnAuthentication: Routes.RECIPES
-                            }} exact={false}
-                            render={(props) => <Recipes/>}/>
+
                         <PrivateRoute
                             path={[Routes.ACCOUNT]}
                             {...{

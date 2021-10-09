@@ -6,10 +6,10 @@ import {RouteProps, useLocation} from 'react-router';
 export const PrivateRoute: React.FC<ProtectedRouteProps> = props => {
     const currentLocation = useLocation();
     let redirectPath = props.redirectPathOnAuthentication;
-    if (!props.authenticated) {
+/*    if (!props.authenticated) {
         redirectPath = props.authenticationPath;
-    }
-    if (redirectPath !== currentLocation.pathname) {
+    }*/
+    if (!redirectPath.includes(currentLocation.pathname)) {
         const renderComponent = () => <Redirect to={{pathname: redirectPath}}/>;
         return <Route {...props} component={renderComponent} render={undefined}/>;
     } else {

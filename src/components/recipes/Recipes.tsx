@@ -5,15 +5,32 @@ import Create from "./create/Create";
 import MineRecipes from "./minerecipes/MineRecipes";
 import Recipe from "./recipes/Recipe";
 import {Routes} from "../../util/Constants";
+import {PrivateRoute} from "../user/PrivateRoute";
+import Account from "../user/account/Account";
+import {AppProps} from "../../index";
 
 
-export function Recipes() {
+export function Recipes(appProps:AppProps) {
     const location = useLocation();
     return (
         <div>
-            <Route exact path={[Routes.MY_RECIPES, Routes.RECIPES]} component={MineRecipes}/>
-            <Route exact path={Routes.CREATE_RECIPE} component={Create}/>
-            <Route exact path={`${Routes.RECIPE}/:id`} component={Recipe}/>
+            <PrivateRoute
+                path={[Routes.MY_RECIPES, Routes.RECIPES]}
+                {...{
+                    authenticated: appProps.authenticated,
+                    authenticationPath: Routes.LOGIN,
+                    redirectPathOnAuthentication: Routes.MY_RECIPES
+                }} exact={true}
+                render={(props) => <MineRecipes/>}/>
+
+            <PrivateRoute
+                path={[Routes.CREATE_RECIPE]}
+                {...{
+                    authenticated: appProps.authenticated,
+                    authenticationPath: Routes.LOGIN,
+                    redirectPathOnAuthentication: Routes.CREATE_RECIPE
+                }} exact={true}
+                render={(props) => <Create/>}/>
         </div>
     )
 }
