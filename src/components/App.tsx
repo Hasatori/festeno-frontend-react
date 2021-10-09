@@ -145,10 +145,7 @@ function App(appProps: AppProps) {
     }, [appProps.loggedIn])
     useEffect(() => {
         if (!appProps.loggedIn) {
-            /**
-             * TODO  Uncomment when backend is ready
-             * */
-            //appProps.refreshToken();
+            appProps.refreshToken();
         }
     }, []);
     useEffect(() => {

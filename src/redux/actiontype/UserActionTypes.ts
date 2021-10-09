@@ -122,8 +122,8 @@ export const refreshTokenActionCreator: ActionCreator<ThunkAction<void,
     AnyAction>> = () => {
     return async (dispatch: Dispatch) => {
         API({
-            url: process.env.REACT_APP_REST_API_URL + "/auth/refresh-token",
-            method: 'POST'
+            url: process.env.REACT_APP_REST_API_URL + "/auth/access-token",
+            method: 'GET'
         }).then((response) => {
             dispatch({type: TOKEN_REFRESHED, accessToken: response.data.accessToken})
         }).catch(error => {
