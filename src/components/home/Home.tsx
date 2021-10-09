@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import './Home.css';
-import {MDBCol, MDBRow} from "mdbreact";
+import {MDBCol, MDBContainer, MDBRow} from "mdbreact";
 import {Link} from "react-router-dom";
 import {useMediaQuery} from "react-responsive";
 import heart_empty from "../../assets/images/common/heart_empty.svg";
@@ -49,7 +49,7 @@ function Home(props: HomeProps) {
                 className={'d-flex flex-column pt-4 pl-2'}>
                 <div className='flex-column mx-2'>
                     {
-                        <div className='mt-3'>
+                        <MDBContainer className='mt-3'>
                             <MDBRow>
                                 {props.feed.map((recipe: Recipe, index) => {
                                     return (
@@ -107,7 +107,7 @@ function Home(props: HomeProps) {
                                     )
                                 })}
                             </MDBRow>
-                        </div>
+                        </MDBContainer>
 
                     }
 
