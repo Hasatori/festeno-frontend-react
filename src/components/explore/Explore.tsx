@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {useLocation} from 'react-router-dom';
 import "./Explore.css";
-import {MDBBadge, MDBBtn, MDBCol, MDBInput, MDBNavLink, MDBRow} from "mdbreact";
+import {MDBBadge, MDBBtn, MDBCol, MDBContainer, MDBInput, MDBNavLink, MDBRow} from "mdbreact";
 import NutrientRow from "../common/NutrientRow";
 import {useMediaQuery} from "react-responsive";
 import {Routes} from "../../util/Constants";
@@ -57,22 +57,14 @@ export default function Explore() {
     const [wantToDoNotWantToActive,setWantToDoNotWantToActive]=useState(false);
     const [keywordsToActive,setKeyWordsActive]=useState(false);
     return (
-        <div className={isSmallScreen?"mx-2 px-0 pt-2 mt-5":"mx-3 px-0 mt-3"}>
-            <div className='d-flex flex-row justify-content-between'>
-                <div><MDBNavLink className={location.hash === "#recipes" ? 'nav-button-active' : 'nav-button'}
-                                 to="#recipes" link>Recipes</MDBNavLink> <MDBNavLink
-                    className={(location.hash === "#diet-plan" || (location.hash === "" && location.pathname === Routes.EXPLORE)) ? 'nav-button-active' : 'nav-button'}
-                    to={"#diet-plan"}
-                    link>DietPlan</MDBNavLink></div>
-
-                <div className='d-flex'>
-                    <button className='action-button'>Search</button>
-                </div>
+        <MDBContainer className={isSmallScreen?"mx-auto p-4 pt-2 mt-5":"mx-auto p-5 mt-3"}>
+            <div className='d-flex justify-content-start'>
+                <h1 className='text-center'>Search recipes</h1>
             </div>
             <div className='divider mt-3 mb-5'/>
             <div>
                 <MDBRow className='mb-3'>
-                    <MDBCol sm='10' md='10' lg='7'>
+                    <MDBCol sm='10' md='10' lg='6' className="mx-auto  mb-5">
                         <div className='d-flex flex-column'>
 
                             {nutrientRows.map((nutrient, index, array) => {
@@ -80,7 +72,7 @@ export default function Explore() {
                             })}
                         </div>
                     </MDBCol>
-                    <MDBCol sm='10' md='10' lg='5'>
+                    <MDBCol sm='10' md='10' lg='5' className="mx-auto mb-5">
                         <div className='d-flex flex-column'>
                             <div>
                                 {types.map((val) => {
@@ -99,7 +91,7 @@ export default function Explore() {
                     </MDBCol>
                 </MDBRow>
                 <MDBRow>
-                    <MDBCol sm='10' md='10' lg='7' className='search-tags-wrapper-left-margin'>
+                    <MDBCol sm='10' md='10' lg='6' className='search-tags-wrapper-left-margin mx-auto mb-5'>
                         <div className='search-tags-wrapper d-flex flex-column px-3 pt-1 pb-5'>
                             <div className='d-flex flex-row autocomplete-wrapper'>
                                 <div className='flex-grow-1' onKeyDown={event => {
@@ -151,7 +143,7 @@ export default function Explore() {
                         </div>
 
                     </MDBCol>
-                    <MDBCol sm='10' md='10' lg='5'>
+                    <MDBCol sm='10' md='10' lg='5' className="mx-auto">
                         <div className='d-flex flex-column'>
                             <div className='d-flex flex-row'>
                                 <div
@@ -252,8 +244,10 @@ export default function Explore() {
                     </MDBCol>
                 </MDBRow>
             </div>
-
-        </div>)
+            <div className='d-flex mt-5 justify-content-center'>
+                <button className='action-button'>Search</button>
+            </div>
+        </MDBContainer>)
 
 }
 

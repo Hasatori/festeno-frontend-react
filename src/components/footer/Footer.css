@@ -337,7 +337,8 @@ a:hover {
 
 .neutral-button {
   padding: 10px;
-  display: inline;
+  margin: 4px;
+  display: inline-block;
   background-color: #DDDDDD;
   border-radius: 11px;
 }
