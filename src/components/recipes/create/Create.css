@@ -335,7 +335,7 @@ a:hover {
   text-align: justify !important;
 }
 
-.neutral-button {
+.neutral-button, .primary-button {
   padding: 10px;
   margin: 4px;
   display: inline-block;
@@ -343,8 +343,8 @@ a:hover {
   border-radius: 11px;
 }
 
-.neutral-button:hover {
-  color: #181818;
+.primary-button {
+  background-color: #FFF27E;
 }
 
 .bold {

@@ -357,17 +357,17 @@ a:hover {
 }
 
 
-.neutral-button {
+.neutral-button,.primary-button {
   padding: 10px;
   margin: 4px;
   display: inline-block;
   background-color: $color-light-grey;
   border-radius: $button-border-radius;
 }
-
-.neutral-button:hover {
-  color: $color-background;
+.primary-button {
+  background-color: $color-primary;
 }
+
 
 .bold {
   font-weight: bold;

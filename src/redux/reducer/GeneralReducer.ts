@@ -4,7 +4,8 @@ import {Image, User} from "../../components/App";
 
 const initialState = {
     loading: false,
-    feed: new Array<Recipe>()
+    feed: new Array<Recipe>(),
+    recipeTags: new Array<string>()
 } as GeneralState;
 
 export interface GeneralState {
@@ -14,7 +15,8 @@ export interface GeneralState {
     successMessage: string | undefined,
     warningMessage: string | undefined,
     infoMessage: string | undefined,
-    feed: Array<Recipe>
+    feed: Array<Recipe>,
+    recipeTags: Array<string>
 }
 
 export interface Recipe {
@@ -93,6 +95,11 @@ export default function generalReducer(state = initialState, action: GeneralActi
             return {
                 ...state,
                 feed: action.recipes
+            }
+        case "LOAD_RECIPE_TAGS":
+            return {
+                ...state,
+                recipeTags: action.recipeTags
             }
         default:
             return state;

@@ -1,28 +1,40 @@
 import React, {useState} from "react";
 import "./NutrientRow.css";
+import {MDBCol, MDBRow} from "mdbreact";
 
-export default function NutrientRow(name:string) {
-    const [enabled,setEnabled]=useState(true);
-    const [nutrientVal,setNutrientVal]=useState(0);
+
+export interface NutrientRowProps {
+    nutrientName: string
+}
+
+
+export default function NutrientRow(props: NutrientRowProps) {
+    const [enabled, setEnabled] = useState(true);
+    const [nutrientVal, setNutrientVal] = useState(0);
     return (
-        <div className='d-flex flex-row flex-grow-1 justify-content-between'>
-            <div className='d-flex flex-column pb-4'>
-                <div>Nutrient</div>
-                <div onClick={()=>{setEnabled(!enabled)}}
-                     className={enabled? ' hover-pointer-cursor nutrient-dot-active align-self-center' : ' hover-pointer-cursor nutrient-dot-disabled align-self-center'}/>
-            </div>
+        <MDBRow>
+            <MDBCol size={"1"} className={"my-auto"}>
+                <div className='d-flex flex-column pb-4 '>
+                    <div className="align-self-center mb-2">{props.nutrientName}</div>
+                    <div onClick={() => {
+                        setEnabled(!enabled)
+                    }}
+                         className={enabled ? ' hover-pointer-cursor nutrient-dot-active align-self-center' : ' hover-pointer-cursor nutrient-dot-disabled align-self-center'}/>
+                </div>
+            </MDBCol>
+            <MDBCol size={"10"} className={"my-auto"}>
+                    <input type="range" disabled={!enabled}
+                           className={enabled ? 'custom-range-active' : 'custom-range-disabled'}
 
-            <div className='mx-2 flex-grow-1 align-self-center'>
-                <input type="range" disabled={!enabled}
-                       className={enabled ? 'custom-range-active' : 'custom-range-disabled'}
+                           value={nutrientVal}
+                           onChange={(event => setNutrientVal(Number(event.target.value)))}/>
 
-                       value={nutrientVal}
-                       onChange={(event => setNutrientVal(Number(event.target.value)))}/>
-            </div>
-            <div className='align-self-center'>
+            </MDBCol>
+            <MDBCol size={"1"} className={"my-auto "}>
                 <div
-                    className={enabled? 'nutrient-indicator-has-value' : 'nutrient-indicator-disabled'}>{nutrientVal}</div>
-            </div>
-        </div>
+                    className={enabled ? 'nutrient-indicator-has-value mx-auto' : 'nutrient-indicator-disabled text-center mx-auto'}>{nutrientVal}
+                </div>
+            </MDBCol>
+        </MDBRow>
     )
 }

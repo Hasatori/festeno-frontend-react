@@ -1,7 +1,6 @@
 import {Action, ActionCreator, AnyAction, Dispatch} from "redux";
 import configureStore from "../store/Store";
 import {ThunkAction} from "redux-thunk";
-import axios from "axios";
 import {Recipe} from "../reducer/GeneralReducer";
 import i18next from "i18next";
 import API from "../../util/APIUtils";
@@ -17,6 +16,7 @@ export const WARNING = "WARNING";
 export const DISMISS_WARNING = "DISMISS_WARNING";
 export const DONE = "DONE";
 export const LOAD_FEED = "LOAD_FEED";
+export const LOAD_RECIPE_TAGS = "LOAD_RECIPE_TAGS";
 
 export interface InProgressAction extends Action {
     type: typeof IN_PROGRESS,
@@ -69,6 +69,12 @@ export interface LoadFeed extends Action {
 
 }
 
+export interface LoadRecipeTags extends Action {
+    type: typeof LOAD_RECIPE_TAGS
+    recipeTags: Array<string>
+
+}
+
 export const inProgressActionCreator: ActionCreator<InProgressAction> = (message: string) => {
     return configureStore().dispatch({type: IN_PROGRESS, message: message});
 };
@@ -115,10 +121,55 @@ export const loadFeed: ActionCreator<ThunkAction<void,
             dispatch(doneActionCreator(""));
         }).catch(error => {
             dispatch(failureActionCreator((error.response && error.response.data && error.response.data.message) || i18next.t('ns1:defaultErrorMessage')));
+            dispatch(doneActionCreator(""));
         });
     };
 };
 
+export interface SearchRecipes {
+    tags: Array<string>
+    wantedIngredients: Array<string>
+    notWantedIngredients: Array<string>
+}
+
+export const searchRecipes: ActionCreator<ThunkAction<void,
+    void,
+    SearchRecipes,
+    AnyAction>> = (searchRecipes: SearchRecipes) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(inProgressActionCreator("Searching recipes"));
+        API({
+            url: process.env.REACT_APP_REST_API_URL + "/recipes/search",
+            method: 'POST',
+            data: searchRecipes
+        }).then((response) => {
+            dispatch({type: LOAD_FEED, recipes: response.data})
+            dispatch(doneActionCreator(""));
+        }).catch(error => {
+            dispatch(failureActionCreator((error.response && error.response.data && error.response.data.message) || i18next.t('ns1:defaultErrorMessage')));
+            dispatch(doneActionCreator(""));
+        });
+    };
+};
+
+export const getTags: ActionCreator<ThunkAction<void,
+    void,
+    void,
+    AnyAction>> = () => {
+    return async (dispatch: Dispatch) => {
+        //dispatch(inProgressActionCreator("Searching recipes"));
+        API({
+            url: process.env.REACT_APP_REST_API_URL + "/recipes/tags",
+            method: 'GET',
+        }).then((response) => {
+            dispatch({type: LOAD_RECIPE_TAGS, recipeTags: response.data})
+            //dispatch(doneActionCreator(""));
+        }).catch(error => {
+            dispatch(failureActionCreator((error.response && error.response.data && error.response.data.message) || i18next.t('ns1:defaultErrorMessage')));
+            //dispatch(doneActionCreator(""));
+        });
+    };
+};
 
 export type GeneralActionTypes =
     InProgressAction
@@ -131,4 +182,5 @@ export type GeneralActionTypes =
     | DismissInfo
     | WarningAction
     | DismissWarning
-    | LoadFeed;
+    | LoadFeed
+    | LoadRecipeTags;

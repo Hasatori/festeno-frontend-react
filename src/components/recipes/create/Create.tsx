@@ -119,7 +119,7 @@ export default function Create() {
                                 <div className='d-flex flex-column'>
 
                                     {nutrientRows.map((nutrient, index, array) => {
-                                        return (<NutrientRow {...nutrient.name} />)
+                                        return (<NutrientRow nutrientName={nutrient.name} />)
                                     })}
                                 </div>
                                 <div className="nav-button align-self-center">Generate from ingredients</div>
