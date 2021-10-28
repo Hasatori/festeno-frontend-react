@@ -157,7 +157,6 @@ function App(appProps: AppProps) {
     return (
 
         <div className="app">
-            <LoadingIndicator {...appProps}/>
             <CookiesConsent/>
             <div className='d-flex flex-row'>
                 {(showMenu ? <div><AppHeader {...appProps}/></div> : <></>)}

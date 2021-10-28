@@ -22,7 +22,8 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any, any, AnyAction>) {
 function mapStateToProps(state: AppState, props: ExploreProps) {
     return {
         feed: state.generalState.feed,
-        recipeTags: state.generalState.recipeTags
+        recipeTags: state.generalState.recipeTags,
+        loading: state.generalState.loading
     }
 }
 
@@ -31,6 +32,7 @@ interface ExploreProps {
     searchRecipes: (searchRecipes: SearchRecipes) => void
     getTags: () => void
     recipeTags: Array<string>
+    loading: boolean
 }
 
 interface Type {
@@ -337,23 +339,12 @@ function Explore(props: ExploreProps) {
                             </div>
                         </MDBCol>
                     </MDBRow>
-                    {/*   <div className='d-flex mt-5 justify-content-center'>
-                        <button className='action-button' onClick={() => {
-                            const searchRecipesParams: SearchRecipes = {
-                                tags: keywords,
-                                wantedIngredients: wantTo,
-                                notWantedIngredients: dontWantTo
-                            }
-                            props.searchRecipes(searchRecipesParams);
-                        }}>Search
-                        </button>
-                    </div>*/}
                 </div>
                 : <></>}
 
 
             <div>
-                <RecipesGrid recipes={props.feed}/>
+                <RecipesGrid recipes={props.feed} loading={props.loading} loadingMessage={"loading recipes"}/>
             </div>
         </MDBContainer>)
 

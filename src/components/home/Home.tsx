@@ -42,7 +42,7 @@ function Home(props: HomeProps) {
             <div className="d-flex flex-center mt-5 p-2"><h1>Recommendations</h1></div>
             <div
                 className={'d-flex flex-column pt-4 pl-2'}>
-                <RecipesGrid recipes={props.feed}/>
+                <RecipesGrid recipes={props.feed} loading={props.loading} loadingMessage={"loading"}/>
             </div>
         </div>
 
