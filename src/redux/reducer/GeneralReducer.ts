@@ -4,8 +4,9 @@ import {Image, User} from "../../components/App";
 
 const initialState = {
     loading: false,
-    feed: new Array<Recipe>(),
-    recipeTags: new Array<string>()
+    feed: new Array<RecipeOverview>(),
+    recipeTags: new Array<string>(),
+
 } as GeneralState;
 
 export interface GeneralState {
@@ -15,11 +16,13 @@ export interface GeneralState {
     successMessage: string | undefined,
     warningMessage: string | undefined,
     infoMessage: string | undefined,
-    feed: Array<Recipe>,
-    recipeTags: Array<string>
+    feed: Array<RecipeOverview>,
+    recipeTags: Array<string>,
+    recipe:Recipe
 }
 
-export interface Recipe {
+export interface RecipeOverview {
+    id:string,
     title: string,
     cookingTimeInMinutes: number,
     rating: number,
@@ -28,6 +31,29 @@ export interface Recipe {
     author: User,
     layoutImage: Image
     tags: Array<string>
+}
+
+
+export interface Ingredient {
+    name: string,
+    unit: string
+}
+export interface Nutrient {
+    name:string,
+    val:string
+}
+export interface Recipe {
+    title: string,
+    cookingTimeInMinutes: number,
+    rating: number,
+    description: number,
+    portions: number,
+    author: User,
+    layoutImage: Image,
+    tags: Array<string>,
+    ingredients: Array<Ingredient>,
+    nutrients: Array<Nutrient>,
+    process: Array<string>
 }
 
 const notLoading = {
@@ -94,7 +120,12 @@ export default function generalReducer(state = initialState, action: GeneralActi
         case "LOAD_FEED":
             return {
                 ...state,
-                feed: action.recipes
+                feed: action.recipeOverviews
+            }
+        case "LOAD_RECIPE":
+            return {
+                ...state,
+                recipe: action.recipe
             }
         case "LOAD_RECIPE_TAGS":
             return {

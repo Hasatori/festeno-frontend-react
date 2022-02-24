@@ -3,7 +3,7 @@ import {Route, useLocation} from "react-router-dom";
 import "./Recipes.css";
 import Create from "./create/Create";
 import MineRecipes from "./minerecipes/MineRecipes";
-import Recipe from "./recipes/Recipe";
+import Recipe from "./recipes/RecipeDetail";
 import {Routes} from "../../util/Constants";
 import {PrivateRoute} from "../user/PrivateRoute";
 import Account from "../user/account/Account";
@@ -31,6 +31,7 @@ export function Recipes(appProps:AppProps) {
                     redirectPathOnAuthentication: Routes.CREATE_RECIPE
                 }} exact={true}
                 render={(props) => <Create/>}/>
+            <Route path={`${Routes.RECIPE}/:id`} component={Recipe}/>
         </div>
     )
 }

@@ -8,7 +8,7 @@ import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
 import {getTags, SearchRecipes, searchRecipes} from "../../redux/actiontype/GeneralActionTypes";
 import {AppState} from "../../redux/store/Store";
-import {Recipe} from "../../redux/reducer/GeneralReducer";
+import {RecipeOverview} from "../../redux/reducer/GeneralReducer";
 import {connect} from "react-redux";
 import RecipesGrid from "../recipes/RecipesGrid";
 
@@ -28,7 +28,7 @@ function mapStateToProps(state: AppState, props: ExploreProps) {
 }
 
 interface ExploreProps {
-    feed: Array<Recipe>
+    feed: Array<RecipeOverview>
     searchRecipes: (searchRecipes: SearchRecipes) => void
     getTags: () => void
     recipeTags: Array<string>

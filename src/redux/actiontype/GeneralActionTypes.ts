@@ -1,9 +1,10 @@
 import {Action, ActionCreator, AnyAction, Dispatch} from "redux";
 import configureStore from "../store/Store";
 import {ThunkAction} from "redux-thunk";
-import {Recipe} from "../reducer/GeneralReducer";
+import {Recipe, RecipeOverview} from "../reducer/GeneralReducer";
 import i18next from "i18next";
 import API from "../../util/APIUtils";
+import {AxiosResponse} from "axios";
 
 export const IN_PROGRESS = "IN_PROGRESS";
 export const SUCCESS = "SUCCESS";
@@ -17,6 +18,7 @@ export const DISMISS_WARNING = "DISMISS_WARNING";
 export const DONE = "DONE";
 export const LOAD_FEED = "LOAD_FEED";
 export const LOAD_RECIPE_TAGS = "LOAD_RECIPE_TAGS";
+export const LOAD_RECIPE = "LOAD_RECIPE";
 
 export interface InProgressAction extends Action {
     type: typeof IN_PROGRESS,
@@ -65,7 +67,13 @@ export interface DismissWarning extends Action {
 
 export interface LoadFeed extends Action {
     type: typeof LOAD_FEED
-    recipes: Array<Recipe>
+    recipeOverviews: Array<RecipeOverview>
+
+}
+
+export interface LoadRecipe extends Action {
+    type: typeof LOAD_RECIPE
+    recipe: Recipe
 
 }
 
@@ -117,7 +125,27 @@ export const loadFeed: ActionCreator<ThunkAction<void,
             url: process.env.REACT_APP_REST_API_URL + "/recipes/feed",
             method: 'GET'
         }).then((response) => {
-            dispatch({type: LOAD_FEED, recipes: response.data})
+            dispatch({type: LOAD_FEED, recipeOverviews: response.data})
+            dispatch(doneActionCreator(""));
+        }).catch(error => {
+            dispatch(failureActionCreator((error.response && error.response.data && error.response.data.message) || i18next.t('ns1:defaultErrorMessage')));
+            dispatch(doneActionCreator(""));
+        });
+    };
+};
+
+export const loadRecipe: ActionCreator<ThunkAction<void,
+    void,
+    void,
+    AnyAction>> = (id:string) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(inProgressActionCreator("Loading recipe"));
+        API({
+            url: `${process.env.REACT_APP_REST_API_URL}/recipes/recipe?id=${id}`,
+            method: 'GET'
+        }).then((response:AxiosResponse<Recipe>) => {
+            console.log(response.data.title);
+            dispatch({type: LOAD_RECIPE, recipe: response.data})
             dispatch(doneActionCreator(""));
         }).catch(error => {
             dispatch(failureActionCreator((error.response && error.response.data && error.response.data.message) || i18next.t('ns1:defaultErrorMessage')));
@@ -183,4 +211,5 @@ export type GeneralActionTypes =
     | WarningAction
     | DismissWarning
     | LoadFeed
+    | LoadRecipe
     | LoadRecipeTags;

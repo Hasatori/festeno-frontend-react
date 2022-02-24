@@ -1,4 +1,4 @@
-import {Recipe} from "../../redux/reducer/GeneralReducer";
+import {RecipeOverview} from "../../redux/reducer/GeneralReducer";
 import {MDBCol, MDBContainer, MDBRow} from "mdbreact";
 import {Link} from "react-router-dom";
 import {Routes} from "../../util/Constants";
@@ -10,7 +10,7 @@ import React from "react";
 import {CircleLoader} from "react-spinners";
 
 export interface RecipesGridProps {
-    recipes: Array<Recipe>
+    recipes: Array<RecipeOverview>
     loading: boolean,
     loadingMessage: string
 }
@@ -35,10 +35,10 @@ export default function RecipesGrid(props: RecipesGridProps) {
                     {
                         <MDBContainer className='mt-3'>
                             <MDBRow>
-                                {props.recipes.map((recipe: Recipe, index) => {
+                                {props.recipes.map((recipe: RecipeOverview, index) => {
                                     return (
                                         <MDBCol md='6' xl='3' sm="12" className='mt-5 px-4'>
-                                            <Link to={`${Routes.RECIPE}/adasdad54536s4fg65ds4fa5s4f`}>
+                                            <Link to={`${Routes.RECIPE}/${recipe.id}`}>
                                                 <div className='d-flex flex-column recipe-wrapper z-depth-1'>
 
                                                     <div><img className='recipe-image'

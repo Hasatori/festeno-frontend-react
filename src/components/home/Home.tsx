@@ -6,13 +6,13 @@ import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
 import {loadFeed} from "../../redux/actiontype/GeneralActionTypes";
 import {AppState} from "../../redux/store/Store";
-import {Recipe} from "../../redux/reducer/GeneralReducer";
+import {RecipeOverview} from "../../redux/reducer/GeneralReducer";
 import RecipesGrid from "../recipes/RecipesGrid";
 
 
 interface HomeProps {
     loadFeed: () => void;
-    feed: Array<Recipe>;
+    feed: Array<RecipeOverview>;
     loading: boolean
 }
 
