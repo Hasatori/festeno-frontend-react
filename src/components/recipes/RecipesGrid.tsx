@@ -1,5 +1,5 @@
 import {RecipeOverview} from "../../redux/reducer/GeneralReducer";
-import {MDBCol, MDBContainer, MDBRow} from "mdbreact";
+import {MDBCol, MDBContainer, MDBPageItem, MDBPageNav, MDBPagination, MDBRow} from "mdbreact";
 import {Link} from "react-router-dom";
 import {Routes} from "../../util/Constants";
 import star_filled from "../../assets/images/common/star_filled.svg";
@@ -12,7 +12,7 @@ import {CircleLoader} from "react-spinners";
 export interface RecipesGridProps {
     recipes: Array<RecipeOverview>
     loading: boolean,
-    loadingMessage: string
+    loadingMessage: string,
 }
 
 export default function RecipesGrid(props: RecipesGridProps) {
@@ -57,7 +57,7 @@ export default function RecipesGrid(props: RecipesGridProps) {
                                                             <div className="d-flex flex-row">
                                                                 <div className="mr-1">
                                                                     <img
-                                                                        src={`data:${recipe.author.profileImage.type};base64,${recipe.author.profileImage.data}`}
+                                                                        src={`data:${recipe?.author?.profileImage.type};base64,${recipe?.author?.profileImage.data}`}
                                                                         className='recipe-author-image'
                                                                         alt="aligment"/>
                                                                 </div>
@@ -97,7 +97,7 @@ export default function RecipesGrid(props: RecipesGridProps) {
                                     )
                                 })}
                             </MDBRow>
-                        </MDBContainer>
+                          </MDBContainer>
 
                     }
 

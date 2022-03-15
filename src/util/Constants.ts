@@ -12,7 +12,7 @@ export function GITHUB_AUTH_URL(locale: string): string {
 
 
 export enum Routes {
-    HOME = '/',
+    HOME = '/feed',
     EXPLORE = '/explore',
     DIET_PLAN = '/diet-plan',
     RECIPES = '/recipes',

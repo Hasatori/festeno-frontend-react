@@ -162,7 +162,7 @@ function App(appProps: AppProps) {
                 {(showMenu ? <div><AppHeader {...appProps}/></div> : <></>)}
                 <div className='flex-grow-1 app-body'>
                     <Switch>
-                        <Route exact path={Routes.HOME} component={Home}/>
+                        <Route exact path={[`${Routes.HOME}/:page`,Routes.HOME]} component={Home}/>
                         <Route exact path={Routes.EXPLORE} component={Explore}/>
                         <Route path={Routes.RECIPES} render={(props) => <Recipes  {...appProps} />}/>
                         <PrivateRoute

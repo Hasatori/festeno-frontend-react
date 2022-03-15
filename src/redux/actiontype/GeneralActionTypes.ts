@@ -118,11 +118,11 @@ export const dismissFailure: ActionCreator<DismissFailure> = () => {
 export const loadFeed: ActionCreator<ThunkAction<void,
     void,
     void,
-    AnyAction>> = () => {
+    AnyAction>> = (page:number) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator("Loading feed"));
         API({
-            url: process.env.REACT_APP_REST_API_URL + "/recipes/feed",
+            url: `${process.env.REACT_APP_REST_API_URL}/recipes/feed?page=${page}`,
             method: 'GET'
         }).then((response) => {
             dispatch({type: LOAD_FEED, recipeOverviews: response.data})

@@ -18,11 +18,11 @@ export interface GeneralState {
     infoMessage: string | undefined,
     feed: Array<RecipeOverview>,
     recipeTags: Array<string>,
-    recipe:Recipe
+    recipe: Recipe
 }
 
 export interface RecipeOverview {
-    id:string,
+    id: string,
     title: string,
     cookingTimeInMinutes: number,
     rating: number,
@@ -38,10 +38,48 @@ export interface Ingredient {
     name: string,
     unit: string
 }
-export interface Nutrient {
-    name:string,
-    val:string
+
+export interface Fat {
+
+    fatAmount: number,
+    fatWeightUnit: string
 }
+
+export interface Energy {
+    energyValue: number,
+    energyUnit: string
+}
+
+export interface Carbohydrate {
+
+    complex: number,
+    sugar: number;
+    carbohydrateAmountUnit: string,
+    carbohydrateAmount: number
+
+}
+
+export interface Protein {
+    animalBased: number,
+    plantBased: number,
+    proteinWeightUnit: string,
+    proteinAmount: number
+
+}
+
+export interface Fiber {
+    fiberValue: number,
+    dietary: number,
+    functional: number,
+    fiberWeightUnit: string
+}
+
+export interface Salt {
+    saltValue: number,
+    saltWeightUnit: string
+
+}
+
 export interface Recipe {
     title: string,
     cookingTimeInMinutes: number,
@@ -51,9 +89,14 @@ export interface Recipe {
     author: User,
     layoutImage: Image,
     tags: Array<string>,
-    ingredients: Array<Ingredient>,
-    nutrients: Array<Nutrient>,
-    process: Array<string>
+    ingredients: Array<string>,
+    cookingProcedureSteps: Array<string>
+    carbohydrate: Carbohydrate,
+    protein: Protein,
+    fat: Fat,
+    fiber: Fiber,
+    salt: Salt
+    energy: Energy
 }
 
 const notLoading = {
