@@ -45,7 +45,7 @@ function Home(props: HomeProps) {
     const starWidth = 25;
 
     useEffect(() => {
-        props.loadFeed(Number(page));
+        props.loadFeed(Number(page)-1);
     }, [page])
     return (
         <div>

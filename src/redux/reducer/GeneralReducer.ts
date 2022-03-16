@@ -29,7 +29,7 @@ export interface RecipeOverview {
     description: number,
     portions: number,
     author: User,
-    layoutImage: Image
+    overviewImage: Image
     tags: Array<string>
 }
 
@@ -87,9 +87,10 @@ export interface Recipe {
     description: number,
     portions: number,
     author: User,
-    layoutImage: Image,
+    overviewImage: Image,
     tags: Array<string>,
     ingredients: Array<string>,
+    recipeImages:Array<Image>
     cookingProcedureSteps: Array<string>
     carbohydrate: Carbohydrate,
     protein: Protein,
