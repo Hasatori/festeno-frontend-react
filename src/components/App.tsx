@@ -48,6 +48,7 @@ import {Recipes} from "./recipes/Recipes";
 import {DietPlan} from "./dietplan/DietPlan";
 import Profile from "./user/profile/Profile";
 import {Routes} from "../util/Constants";
+import FoodPreferences from './foodpreferences/FoodPreferences';
 
 function mapStateToProps(state: AppState, props: AppProps) {
     return {
@@ -163,6 +164,8 @@ function App(appProps: AppProps) {
                 <div className='flex-grow-1 app-body'>
                     <Switch>
                         <Route exact path={[`${Routes.HOME}/:page`,Routes.HOME]} component={Home}/>
+
+                        <Route exact path='/preferences' component={FoodPreferences}/>
                         <Route exact path={Routes.EXPLORE} component={Explore}/>
                         <Route path={Routes.RECIPES} render={(props) => <Recipes  {...appProps} />}/>
                         <PrivateRoute
