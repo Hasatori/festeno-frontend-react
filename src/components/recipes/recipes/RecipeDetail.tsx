@@ -2,7 +2,19 @@ import React, {useEffect} from "react";
 import "./RecipeDetail.css"
 import {useLocation} from "react-router";
 import {useHistory, useParams} from "react-router-dom";
-import {MDBCol, MDBIcon, MDBListGroup, MDBListGroupItem, MDBNavLink, MDBRow} from "mdbreact";
+import {
+    MDBCarousel,
+    MDBCarouselInner,
+    MDBCarouselItem,
+    MDBCol,
+    MDBIcon,
+    MDBListGroup,
+    MDBListGroupItem,
+    MDBMask,
+    MDBNavLink,
+    MDBRow,
+    MDBView
+} from "mdbreact";
 import star_filled from "../../../assets/images/common/star_filled.svg"
 import star_empty from "../../../assets/images/common/star_empty.svg"
 import {useMediaQuery} from "react-responsive";
@@ -10,9 +22,9 @@ import {Routes} from "../../../util/Constants";
 import {connect} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
-import {loadFeed, loadRecipe} from "../../../redux/actiontype/GeneralActionTypes";
+import {loadRecipe} from "../../../redux/actiontype/GeneralActionTypes";
 import {AppState} from "../../../redux/store/Store";
-import {Recipe, RecipeOverview} from "../../../redux/reducer/GeneralReducer";
+import {Recipe} from "../../../redux/reducer/GeneralReducer";
 
 function mapDispatchToProps(dispatch: ThunkDispatch<any, any, AnyAction>) {
     return {
@@ -69,12 +81,47 @@ function RecipeDetail(props: RecipeProps) {
                     <MDBRow>
                         <MDBCol md={"12"} lg={"12"} xl={"8"} className="mt-3">
                             <MDBRow>
-                                <MDBCol sm={"12"} lg={"8"} xl={"7"}> <img width="100%"
-                                                                          src={`data:${props?.recipe?.layoutImage.type};base64,${props?.recipe?.layoutImage.data}`}/>
+
+                                <MDBCol sm={"12"} lg={"8"} xl={"7"}>
+                                    <MDBCarousel
+                                        activeItem={0}
+                                        length={props?.recipe?.recipeImages.length-1}
+                                        showControls={true}
+                                        showIndicators={true}
+                                        className="z-depth-1"
+                                    >
+                                        <MDBCarouselInner>
+                                            {props?.recipe?.recipeImages.map((image, index) => {
+                                                console.log(image);
+                                                return (
+                                                    <MDBCarouselItem itemId={index++}>
+                                                        <MDBView>
+                                                            <img
+                                                                className="d-block w-100"
+                                                                src={`data:${image.type};base64,${image.data}`}
+                                                                alt={image.name}
+                                                            />
+
+                                                        </MDBView>
+                                                    </MDBCarouselItem>
+                                                )
+
+                                            })}
+                                        </MDBCarouselInner>
+                                    </MDBCarousel>
                                 </MDBCol>
+
                                 <MDBCol className="mt-4">
                                     <div className="d-flex flex-column">
                                         <div className="d-flex flex-row">
+                                            <div><img
+                                                src={`data:${props?.recipe?.author.profileImage.type};base64,${props?.recipe?.author.profileImage.data}`}
+                                                className='recipe-author-image' alt="aligment"/></div>
+                                            <div className='ml-2 d-flex flex-column '>
+                                                <div><small className='hr-bold'>{props?.recipe?.author?.name}</small>
+                                                </div>
+                                                <div><small>2m</small></div>
+                                            </div>
                                             {new Array(5).fill("").map((value, index, array) => {
                                                 return (<div className="ml-1"><img
                                                     src={index < props?.recipe?.rating ? star_filled : star_empty}
@@ -94,26 +141,64 @@ function RecipeDetail(props: RecipeProps) {
                                             })}
                                         </div>
 
-                                        <div className='d-flex flex-row mt-3'>
-                                            <div><img
-                                                src={`data:${props?.recipe?.author.profileImage.type};base64,${props?.recipe?.author.profileImage.data}`}
-                                                className='recipe-author-image' alt="aligment"/></div>
-                                            <div className='ml-2 d-flex flex-column '>
-                                                <div><small className='hr-bold'>{props?.recipe?.author?.name}</small>
-                                                </div>
-                                                <div><small>2m</small></div>
-                                            </div>
+                                        <div>
+                                            <MDBListGroup>
+                                                <MDBListGroupItem>
+                                                    <MDBRow className="d-flex flex-row">
+                                                        <MDBCol size="6">Portions</MDBCol>
+                                                        <MDBCol
+                                                            size="6">{props?.recipe?.portions}</MDBCol>
+                                                    </MDBRow>
+                                                </MDBListGroupItem>
+                                                <MDBListGroupItem>
+                                                    <MDBRow className="d-flex flex-row">
+                                                        <MDBCol size="12">Nutrients per portion</MDBCol>
+                                                    </MDBRow>
+                                                </MDBListGroupItem>
+                                                <MDBListGroupItem>
+                                                    <MDBRow className="d-flex flex-row">
+                                                        <MDBCol size="6">Energy</MDBCol>
+                                                        <MDBCol
+                                                            size="6">{props?.recipe?.energy.energyValue} {props?.recipe?.energy.energyUnit}</MDBCol>
+                                                    </MDBRow>
+                                                </MDBListGroupItem>
+                                                <MDBListGroupItem>
+                                                    <MDBRow className="d-flex flex-rwo">
+                                                        <MDBCol size="6">Carbohydrate</MDBCol>
+                                                        <MDBCol
+                                                            size="6">{props?.recipe?.carbohydrate.carbohydrateAmount} {props?.recipe?.carbohydrate.carbohydrateAmountUnit.toLowerCase()}</MDBCol>
+                                                    </MDBRow>
+                                                </MDBListGroupItem>
+                                                <MDBListGroupItem>
+                                                    <MDBRow className="d-flex flex-rwo">
+                                                        <MDBCol size="6">Protein</MDBCol>
+                                                        <MDBCol
+                                                            size="6">{props?.recipe?.protein.proteinAmount} {props?.recipe?.protein.proteinWeightUnit.toLowerCase()}</MDBCol>
+                                                    </MDBRow>
+                                                </MDBListGroupItem>
+                                                <MDBListGroupItem>
+                                                    <MDBRow className="d-flex flex-rwo">
+                                                        <MDBCol size="6">Fat</MDBCol>
+                                                        <MDBCol
+                                                            size="6">{props?.recipe?.fat.fatAmount} {props?.recipe?.fat.fatWeightUnit.toLowerCase()}</MDBCol>
+                                                    </MDBRow>
+                                                </MDBListGroupItem>
+                                                <MDBListGroupItem>
+                                                    <MDBRow className="d-flex flex-rwo">
+                                                        <MDBCol size="6">Fiber</MDBCol>
+                                                        <MDBCol
+                                                            size="6">{props?.recipe?.fiber.fiberValue} {props?.recipe?.fiber.fiberWeightUnit.toLowerCase()}</MDBCol>
+                                                    </MDBRow>
+                                                </MDBListGroupItem>
+                                            </MDBListGroup>
                                         </div>
-
-
                                     </div>
-
                                 </MDBCol>
                             </MDBRow>
                         </MDBCol>
                         <MDBCol md={"12"} lg={"3"} className="mt-3">
                             <div className="d-flex flex-column">
-                                <div className="h4-responsive mb-3">Ingredients</div>
+                                <div className="h4-responsive mb-3">Ingredients for {props?.recipe?.portions} {props?.recipe?.portions==1?'portion':"portions"}</div>
                                 <MDBRow>
                                     {props?.recipe?.ingredients?.map((ingredient) => {
 
@@ -131,63 +216,11 @@ function RecipeDetail(props: RecipeProps) {
 
                         </MDBCol>
                     </MDBRow>
-                    <MDBRow>
-                        <MDBCol md={"5"}>
-                                <MDBListGroup>
-                                    <MDBListGroupItem>
-                                        <MDBRow className="d-flex flex-row">
-                                            <MDBCol size="6">Portions</MDBCol>
-                                            <MDBCol
-                                                size="6">{props?.recipe?.portions}</MDBCol>
-                                        </MDBRow>
-                                    </MDBListGroupItem>
-                                    <MDBListGroupItem>
-                                        <MDBRow className="d-flex flex-row">
-                                            <MDBCol size="12">Nutrients per portion</MDBCol>
-                                        </MDBRow>
-                                    </MDBListGroupItem>
-                                    <MDBListGroupItem>
-                                        <MDBRow className="d-flex flex-row">
-                                            <MDBCol size="6">Energy</MDBCol>
-                                            <MDBCol
-                                                size="6">{props?.recipe?.energy.energyValue} {props?.recipe?.energy.energyUnit}</MDBCol>
-                                        </MDBRow>
-                                    </MDBListGroupItem>
-                                    <MDBListGroupItem>
-                                        <MDBRow className="d-flex flex-rwo">
-                                            <MDBCol size="6">Carbohydrate</MDBCol>
-                                            <MDBCol
-                                                size="6">{props?.recipe?.carbohydrate.carbohydrateAmount} {props?.recipe?.carbohydrate.carbohydrateAmountUnit.toLowerCase()}</MDBCol>
-                                        </MDBRow>
-                                    </MDBListGroupItem>
-                                    <MDBListGroupItem>
-                                        <MDBRow className="d-flex flex-rwo">
-                                            <MDBCol size="6">Protein</MDBCol>
-                                            <MDBCol
-                                                size="6">{props?.recipe?.protein.proteinAmount} {props?.recipe?.protein.proteinWeightUnit.toLowerCase()}</MDBCol>
-                                        </MDBRow>
-                                    </MDBListGroupItem>
-                                    <MDBListGroupItem>
-                                        <MDBRow className="d-flex flex-rwo">
-                                            <MDBCol size="6">Fat</MDBCol>
-                                            <MDBCol
-                                                size="6">{props?.recipe?.fat.fatAmount} {props?.recipe?.fat.fatWeightUnit.toLowerCase()}</MDBCol>
-                                        </MDBRow>
-                                    </MDBListGroupItem>
-                                    <MDBListGroupItem>
-                                        <MDBRow className="d-flex flex-rwo">
-                                            <MDBCol size="6">Fiber</MDBCol>
-                                            <MDBCol
-                                                size="6">{props?.recipe?.fiber.fiberValue} {props?.recipe?.fiber.fiberWeightUnit.toLowerCase()}</MDBCol>
-                                        </MDBRow>
-                                    </MDBListGroupItem>
-                                </MDBListGroup>
-                        </MDBCol>
-                    </MDBRow>
+
                     <MDBRow className="mt-3">
                         <MDBCol>
 
-                            <div className="h4-responsive mb-3">Process</div>
+                            <div className="h4-responsive mb-3">Cooking process</div>
                             {props?.recipe?.cookingProcedureSteps?.map((step, index) => {
                                 return (
                                     <MDBRow className="d-flex flex-row ">

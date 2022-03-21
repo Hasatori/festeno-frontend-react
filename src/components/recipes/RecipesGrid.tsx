@@ -36,23 +36,24 @@ export default function RecipesGrid(props: RecipesGridProps) {
                         <MDBContainer className='mt-3'>
                             <MDBRow>
                                 {props.recipes.map((recipe: RecipeOverview, index) => {
+                                    console.log(recipe)
                                     return (
                                         <MDBCol md='6' xl='3' sm="12" className='mt-5 px-4'>
                                             <Link to={`${Routes.RECIPE}/${recipe.id}`}>
                                                 <div className='d-flex flex-column recipe-wrapper z-depth-1'>
 
                                                     <div><img className='recipe-image'
-                                                              src={`data:${recipe.layoutImage.type};base64,${recipe.layoutImage.data}`}/>
+                                                              src={`data:${recipe?.overviewImage?.type};base64,${recipe?.overviewImage?.data}`}/>
                                                     </div>
                                                     <div className='recipe-footer d-flex flex-column position-relative'>
-                                                        <div className="mb-3 h5-responsive">
+                                                        <div className="mb-3 h5-responsive flex-center">
                                                             <strong>{recipe.title}</strong></div>
                                                         {/*   <div className="tags">
                                                         {recipe.tags.map(value => {
                                                             return (<MDBBadge color="info" className='recipe-tag'>{value}</MDBBadge>)
                                                         })}
                                                     </div>*/}
-                                                        <div
+                                                  {/*      <div
                                                             className="d-flex flex-column justify-content-between">
                                                             <div className="d-flex flex-row">
                                                                 <div className="mr-1">
@@ -89,7 +90,7 @@ export default function RecipesGrid(props: RecipesGridProps) {
                                                             </div>
 
                                                         </div>
-
+*/}
                                                     </div>
                                                 </div>
                                             </Link>
