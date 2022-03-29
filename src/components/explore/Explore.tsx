@@ -11,6 +11,7 @@ import {AppState} from "../../redux/store/Store";
 import {RecipeOverview} from "../../redux/reducer/GeneralReducer";
 import {connect} from "react-redux";
 import RecipesGrid from "../recipes/RecipesGrid";
+import recipeDetail from "../recipes/recipes/RecipeDetail";
 
 function mapDispatchToProps(dispatch: ThunkDispatch<any, any, AnyAction>) {
     return {
@@ -21,7 +22,7 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any, any, AnyAction>) {
 
 function mapStateToProps(state: AppState, props: ExploreProps) {
     return {
-        feed: state.generalState.feed,
+        feed: state.generalState.feed.map(recomended=>recomended.recipe),
         recipeTags: state.generalState.recipeTags,
         loading: state.generalState.loading
     }
@@ -344,7 +345,7 @@ function Explore(props: ExploreProps) {
 
 
             <div>
-                <RecipesGrid recipes={props.feed} loading={props.loading} loadingMessage={"loading recipes"}/>
+                <RecipesGrid recipes={props.feed} heading={"Explore"}/>
             </div>
         </MDBContainer>)
 

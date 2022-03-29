@@ -10,26 +10,24 @@ export interface PreferenceQuestionProps {
 
 }
 
-export default function SingleOptionQuestion(props: PreferenceQuestionProps) {
-    return (<MDBContainer className={"mx-auto p-5 mt-3"}>
-        <div className='d-flex flex-column '>
-            <div className='align-self-center'>
+export default function SingleChoiceQuestion(props: PreferenceQuestionProps) {
+    return (<div className='d-flex flex-column'>
+            <div className=''>
                 <MDBTypography tag='h1' variant="h1-responsive">{props.question}</MDBTypography>
                 <small>select just one option</small>
             </div>
             {props.options.map((option) => {
                 return (
+                    <div className=''>
                     <SingleCheckBox
                         text={option}
                         disabled={props.selectedOption !== null && props.selectedOption !== option}
                         checked={props.selectedOption === option}
                         onChange={() => props.selectedOption === option ? props.onSelectOption(null) : props.onSelectOption(option)}/>
-                )
+                    </div>
+                        )
             })}
-
-        </div>
-
-    </MDBContainer>)
+        </div>)
 
 }
 

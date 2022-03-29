@@ -4,7 +4,7 @@ import {Image, User} from "../../components/App";
 
 const initialState = {
     loading: false,
-    feed: new Array<RecipeOverview>(),
+    feed: new Array<RecommendedRecipe>(),
     recipeTags: new Array<string>(),
 
 } as GeneralState;
@@ -16,9 +16,14 @@ export interface GeneralState {
     successMessage: string | undefined,
     warningMessage: string | undefined,
     infoMessage: string | undefined,
-    feed: Array<RecipeOverview>,
+    feed: Array<RecommendedRecipe>,
     recipeTags: Array<string>,
     recipe: Recipe
+}
+
+export interface RecommendedRecipe {
+    recipe:RecipeOverview,
+    groupName:string
 }
 
 export interface RecipeOverview {

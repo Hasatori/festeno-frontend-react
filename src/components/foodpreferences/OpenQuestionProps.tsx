@@ -22,14 +22,16 @@ export default function OpenQuestion(props: OpenQuestionProps) {
                 value={currentAnswer} onChange={(event) => setCurrentAnswer(event.target.value)}
                 required
             />
-            <button className="btn btn-primary p-1"
-                    type="submit"
-                    onClick={() => {
-                        props.addAnswer(currentAnswer);
-                        setCurrentAnswer("")
-                    }}
-            >add
-            </button>
+            <div>
+                <button className="btn btn-primary p-1"
+                        type="submit"
+                        onClick={() => {
+                            props.addAnswer(currentAnswer);
+                            setCurrentAnswer("")
+                        }}
+                >add
+                </button>
+            </div>
             <ul>
                 {props.answers.map((answer) => {
                     return (<li>{answer}<div onClick={()=>props.removeAnswer(answer)}>x</div></li>)

@@ -163,11 +163,17 @@ function App(appProps: AppProps) {
                 {(showMenu ? <div><AppHeader {...appProps}/></div> : <></>)}
                 <div className='flex-grow-1 app-body'>
                     <Switch>
-                        <Route exact path={[`${Routes.HOME}/:page`,Routes.HOME]} component={Home}/>
-
                         <Route exact path='/preferences' component={FoodPreferences}/>
                         <Route exact path={Routes.EXPLORE} component={Explore}/>
                         <Route path={Routes.RECIPES} render={(props) => <Recipes  {...appProps} />}/>
+                        <PrivateRoute
+                            path={[Routes.HOME]}
+                            {...{
+                                authenticated: appProps.authenticated,
+                                authenticationPath: Routes.LOGIN,
+                                redirectPathOnAuthentication: Routes.HOME
+                            }} exact={true}
+                            render={(props) => <Home loading={appProps.loading} feed={[]} loadFeed={()=>{}} user={appProps.user}/>}/>
                         <PrivateRoute
                             path={[Routes.DIET_PLAN]}
                             {...{
@@ -226,13 +232,17 @@ function App(appProps: AppProps) {
     );
 }
 
+export interface RecipesPreferences {
+    mainDietType: string
+}
+
 export interface User {
     name: string;
     email: string;
     profileImage: Image;
     twoFactorEnabled: boolean;
     backupCodes: string[]
-
+    recipesPreferences: RecipesPreferences
 }
 
 export interface Image {

@@ -1,7 +1,7 @@
 import {Action, ActionCreator, AnyAction, Dispatch} from "redux";
 import configureStore from "../store/Store";
 import {ThunkAction} from "redux-thunk";
-import {Recipe, RecipeOverview} from "../reducer/GeneralReducer";
+import {Recipe, RecipeOverview, RecommendedRecipe} from "../reducer/GeneralReducer";
 import i18next from "i18next";
 import API from "../../util/APIUtils";
 import {AxiosResponse} from "axios";
@@ -67,7 +67,7 @@ export interface DismissWarning extends Action {
 
 export interface LoadFeed extends Action {
     type: typeof LOAD_FEED
-    recipeOverviews: Array<RecipeOverview>
+    recipeOverviews: Array<RecommendedRecipe>
 
 }
 
@@ -118,11 +118,11 @@ export const dismissFailure: ActionCreator<DismissFailure> = () => {
 export const loadFeed: ActionCreator<ThunkAction<void,
     void,
     void,
-    AnyAction>> = (page:number) => {
+    AnyAction>> = () => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator("Loading feed"));
         API({
-            url: `${process.env.REACT_APP_REST_API_URL}/recipes/feed?page=${page}`,
+            url: `${process.env.REACT_APP_REST_API_URL}/recommended`,
             method: 'GET'
         }).then((response) => {
             dispatch({type: LOAD_FEED, recipeOverviews: response.data})
@@ -171,7 +171,7 @@ export const searchRecipes: ActionCreator<ThunkAction<void,
             method: 'POST',
             data: searchRecipes
         }).then((response) => {
-            dispatch({type: LOAD_FEED, recipes: response.data})
+            dispatch({type: LOAD_FEED, recipes: response.data.map((recipe:RecommendedRecipe)=>recipe.recipe)})
             dispatch(doneActionCreator(""));
         }).catch(error => {
             dispatch(failureActionCreator((error.response && error.response.data && error.response.data.message) || i18next.t('ns1:defaultErrorMessage')));

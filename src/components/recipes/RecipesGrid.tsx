@@ -11,29 +11,18 @@ import {CircleLoader} from "react-spinners";
 
 export interface RecipesGridProps {
     recipes: Array<RecipeOverview>
-    loading: boolean,
-    loadingMessage: string,
+    heading:string
 }
 
 export default function RecipesGrid(props: RecipesGridProps) {
     const starWidth = 25;
-    if (props.loading) {
-        return (<div>
-            <CircleLoader
-                css={`margin:auto;`}
-                size={75}
-                color={"#123abc"}
-                loading={props.loading}
-            />
-            <h2 className="text-center">{props.loadingMessage}</h2>
-        </div>)
-    } else {
         return (
             <div
                 className={'d-flex flex-column pt-4 pl-2'}>
                 <div className='flex-column mx-2'>
                     {
                         <MDBContainer className='mt-3'>
+                            <MDBRow><div className="d-flex flex-left mt-5 p-2"><h2>{props.heading}</h2></div></MDBRow>
                             <MDBRow>
                                 {props.recipes.map((recipe: RecipeOverview, index) => {
                                     console.log(recipe)
@@ -104,7 +93,5 @@ export default function RecipesGrid(props: RecipesGridProps) {
 
                 </div>
             </div>
-
         )
-    }
 }
