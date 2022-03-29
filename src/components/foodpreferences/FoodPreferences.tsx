@@ -28,7 +28,7 @@ function FoodPreferences() {
 
     const [step, setStep] = useState<number>(1);
     const [dietType, setDietType] = useState<string | null>(null);
-    const [dietSubTypes, setDietSubTypes] = useState<Array<string>>(["Low fat"]);
+    const [dietSubTypes, setDietSubTypes] = useState<Array<string>>([]);
     const [hatedFoods, setHatedFoods] = useState<Array<string>>([]);
     const [lovedFoods, setLovedFoods] = useState<Array<string>>([]);
     const [preferredCuisines, setPreferredCuisines] = useState<Array<string>>([])
@@ -43,7 +43,7 @@ function FoodPreferences() {
                               })}
         />,
         <MultipleChoiceQuestion question={`${step}. Please select preferred diet.`}
-                                selectedOptions={dietSubTypes}
+                                selected={dietSubTypes}
                                 options={["Low fat", "Low carb", "High protein"]}
                                 removeOption={(option => {
                                     setDietSubTypes((oldSubtypes) => {
@@ -53,9 +53,7 @@ function FoodPreferences() {
                                     })
                                 })}
                                 addOption={(option => {
-                                    setDietSubTypes((oldSubtypes) => {
-                                        return {...oldSubtypes, option}
-                                    })
+                                    setDietSubTypes((oldSubtypes) => [...oldSubtypes, option])
                                 })}
         />,
         <OpenQuestion

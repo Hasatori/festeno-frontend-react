@@ -3,21 +3,28 @@ import {MDBContainer, MDBTypography} from "mdbreact";
 import signup from "../user/signup/Signup";
 
 export interface PreferenceQuestionProps {
-    readonly selectedOptions: Array<string>
-    readonly options: Array<string>
+    selected: Array<string>
+    options: Array<string>
     question: string
-    addOption: (option: string | null) => void
-    removeOption: (option: string | null) => void
+    addOption: (option: string) => void
+    removeOption: (option: string) => void
+}
+
+export interface Option {
+    value:string,
+    selected:boolean
 }
 
 export default function MultipleChoiceQuestion(props: PreferenceQuestionProps) {
 
-    function onChange(option: string | null) {
-        props.selectedOptions.filter(value => value === option).length === 1 ? props.removeOption(option) : props.addOption(option)
+    function onChange(option: string) {
+        props.selected.filter(value => value === option).length === 1 ?
+            props.removeOption(option) :
+            props.addOption(option)
     }
 
     function checked(option: string | null){
-       return props.selectedOptions.filter(value => value === option).length === 1;
+       return props.selected.filter(value => value === option).length === 1;
     }
 
     return (<div className='d-flex flex-column'>
