@@ -28,7 +28,7 @@ export default function MultipleChoiceQuestion(props: PreferenceQuestionProps) {
     }
 
     return (<div className='d-flex flex-column'>
-        <div className=''>
+        <div className='mb-2'>
             <MDBTypography tag='h1' variant="h1-responsive">{props.question}</MDBTypography>
             <small>select zero to many options</small>
         </div>

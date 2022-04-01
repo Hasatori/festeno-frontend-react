@@ -14,7 +14,7 @@ export default function OpenQuestion(props: OpenQuestionProps) {
 
     return (<MDBContainer className={"mx-auto p-5 mt-3"}>
         <div className='d-flex flex-column '>
-            <div className='align-self-center'>
+            <div className='mb-2'>
                 <MDBTypography tag='h1' variant="h1-responsive">{props.question}</MDBTypography>
             </div>
             <input

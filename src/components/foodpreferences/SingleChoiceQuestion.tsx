@@ -12,7 +12,7 @@ export interface PreferenceQuestionProps {
 
 export default function SingleChoiceQuestion(props: PreferenceQuestionProps) {
     return (<div className='d-flex flex-column'>
-            <div className=''>
+            <div className='mb-2'>
                 <MDBTypography tag='h1' variant="h1-responsive">{props.question}</MDBTypography>
                 <small>select just one option</small>
             </div>

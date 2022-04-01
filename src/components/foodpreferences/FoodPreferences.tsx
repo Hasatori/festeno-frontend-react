@@ -1,9 +1,10 @@
-import {MDBContainer, MDBTypography} from "mdbreact";
+import {MDBBtn, MDBContainer, MDBTypography} from "mdbreact";
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {connect} from "react-redux";
 import SingleChoiceQuestion from "./SingleChoiceQuestion";
 import OpenQuestion from "./OpenQuestionProps";
 import MultipleChoiceQuestion from "./MultipleChoiceQuestion";
+import "./FoodPreferences.css"
 import API from "../../util/APIUtils";
 import i18next from "i18next";
 import {failureActionCreator, LOAD_RECIPE_TAGS} from "../../redux/actiontype/GeneralActionTypes";
@@ -19,7 +20,10 @@ import {LoginProps, LoginRequest, TwoFactorLoginRequest} from "../user/login/Log
 import LoadingIndicator from "../loading/LoadingIndicator";
 
 export enum FoodPreferenceType {
-    FAVOURITE_FOOD= "FAVOURITE_FOOD", HATED_FOOD = "HATED_FOOD", FAVOURITE_CUISINE = "FAVOURITE_CUISINE", DIET_SUB_TYPE = "DIET_SUB_TYPE"
+    FAVOURITE_FOOD = "FAVOURITE_FOOD",
+    HATED_FOOD = "HATED_FOOD",
+    FAVOURITE_CUISINE = "FAVOURITE_CUISINE",
+    DIET_SUB_TYPE = "DIET_SUB_TYPE"
 }
 
 export interface FoodPreference {
@@ -35,16 +39,17 @@ export interface FoodPreferencesRequest {
 }
 
 export interface RecipesPreferencesProps {
-    savePreferences: (foodPreferencesRequest:FoodPreferencesRequest) => void
+    savePreferences: (foodPreferencesRequest: FoodPreferencesRequest) => void
     loading: boolean
     loadingMessage: string | undefined
 }
 
 function mapDispatchToProps(dispatch: ThunkDispatch<any, any, AnyAction>) {
     return {
-        savePreferences: (foodPreferencesRequest:FoodPreferencesRequest) => dispatch(saveRecipePreferences(foodPreferencesRequest))
+        savePreferences: (foodPreferencesRequest: FoodPreferencesRequest) => dispatch(saveRecipePreferences(foodPreferencesRequest))
     };
 };
+
 function mapStateToProps(state: AppState, props: LoginProps) {
     return {
         loading: state.generalState.loading,
@@ -128,10 +133,12 @@ function FoodPreferences(props: RecipesPreferencesProps) {
                 return {value: hatedFood, foodPreferenceType: FoodPreferenceType.HATED_FOOD}
             });
             foodPreferences.push(...hatedFoodsReq);
-            const favouriteCuisineReq:FoodPreference[] = preferredCuisines.map((value => {return {
-                value: value,
-                foodPreferenceType: FoodPreferenceType.FAVOURITE_CUISINE
-            }}));
+            const favouriteCuisineReq: FoodPreference[] = preferredCuisines.map((value => {
+                return {
+                    value: value,
+                    foodPreferenceType: FoodPreferenceType.FAVOURITE_CUISINE
+                }
+            }));
             foodPreferences.push(...favouriteCuisineReq);
             const request: FoodPreferencesRequest = {
                 dietType: dietType,
@@ -142,32 +149,39 @@ function FoodPreferences(props: RecipesPreferencesProps) {
     }
 
     return (
-        <MDBContainer className={"mx-auto p-5 mt-3"}>
+        <MDBContainer className={"p-5 mt-3 d-flex flex-column"}>
             <LoadingIndicator
                 loading={props.loading}
                 loadingMessage={props.loadingMessage}
             />
-            {questions[step - 1]}
-            {step !== questions.length ?
-                <StepsControl
-                    onNext={() => {
-                        setStep(step + 1)
-                    }}
-                    nextEnabled={canGoNext}
-                    previousEnabled={step !== 1}
-                    onPrevious={() => {
-                        setStep(step - 1)
-                    }}
-                />
-                :
-                <SubmitControl
-                    onPrevious={() => {
-                        setStep(step - 1)
-                    }}
-                    canSubmit={canGoNext}
-                    onSubmit={submit}
-                />
-            }
+            <div className='align-self-center flex-column'>
+                <div>
+                    {questions[step - 1]}
+                </div>
+                <div className={'mt-2'}>
+                    {step !== questions.length ?
+                        <StepsControl
+                            onNext={() => {
+                                setStep(step + 1)
+                            }}
+                            nextEnabled={canGoNext}
+                            previousEnabled={step !== 1}
+                            onPrevious={() => {
+                                setStep(step - 1)
+                            }}
+                        />
+                        :
+                        <SubmitControl
+                            onPrevious={() => {
+                                setStep(step - 1)
+                            }}
+                            canSubmit={canGoNext}
+                            onSubmit={submit}
+                        />
+
+                    }
+                </div>
+            </div>
 
         </MDBContainer>
     )
@@ -182,23 +196,26 @@ interface StepsControlProps {
 
 function StepsControl(props: StepsControlProps) {
     return (
-        <div className='d-flex flex-row mx-auto'>
-            <div className='align-self-center mr-3'>
-                <button className="btn btn-block btn-primary" type="button"
-                        onClick={() => {
-                            props.onPrevious();
-                        }}
-                        disabled={!props.previousEnabled}>previous
-                </button>
+        <div className='d-flex flex-row'>
+            <div className='mr-3'>
+                <MDBBtn
+                    className="background-color-primary color-background rounded z-depth-1 w-100 bold"
+                    type="button"
+                    onClick={() => {
+                        props.onPrevious();
+                    }}
+                    disabled={!props.previousEnabled}>Previous
+                </MDBBtn>
             </div>
-            <div className='align-self-center'>
-                <button className="btn btn-block btn-primary" type="button"
-                        onClick={() => {
-                            props.onNext();
-                        }}
-                        disabled={!props.nextEnabled}
-                >Next
-                </button>
+            <div className=''>
+                <MDBBtn
+                    className="background-color-primary color-background rounded z-depth-1 w-100 bold"
+                    type="button"
+                    onClick={() => {
+                        props.onNext();
+                    }}
+                    disabled={!props.nextEnabled}>Next
+                </MDBBtn>
             </div>
         </div>
     )
