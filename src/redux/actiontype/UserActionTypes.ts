@@ -1,6 +1,6 @@
 import {User} from "../../components/App";
 import {Action, ActionCreator, AnyAction, Dispatch} from "redux";
-import {ThunkAction} from "redux-thunk";
+import {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {LoginRequest, TwoFactorLoginRequest} from "../../components/user/login/Login";
 import API, {AccountActivationRequest} from "../../util/APIUtils";
 
@@ -19,6 +19,7 @@ import axios, {AxiosResponse} from "axios";
 import i18next from "i18next";
 import {UpdateProfileRequest} from "../../components/user/account/Profile";
 import {VerifyTwoFactor} from "../../components/user/account/TwoFactorSetup";
+import {FoodPreferencesRequest} from "../../components/foodpreferences/FoodPreferences";
 
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
@@ -385,6 +386,24 @@ export const getNewBackupCodes: ActionCreator<ThunkAction<void, void, void, Gene
         });
     };
 };
+
+export const saveRecipePreferences: ActionCreator<ThunkAction<void, void, void, GeneralActionTypes>> = (foodPreferenceRequest:FoodPreferencesRequest) => {
+    return async (dispatch: ThunkDispatch<any, any, AnyAction>) => {
+        dispatch(inProgressActionCreator('Saving user recipes preferences'));
+        API({
+            url: process.env.REACT_APP_REST_API_URL + "/save-preferences",
+            data: foodPreferenceRequest,
+            method: 'POST',
+        }).then((response) => {
+            dispatch(doneActionCreator());
+            dispatch(loadCurrentlyLoggedInUser())
+        }).catch(error => {
+            dispatch(doneActionCreator());
+            dispatch(failureActionCreator((error.response && error.response.data && error.response.data.message) || i18next.t('ns1:defaultErrorMessage')));
+        });
+    };
+};
+
 
 export type UserActionTypes =
     LoginSuccessAction

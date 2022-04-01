@@ -163,7 +163,6 @@ function App(appProps: AppProps) {
                 {(showMenu ? <div><AppHeader {...appProps}/></div> : <></>)}
                 <div className='flex-grow-1 app-body'>
                     <Switch>
-                        <Route exact path='/preferences' component={FoodPreferences}/>
                         <Route exact path={Routes.EXPLORE} component={Explore}/>
                         <Route path={Routes.RECIPES} render={(props) => <Recipes  {...appProps} />}/>
                         <PrivateRoute
@@ -173,7 +172,20 @@ function App(appProps: AppProps) {
                                 authenticationPath: Routes.LOGIN,
                                 redirectPathOnAuthentication: Routes.HOME
                             }} exact={true}
-                            render={(props) => <Home loading={appProps.loading} feed={[]} loadFeed={()=>{}} user={appProps.user}/>}/>
+                            render={(props) => <Home loading={appProps.loading} feed={[]} loadFeed={() => {
+                            }} user={appProps.user}/>}/>
+                        <PrivateRoute
+                            path={"/preferences"}
+                            {...{
+                                authenticated: appProps.authenticated,
+                                authenticationPath: Routes.LOGIN,
+                                redirectPathOnAuthentication: "/preferences"
+                            }} exact={true}
+                            render={(props) =>
+                                <FoodPreferences
+                                    loading={appProps.loading}
+                                    loadingMessage={appProps.loadingMessage}
+                                />}/>
                         <PrivateRoute
                             path={[Routes.DIET_PLAN]}
                             {...{

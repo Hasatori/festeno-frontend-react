@@ -7,24 +7,52 @@ import MultipleChoiceQuestion from "./MultipleChoiceQuestion";
 import API from "../../util/APIUtils";
 import i18next from "i18next";
 import {failureActionCreator, LOAD_RECIPE_TAGS} from "../../redux/actiontype/GeneralActionTypes";
+import {ThunkDispatch} from "redux-thunk";
+import {AnyAction} from "redux";
+import {
+    loginActionCreator,
+    loginRecoveryCodeActionCreator,
+    loginTwoFactorActionCreator, saveRecipePreferences
+} from "../../redux/actiontype/UserActionTypes";
+import {AppState} from "../../redux/store/Store";
+import {LoginProps, LoginRequest, TwoFactorLoginRequest} from "../user/login/Login";
+import LoadingIndicator from "../loading/LoadingIndicator";
 
-enum FoodPreferenceType {
+export enum FoodPreferenceType {
     FAVOURITE_FOOD= "FAVOURITE_FOOD", HATED_FOOD = "HATED_FOOD", FAVOURITE_CUISINE = "FAVOURITE_CUISINE", DIET_SUB_TYPE = "DIET_SUB_TYPE"
 }
 
-interface FoodPreference {
+export interface FoodPreference {
     value: string,
     foodPreferenceType: FoodPreferenceType
 }
 
-interface FoodPreferencesRequest {
+export interface FoodPreferencesRequest {
 
     dietType: string,
     foodPreferences: Array<FoodPreference>
 
 }
 
-function FoodPreferences() {
+export interface RecipesPreferencesProps {
+    savePreferences: (foodPreferencesRequest:FoodPreferencesRequest) => void
+    loading: boolean
+    loadingMessage: string | undefined
+}
+
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, AnyAction>) {
+    return {
+        savePreferences: (foodPreferencesRequest:FoodPreferencesRequest) => dispatch(saveRecipePreferences(foodPreferencesRequest))
+    };
+};
+function mapStateToProps(state: AppState, props: LoginProps) {
+    return {
+        loading: state.generalState.loading,
+        loadingMessage: state.generalState.loadingMessage
+    }
+}
+
+function FoodPreferences(props: RecipesPreferencesProps) {
 
     const [step, setStep] = useState<number>(1);
     const [dietType, setDietType] = useState<string | null>(null);
@@ -86,7 +114,6 @@ function FoodPreferences() {
     }, [step])
 
     function submit() {
-        console.log()
         if (dietType != null) {
             const foodPreferences: FoodPreference[] = []
             const dietSub: FoodPreference[] = dietSubTypes.map((dietSubType) => {
@@ -110,20 +137,16 @@ function FoodPreferences() {
                 dietType: dietType,
                 foodPreferences: foodPreferences,
             }
-            API({
-                url: process.env.REACT_APP_REST_API_URL + "/save-preferences",
-                data: request,
-                method: 'POST',
-            }).then((response) => {
-                console.log(response)
-            }).catch(error => {
-                console.log(error);
-            });
+            props.savePreferences(request);
         }
     }
 
     return (
         <MDBContainer className={"mx-auto p-5 mt-3"}>
+            <LoadingIndicator
+                loading={props.loading}
+                loadingMessage={props.loadingMessage}
+            />
             {questions[step - 1]}
             {step !== questions.length ?
                 <StepsControl
@@ -210,4 +233,4 @@ function SubmitControl(props: SubmitProperties) {
     )
 }
 
-export default connect()(FoodPreferences)
+export default connect(null, mapDispatchToProps)(FoodPreferences)

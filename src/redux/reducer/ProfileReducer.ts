@@ -10,6 +10,8 @@ const initialState = {
 
 } as UserState;
 
+
+
 export interface UserState {
     authenticated: boolean,
     loggedIn: boolean,

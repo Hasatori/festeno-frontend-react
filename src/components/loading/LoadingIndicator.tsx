@@ -5,11 +5,14 @@ import './LoadingIndicator.css';
 import {connect} from "react-redux";
 
 const override = `margin:auto;
-
-
 `;
 
-function LoadingIndicator(props: AppProps) {
+export interface LoadingProps {
+    loading:boolean,
+    loadingMessage:string|undefined
+}
+
+function LoadingIndicator(props: LoadingProps) {
     return (
         <div className={props.loading ? 'loadingBackground visible' : 'hidden'}>
             <div className="loadingWrapper  sweet-loading">
