@@ -175,26 +175,6 @@ function App(appProps: AppProps) {
                             render={(props) => <Home loading={appProps.loading} feed={[]} loadFeed={() => {
                             }} user={appProps.user}/>}/>
                         <PrivateRoute
-                            path={"/preferences"}
-                            {...{
-                                authenticated: appProps.authenticated,
-                                authenticationPath: Routes.LOGIN,
-                                redirectPathOnAuthentication: "/preferences"
-                            }} exact={true}
-                            render={(props) =>
-                                <FoodPreferences
-                                    loading={appProps.loading}
-                                    loadingMessage={appProps.loadingMessage}
-                                />}/>
-                        <PrivateRoute
-                            path={[Routes.DIET_PLAN]}
-                            {...{
-                                authenticated: appProps.authenticated,
-                                authenticationPath: Routes.LOGIN,
-                                redirectPathOnAuthentication: Routes.DIET_PLAN
-                            }} exact={true}
-                            render={(props) => <DietPlan/>}/>
-                        <PrivateRoute
                             path={[Routes.PROFILE]}
                             {...{
                                 authenticated: appProps.authenticated,

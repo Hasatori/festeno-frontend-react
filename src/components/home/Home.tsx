@@ -16,6 +16,7 @@ import home from "../../assets/images/common/home.svg";
 import LoadingIndicator from "../loading/LoadingIndicator";
 import {CircleLoader} from "react-spinners";
 import {User} from "../App";
+import FoodPreferences from "../foodpreferences/FoodPreferences";
 
 
 interface HomeProps {
@@ -52,13 +53,13 @@ function Home(props: HomeProps) {
     const [recipesByGroup,setRecipesByGroup] = useState(new Map<string,Array<RecipeOverview>>());
 
     useEffect(() => {
-        props.loadFeed(Number(page) - 1);
-
-    }, [page])
+        if (props.user.recipesPreferences !== null){
+            props.loadFeed(Number(page) - 1);
+        }
+    }, [props.user.recipesPreferences])
 
     useEffect(() => {
         let map = new Map<string, Array<RecipeOverview>>();
-
         for (let recommendedRecipe of props.feed) {
             let array = map.get(recommendedRecipe.groupName);
             if (typeof array === 'undefined') {
@@ -71,7 +72,14 @@ function Home(props: HomeProps) {
         setRecipesByGroup(map);
     }, [props.feed])
 
-
+    if (props.user.recipesPreferences === null){
+        return (
+            <FoodPreferences
+            loading={props.loading}
+            loadingMessage={"loading"}
+            />
+        )
+    }
     return (
         <div>
             <div className="d-flex flex-center mt-5 p-2"><h1>{props?.user?.recipesPreferences?.mainDietType.toLowerCase()} recipes for you</h1></div>
@@ -93,37 +101,6 @@ function Home(props: HomeProps) {
                         <RecipesGrid recipes={recipes} heading={groupName}/>
                     )
                 })}
-                {/*<MDBPagination className="mb-5">
-
-                    <MDBPageItem disabled={page === '1'}>
-                        <Link to={`${Routes.HOME}/${Number(page) - 1}`}>
-                            <MDBPageNav aria-label="Previous">Previous
-                            </MDBPageNav>
-                        </Link>
-                    </MDBPageItem>
-
-                    {new Array(5).fill("").map(((value, index) => {
-                        index = ++index;
-
-                        return (
-
-                            <Link to={`${Routes.HOME}/${index}`}>
-                                <MDBPageItem active={index.toString() == page}>
-                                    <MDBPageNav>{index}
-                                    </MDBPageNav>
-                                </MDBPageItem>
-                            </Link>
-                        )
-                    }))}
-                    <MDBPageItem disabled={page === numberOfPages.toString()}>
-                        <Link to={`${Routes.HOME}/${Number(page) + 1}`}>
-
-                            <MDBPageNav aria-label="Previous">Next
-                            </MDBPageNav>
-                        </Link>
-                    </MDBPageItem>
-
-                </MDBPagination>*/}
             </div>
         </div>
 

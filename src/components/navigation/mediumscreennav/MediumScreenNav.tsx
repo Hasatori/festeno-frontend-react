@@ -49,25 +49,6 @@ export function MediumScreenNav(props: HeaderProps) {
                         width={25}/></MDBNavLink>
                     </div>
                 </div>
-                {props.authenticated ?
-                    <>
-                        <div
-                            className={resolveNavLinkClass(location.pathname, Routes.RECIPES, false) + '  align-self-center'}
-                            onMouseEnter={() => setBookImage(book_active)}
-                            onMouseLeave={() => setBookImage('')}>
-                            <div className='py-2'><MDBNavLink to={Routes.RECIPES} link><img
-                                src={bookImg !== '' ? bookImg : location.pathname.startsWith(Routes.RECIPES) ? book_active : book}
-                                width={25}/></MDBNavLink></div>
-                        </div>
-                        <div
-                            className={resolveNavLinkClass(location.pathname, Routes.DIET_PLAN, false) + '  align-self-center'}
-                            onMouseEnter={() => setCalendarImage(calendar_active)}
-                            onMouseLeave={() => setCalendarImage('')}>
-                            <div className='py-2'><MDBNavLink to={Routes.DIET_PLAN} link><img
-                                src={calendarImg !== '' ? calendarImg : location.pathname.startsWith(Routes.DIET_PLAN) ? calendar_active : calendar}
-                                width={25}/></MDBNavLink></div>
-                        </div>
-                    </> : <></>}
                 <div
                     className={resolveNavLinkClass(location.pathname, Routes.EXPLORE, false) + '  align-self-center'}
                     onMouseEnter={() => setExploreImg(loupe_active)}

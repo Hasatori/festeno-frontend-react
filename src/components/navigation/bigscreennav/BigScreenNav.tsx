@@ -56,57 +56,6 @@ export function BigScreenNav(props: HeaderProps) {
                         </div>
                     </Link>
                 </div>
-                {props.authenticated ?
-                    <>
-                        <div className={resolveNavLinkWrapperClass(location.pathname, Routes.RECIPES, true)}>
-                            <Link to={Routes.RECIPES}>
-                                <div className={resolveNavLinkClass(location.pathname, Routes.RECIPES, true)}
-
-                                     onMouseEnter={() => setBookImage(book_active)}
-                                     onMouseLeave={() => setBookImage('')}
-                                >
-                                    <div className='mr-2 py-2'><img
-                                        src={bookImg !== '' ? bookImg : location.pathname.startsWith(Routes.RECIPES) ? book_active : book}
-                                        width={25}/>
-                                    </div>
-                                    <div className='align-self-center'>Recipes</div>
-                                </div>
-                            </Link>
-                        </div>
-                        <div className={resolveNavLinkWrapperClass(location.pathname, Routes.MY_RECIPES, true)}>
-                            <Link to={Routes.MY_RECIPES}>
-                                <div className={resolveNavLinkClass(location.pathname, Routes.MY_RECIPES, true)}
-                                >
-                                    <div className='ml-5 align-self-left'>Mine recipes</div>
-                                </div>
-                            </Link>
-                        </div>
-                        <div className={resolveNavLinkWrapperClass(location.pathname, Routes.CREATE_RECIPE, true)}>
-                            <Link to={Routes.CREATE_RECIPE}>
-                                <div className={resolveNavLinkClass(location.pathname, Routes.CREATE_RECIPE, true)}
-                                >
-                                    <div className='ml-5 text-left'>Create</div>
-                                </div>
-                            </Link>
-                        </div>
-                        <div className={resolveNavLinkWrapperClass(location.pathname, Routes.DIET_PLAN, true)}>
-                            <Link to={Routes.DIET_PLAN}>
-                                <div className={resolveNavLinkClass(location.pathname, Routes.DIET_PLAN, true)}
-
-                                     onMouseEnter={() => setCalendarImage(calendar_active)}
-                                     onMouseLeave={() => setCalendarImage('')}
-                                >
-                                    <div className='mr-2 py-2'><img
-                                        src={calendarImg !== '' ? calendarImg : location.pathname.startsWith(Routes.DIET_PLAN) ? calendar_active : calendar}
-                                        width={25}/>
-                                    </div>
-                                    <div className='align-self-center'>Diet plan</div>
-                                </div>
-                            </Link>
-                        </div>
-                    </>
-                    : <></>}
-
                 <div className={resolveNavLinkWrapperClass(location.pathname, Routes.EXPLORE, false)}>
                     <Link to={Routes.EXPLORE}>
                         <div className={resolveNavLinkClass(location.pathname, Routes.EXPLORE, false)}

@@ -45,24 +45,6 @@ export function SmallScreenNav(props: HeaderProps) {
                         width={25}/>Feed</MDBNavLink>
                     </div>
                 </div>
-                {props.authenticated ?
-                    <>
-                        <div
-                            className={resolveNavLinkClass(location.pathname, Routes.RECIPES, false) + '  align-self-center'}>
-                            <div className='py-2' onClick={(event => setNavOpen(false))}><MDBNavLink to={Routes.RECIPES}
-                                                                                                     link><img
-                                src={location.pathname.startsWith(Routes.RECIPES) ? book_active : book}
-                                width={25}/>Recipes</MDBNavLink></div>
-                        </div>
-                        <div
-                            className={resolveNavLinkClass(location.pathname, Routes.DIET_PLAN, false) + '  align-self-center'}>
-                            <div className='py-2' onClick={(event => setNavOpen(false))}><MDBNavLink
-                                to={Routes.DIET_PLAN}
-                                link><img
-                                src={location.pathname.startsWith(Routes.DIET_PLAN) ? calendar_active : calendar}
-                                width={25}/>Diet plan</MDBNavLink></div>
-                        </div>
-                    </> : <></>}
 
                 <div className={resolveNavLinkClass(location.pathname, Routes.EXPLORE, false) + '  align-self-center'}>
                     <div className='py-2' onClick={(event => setNavOpen(false))}><MDBNavLink to={Routes.EXPLORE}
