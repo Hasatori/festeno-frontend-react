@@ -6,7 +6,6 @@ import i18next from "i18next";
 
 const API = axios.create({
     baseURL: process.env.REACT_APP_REST_API_URL,
-    timeout: 10000
 })
 
 API.interceptors.response.use(

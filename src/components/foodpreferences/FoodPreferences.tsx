@@ -66,6 +66,37 @@ function FoodPreferences(props: RecipesPreferencesProps) {
     const [lovedFoods, setLovedFoods] = useState<Array<string>>([]);
     const [preferredCuisines, setPreferredCuisines] = useState<Array<string>>([])
     const [canGoNext, setCanGoNext] = useState(false);
+    const suggestedIngredients = ['Olive oil',
+        'Flour',
+        'Butter',
+        'Chicken',
+        'Sugar',
+        'Salt',
+        'Egg',
+        'Rice',
+        'Vegetable oil',
+        'Pork',
+        'Beef',
+        'Cheese',
+        'Garlic',
+        'Orange',
+        'Turkey',
+        'Onion',
+        'Corn',
+        'Milk',
+        'Mayonnaise',
+        'Chiles',
+        'Almonds',
+        'Bacon',
+        'Mushrooms',
+        'Coconut',
+        'Beets',
+        'Strawberries',
+        'Fennel',
+        'Lamb',
+        'Apple',
+        'Shrimp'];
+    const suggestedCuisines = ['Italian','Thai','French','Japanese','Lebanese','Spanish','German','Korean','SouthAfrican','Australian','Caribbean','Greek','Filipino','Scottish','Indian','Mexican','Indonesian','Brazilian','Chinese','American'];
     const questions = [
         <SingleChoiceQuestion question={`${step}. Please select preferred diet.`}
                               options={["Vegan", "Vegetarian", "Omnivore"]}
@@ -77,7 +108,7 @@ function FoodPreferences(props: RecipesPreferencesProps) {
         />,
         <MultipleChoiceQuestion question={`${step}. Please select preferred diet.`}
                                 selected={dietSubTypes}
-                                options={["Low fat", "Low carb", "High protein"]}
+                                options={["Low fat", "Low carb", "High protein", "Gluten free", "Lactose free"]}
                                 removeOption={(option => {
                                     setDietSubTypes((oldSubtypes) => {
                                         return oldSubtypes.filter(subtype => {
@@ -91,11 +122,13 @@ function FoodPreferences(props: RecipesPreferencesProps) {
         />,
         <OpenQuestion
             answers={lovedFoods}
+            suggestedOptions={suggestedIngredients}
             addAnswer={(answer => setLovedFoods(oldArray => [...oldArray, answer]))}
             removeAnswer={(answer => setLovedFoods(oldArray => oldArray.filter(value => value !== answer)))}
             question={`${step}. What food ingredients do you truly love?`}
         />,
         <OpenQuestion
+            suggestedOptions={suggestedIngredients}
             answers={hatedFoods}
             addAnswer={(answer => setHatedFoods(oldArray => [...oldArray, answer]))}
             removeAnswer={(answer => setHatedFoods(oldArray => oldArray.filter(value => value !== answer)))}
@@ -103,6 +136,7 @@ function FoodPreferences(props: RecipesPreferencesProps) {
         />,
         <OpenQuestion
             answers={preferredCuisines}
+            suggestedOptions={suggestedCuisines}
             addAnswer={(answer => setPreferredCuisines(oldArray => [...oldArray, answer]))}
             removeAnswer={(answer => setPreferredCuisines(oldArray => oldArray.filter(value => value !== answer)))}
             question={`${step}. Do you prefer any specific cuisine?`}
