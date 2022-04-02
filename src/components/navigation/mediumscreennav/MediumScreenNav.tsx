@@ -73,15 +73,6 @@ export function MediumScreenNav(props: HeaderProps) {
                                 src={settingImg !== '' || location.pathname === Routes.PROFILE ? settings_active : settings}
                                 width={20}/>
                         </Link>
-                        <div className='mt-3 align-self-center '>
-                            <div className='profile-image-wrapper'>
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-1.jpg"
-                                     className="rounded float-right profile-image-collapsed" alt="aligment"/>
-                                <div className='profile-image-status-online-collapsed'>
-                                </div>
-
-                            </div>
-                        </div>
                     </div>:
                     <div className='mt-auto d-flex flex-column'>
 
