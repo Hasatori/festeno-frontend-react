@@ -45,10 +45,7 @@ import {AppProps, store} from "../index";
 import ConfirmEmailChange from "./user/confirmemilchange/ConfirmEmailChange";
 import Explore from "./explore/Explore";
 import {Recipes} from "./recipes/Recipes";
-import {DietPlan} from "./dietplan/DietPlan";
-import Profile from "./user/profile/Profile";
 import {Routes} from "../util/Constants";
-import FoodPreferences from './foodpreferences/FoodPreferences';
 
 function mapStateToProps(state: AppState, props: AppProps) {
     return {
@@ -181,19 +178,9 @@ function App(appProps: AppProps) {
                                 authenticationPath: Routes.LOGIN,
                                 redirectPathOnAuthentication: Routes.PROFILE
                             }} exact={true}
-                            render={(props) => <Profile/>}/>
-
-                        <PrivateRoute
-                            path={[Routes.ACCOUNT]}
-                            {...{
-                                authenticated: appProps.authenticated,
-                                authenticationPath: Routes.LOGIN,
-                                redirectPathOnAuthentication: Routes.ACCOUNT
-                            }} exact={true}
                             render={(props) => <Account/>}/>
-
                         <Route path={Routes.LOGIN}
-                               render={(props) => appProps.authenticated ? <Redirect to='account'/> :
+                               render={(props) => appProps.authenticated ? <Redirect to={Routes.PROFILE}/> :
                                    <Login twoFactorRequired={false} login={() => {
                                    }} loginTwoFactor={() => {
                                    }} loginRecoveryCode={() => {
