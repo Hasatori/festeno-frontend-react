@@ -42,19 +42,21 @@ export function BigScreenNav(props: HeaderProps) {
                     <img src={logo} width={70} className='mb-3'/>
                 </div>
                 <div className={resolveNavLinkWrapperClass(location.pathname, "/", true)}>
-                    <Link to={Routes.HOME}>
-                        <div className={resolveNavLinkClass(location.pathname, "/", true)}
+                    {props.authenticated ?
+                        <Link to={Routes.HOME}>
+                            <div className={resolveNavLinkClass(location.pathname, "/", true)}
 
-                             onMouseEnter={() => setFeedImage(home_active)}
-                             onMouseLeave={() => setFeedImage('')}
-                        >
-                            <div className='mr-2 py-2'><img
-                                src={feedImg !== '' ? feedImg : location.pathname === "/" ? home_active : home}
-                                width={25}/>
+                                 onMouseEnter={() => setFeedImage(home_active)}
+                                 onMouseLeave={() => setFeedImage('')}
+                            >
+                                <div className='mr-2 py-2'><img
+                                    src={feedImg !== '' ? feedImg : location.pathname === "/" ? home_active : home}
+                                    width={25}/>
+                                </div>
+                                <div className='align-self-center'>Feed</div>
                             </div>
-                            <div className='align-self-center'>Feed</div>
-                        </div>
-                    </Link>
+                        </Link> : null
+                    }
                 </div>
                 <div className={resolveNavLinkWrapperClass(location.pathname, Routes.EXPLORE, false)}>
                     <Link to={Routes.EXPLORE}>

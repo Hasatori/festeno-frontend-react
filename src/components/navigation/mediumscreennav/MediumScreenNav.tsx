@@ -41,14 +41,17 @@ export function MediumScreenNav(props: HeaderProps) {
                 <div className='d-flex align-self-center mt-3 mb-3'>
                     <img src={logo} width={35}></img>
                 </div>
-                <div className={resolveNavLinkClass(location.pathname, Routes.HOME, true) + '  align-self-center'}
-                     onMouseEnter={() => setFeedImage(home_active)}
-                     onMouseLeave={() => setFeedImage('')}>
-                    <div className='py-2'><MDBNavLink to={Routes.HOME} link><img
-                        src={feedImg !== '' ? feedImg : location.pathname === Routes.HOME ? home_active : home}
-                        width={25}/></MDBNavLink>
-                    </div>
-                </div>
+
+                {props.authenticated ?
+                    <div className={resolveNavLinkClass(location.pathname, Routes.HOME, true) + '  align-self-center'}
+                         onMouseEnter={() => setFeedImage(home_active)}
+                         onMouseLeave={() => setFeedImage('')}>
+                        <div className='py-2'><MDBNavLink to={Routes.HOME} link><img
+                            src={feedImg !== '' ? feedImg : location.pathname === Routes.HOME ? home_active : home}
+                            width={25}/></MDBNavLink>
+                        </div>
+                    </div> : null
+                }
                 <div
                     className={resolveNavLinkClass(location.pathname, Routes.EXPLORE, false) + '  align-self-center'}
                     onMouseEnter={() => setExploreImg(loupe_active)}

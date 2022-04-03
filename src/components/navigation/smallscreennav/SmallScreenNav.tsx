@@ -39,12 +39,15 @@ export function SmallScreenNav(props: HeaderProps) {
             </div>
             {navOpen &&
             <div className='side-nav-collapsed pb-5 d-flex flex-column'>
-                <div className={resolveNavLinkClass(location.pathname, Routes.HOME, true) + '  align-self-left'}>
-                    <div className='py-2' onClick={(event => setNavOpen(false))}><MDBNavLink to={Routes.HOME} link><img
-                        src={location.pathname === "/" ? home_active : home}
-                        width={25}/>Feed</MDBNavLink>
-                    </div>
-                </div>
+
+                {props.authenticated ?
+                    <div className={resolveNavLinkClass(location.pathname, Routes.HOME, true) + '  align-self-left'}>
+                        <div className='py-2' onClick={(event => setNavOpen(false))}><MDBNavLink to={Routes.HOME}
+                                                                                                 link><img
+                            src={location.pathname === "/" ? home_active : home}
+                            width={25}/>Feed</MDBNavLink>
+                        </div>
+                    </div> : null}
 
                 <div className={resolveNavLinkClass(location.pathname, Routes.EXPLORE, false) + '  align-self-center'}>
                     <div className='py-2' onClick={(event => setNavOpen(false))}><MDBNavLink to={Routes.EXPLORE}
