@@ -18,12 +18,13 @@ export interface GeneralState {
     infoMessage: string | undefined,
     feed: Array<RecommendedRecipe>,
     recipeTags: Array<string>,
+    searchedRecipes: Array<RecipeOverview>,
     recipe: Recipe
 }
 
 export interface RecommendedRecipe {
-    recipe:RecipeOverview,
-    groupName:string
+    recipe: RecipeOverview,
+    groupName: string
 }
 
 export interface RecipeOverview {
@@ -95,7 +96,7 @@ export interface Recipe {
     overviewImage: Image,
     tags: Array<string>,
     ingredients: Array<string>,
-    recipeImages:Array<Image>
+    recipeImages: Array<Image>
     cookingProcedureSteps: Array<string>
     carbohydrate: Carbohydrate,
     protein: Protein,
@@ -170,6 +171,12 @@ export default function generalReducer(state = initialState, action: GeneralActi
             return {
                 ...state,
                 feed: action.recipeOverviews
+            }
+        case "LOAD_RECIPES":
+            console.log(action.recipeOverviews);
+            return {
+                ...state,
+                searchedRecipes: action.recipeOverviews
             }
         case "LOAD_RECIPE":
             return {

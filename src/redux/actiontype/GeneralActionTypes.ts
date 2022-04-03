@@ -5,6 +5,7 @@ import {Recipe, RecipeOverview, RecommendedRecipe} from "../reducer/GeneralReduc
 import i18next from "i18next";
 import API from "../../util/APIUtils";
 import {AxiosResponse} from "axios";
+import {RecipesPreferences} from "../../components/App";
 
 export const IN_PROGRESS = "IN_PROGRESS";
 export const SUCCESS = "SUCCESS";
@@ -19,6 +20,7 @@ export const DONE = "DONE";
 export const LOAD_FEED = "LOAD_FEED";
 export const LOAD_RECIPE_TAGS = "LOAD_RECIPE_TAGS";
 export const LOAD_RECIPE = "LOAD_RECIPE";
+export const LOAD_RECIPES = "LOAD_RECIPES";
 
 export interface InProgressAction extends Action {
     type: typeof IN_PROGRESS,
@@ -68,6 +70,12 @@ export interface DismissWarning extends Action {
 export interface LoadFeed extends Action {
     type: typeof LOAD_FEED
     recipeOverviews: Array<RecommendedRecipe>
+
+}
+
+export interface LoadRecipes extends Action {
+    type: typeof LOAD_RECIPES
+    recipeOverviews: Array<RecipeOverview>
 
 }
 
@@ -154,24 +162,18 @@ export const loadRecipe: ActionCreator<ThunkAction<void,
     };
 };
 
-export interface SearchRecipes {
-    tags: Array<string>
-    wantedIngredients: Array<string>
-    notWantedIngredients: Array<string>
-}
-
 export const searchRecipes: ActionCreator<ThunkAction<void,
     void,
-    SearchRecipes,
-    AnyAction>> = (searchRecipes: SearchRecipes) => {
+    RecipesPreferences,
+    AnyAction>> = (recipesPreferences: RecipesPreferences) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator("Searching recipes"));
         API({
             url: process.env.REACT_APP_REST_API_URL + "/recipes/search",
             method: 'POST',
-            data: searchRecipes
+            data: recipesPreferences
         }).then((response) => {
-            dispatch({type: LOAD_FEED, recipes: response.data.map((recipe:RecommendedRecipe)=>recipe.recipe)})
+            dispatch({type: LOAD_RECIPES, recipeOverviews: response.data})
             dispatch(doneActionCreator(""));
         }).catch(error => {
             dispatch(failureActionCreator((error.response && error.response.data && error.response.data.message) || i18next.t('ns1:defaultErrorMessage')));
@@ -212,4 +214,5 @@ export type GeneralActionTypes =
     | DismissWarning
     | LoadFeed
     | LoadRecipe
-    | LoadRecipeTags;
+    | LoadRecipeTags
+    | LoadRecipes;

@@ -1,140 +1,67 @@
-import React, {useEffect, useState} from "react";
-import {useLocation} from 'react-router-dom';
+import React, {useState} from "react";
 import "./Explore.css";
-import {MDBBadge, MDBCol, MDBContainer, MDBInput, MDBRow} from "mdbreact";
-import NutrientRow from "../common/NutrientRow";
+import {MDBBtn, MDBContainer} from "mdbreact";
 import {useMediaQuery} from "react-responsive";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
-import {getTags, SearchRecipes, searchRecipes} from "../../redux/actiontype/GeneralActionTypes";
+import {searchRecipes} from "../../redux/actiontype/GeneralActionTypes";
 import {AppState} from "../../redux/store/Store";
 import {RecipeOverview} from "../../redux/reducer/GeneralReducer";
 import {connect} from "react-redux";
+import {FoodPreference, FoodPreferencesRequest, FoodPreferenceType} from "../foodpreferences/FoodPreferences";
 import RecipesGrid from "../recipes/RecipesGrid";
-import recipeDetail from "../recipes/recipes/RecipeDetail";
+import {CircleLoader} from "react-spinners";
+
+export interface ExploreProps {
+    loading: boolean
+    loadingMessage: string | undefined
+    recipes: Array<RecipeOverview>
+    searchRecipes: (foodPreferencesRequest: FoodPreferencesRequest) => void
+}
 
 function mapDispatchToProps(dispatch: ThunkDispatch<any, any, AnyAction>) {
     return {
-        searchRecipes: (searchRecipe: SearchRecipes) => dispatch(searchRecipes(searchRecipe)),
-        getTags: () => dispatch(getTags())
+        searchRecipes: (foodPreferencesRequest: FoodPreferencesRequest) => dispatch(searchRecipes(foodPreferencesRequest))
     };
 };
 
 function mapStateToProps(state: AppState, props: ExploreProps) {
     return {
-        feed: state.generalState.feed.map(recomended=>recomended.recipe),
-        recipeTags: state.generalState.recipeTags,
-        loading: state.generalState.loading
+        loading: state.generalState.loading,
+        loadingMessage: state.generalState.loadingMessage,
+        recipes: state.generalState.searchedRecipes
     }
-}
-
-interface ExploreProps {
-    feed: Array<RecipeOverview>
-    searchRecipes: (searchRecipes: SearchRecipes) => void
-    getTags: () => void
-    recipeTags: Array<string>
-    loading: boolean
-}
-
-interface Type {
-    value: string,
-    active: boolean,
-    disabled: boolean
 }
 
 function Explore(props: ExploreProps) {
-    const wantToDoNotWantToFeed = ['potatoes', 'onion', 'tomato', 'carrot', 'cucumber'];
-    const keywordsFeed = ['paleo', 'kidsfood', 'vegan', 'low carb', 'high protein', 'kids', 'veggie-soup'];
-    const [types, setTypes] = useState<Array<Type>>(new Array());
-    const [wantTo, setWantTo] = useState(new Array());
-    const [dontWantTo, setDoNotWantTo] = useState(new Array());
-    const [keywords, setKeywords] = useState(new Array());
-    const [wantToActive, setWantToActive] = useState(true);
-    const [wantToDoNotWantToVal, setWantToDoNotWantToVal] = useState('');
-    const [keywordVal, setKeywordVal] = useState("");
-    const location = useLocation();
-    const [carbohydrate, setCarbohydrate] = useState(0);
-    const enabled = useState(true);
-    const [protein, setProtein] = useState(0);
-    const [fat, setFat] = useState(0);
-    const [fiber, setFiber] = useState(0);
-    const nutrientRows = [
-        {
-            name: "Carbohydrate",
-            val: carbohydrate,
-            setVal: (val: number): void => {
-                setCarbohydrate(val);
-            },
-        },
-        {
-            name: "Protein",
-            val: protein,
-            setVal: (val: number): void => {
-                setProtein(val);
-            }
-        },
-        {
-            name: "Fat",
-            val: fat,
-            setVal: (val: number): void => {
-                setFat(val);
-            }
-        },
-        {
-            name: "Fiber",
-            val: fiber,
-            setVal: (val: number): void => {
-                setFiber(val);
-            }
-        }
-    ];
+    const notSelectedOption = "Not selected";
     const isSmallScreen = useMediaQuery({query: '(max-width: 700px)'});
-    const [wantToDoNotWantToActive, setWantToDoNotWantToActive] = useState(false);
-    const [keywordsToActive, setKeyWordsActive] = useState(false);
-    const [showFilter, setShowFilter] = useState(true);
-
-    function search(){
-        const searchRecipesParams: SearchRecipes = {
-            tags: types.filter(t => t.active).map(type => type.value).concat(keywords),
-            wantedIngredients: wantTo,
-            notWantedIngredients: dontWantTo
-        }
-        props.searchRecipes(searchRecipesParams);
-    }
-
-    useEffect(() => {
-        const searchRecipesParams: SearchRecipes = {
-            tags: types.filter(t => t.active).map(type => type.value).concat(keywords),
-            wantedIngredients: wantTo,
-            notWantedIngredients: dontWantTo
-        }
-        props.searchRecipes(searchRecipesParams);
-
-    }, [keywords, wantTo, dontWantTo])
-
-    useEffect(() => {
-        setTypes([...props.recipeTags.filter((thing: string, i, arr: Array<string>) => {
-            return arr.findIndex(t => t === thing) === i;
-        }).map((value: string) => {
-            return {active: false, value: value, disabled: false};
-        })]);
-    }, [props.recipeTags]);
-
-    useEffect(() => {
-        const recipeTags = props.feed.map(recipe => recipe.tags).flat().filter((thing: string, i, arr: Array<string>) => {
-            return arr.findIndex(t => t === thing) === i;
-        })
-        setTypes([...types.map(t => {
-            if (!recipeTags.includes(t.value)) {
-                t.disabled = true
+    const [dietType, setDietType] = useState<string | null>("Vegan");
+    const dietTypes = ["Vegan", "Vegetarian", "Omnivore"];
+    const [dietSubTypes, setDietSubTypes] = useState<Array<string>>([]);
+    const specificDiets = ["Low fat", "Low carb", "High protein", "Gluten free", "Lactose free"];
+    const [preferredCuisine, setPreferredCuisine] = useState<string>(notSelectedOption);
+    const cuisines = [notSelectedOption, 'Italian', 'Thai', 'French', 'Japanese', 'Lebanese', 'Spanish', 'German', 'Korean', 'SouthAfrican', 'Australian', 'Caribbean', 'Greek', 'Filipino', 'Scottish', 'Indian', 'Mexican', 'Indonesian', 'Brazilian', 'Chinese', 'American'];
+    function submit() {
+        if (dietType !== null) {
+            const foodPreferences: FoodPreference[] = []
+            const dietSub: FoodPreference[] = dietSubTypes.map((dietSubType) => {
+                return {value: dietSubType, foodPreferenceType: FoodPreferenceType.DIET_SUB_TYPE}
+            });
+            foodPreferences.push(...dietSub);
+            if (preferredCuisine !== notSelectedOption) {
+                foodPreferences.push({
+                    value: preferredCuisine,
+                    foodPreferenceType: FoodPreferenceType.FAVOURITE_CUISINE
+                });
             }
-            return t;
-        })]);
-    }, [props.feed]);
-
-    useEffect(() => {
-        props.getTags();
-    }, []);
+            const request: FoodPreferencesRequest = {
+                dietType: dietType,
+                foodPreferences: foodPreferences,
+            }
+            props.searchRecipes(request);
+        }
+    }
 
     return (
         <MDBContainer className={isSmallScreen ? "mx-auto p-4 pt-2 mt-5" : "mx-auto p-5 mt-3"}>
@@ -142,211 +69,83 @@ function Explore(props: ExploreProps) {
                 <h1 className='text-center'>Search recipes</h1>
             </div>
             <div className='divider mt-3 mb-5'/>
-            <button onClick={() => {
-                setShowFilter(!showFilter);
-            }}>{showFilter ? "hide filter" : "show filter"}</button>
-            {showFilter ?
-                <div>
-                    <MDBRow className='mb-3'>
-                        <MDBCol sm='10' md='10' lg='6' className="mx-auto  mb-5">
-                            <div className='d-flex flex-column'>
-
-                                {nutrientRows.map((nutrient, index, array) => {
-                                    return <NutrientRow nutrientName={nutrient.name}/>
-                                })}
-                            </div>
-                        </MDBCol>
-                        <MDBCol sm='10' md='10' lg='5' className="mx-auto mb-5">
-                            <div className='d-flex flex-column'>
-                                <div>
-                                    {types.map((type: Type) => {
-                                        return <button disabled={type.disabled}
-                                            className={type.active ? 'm-2 primary-button' : 'm-2 neutral-button'}
-                                            onClick={() => {
-                                                type.active = !type.active;
-                                                setTypes([...types.map(t => {
-                                                    if (t.value === type.value) {
-                                                        t.active = type.active
-                                                    }
-                                                    return t;
-                                                })])
-                                                search();
-                                            }}>{type.value}</button>
-                                    })}
-                                </div>
-                                <div className='mt-3'>
-
-                                    <select className="browser-default custom-select multiple-choices-select">
-                                        <option value="1">1 week</option>
-                                        <option value="2">2 weeks</option>
-                                        <option value="3">3 weeks</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </MDBCol>
-                    </MDBRow>
-                    <MDBRow>
-                        <MDBCol sm='10' md='10' lg='6' className='search-tags-wrapper-left-margin mx-auto mb-5'>
-                            <div className='search-tags-wrapper d-flex flex-column px-3 pt-1 pb-5'>
-                                <div className='d-flex flex-row autocomplete-wrapper'>
-                                    <div className='flex-grow-1' onKeyDown={event => {
-                                        if (event.key === 'Enter' && keywordVal.trim() !== '') {
-                                            setKeywords([...keywords, keywordVal]);
-                                            setKeywordVal('');
-                                        }
-                                    }}>
-                                        <MDBInput type='text' className='search-input' id='inputdd'
-                                                  label="Keywords, hastags" value={keywordVal}
-                                                  onChange={(e => setKeywordVal(e.currentTarget.value))}
-                                        />
-                                        {keywordVal.trim().length > 0 ?
-                                            <div
-                                                className='autocomplete'>
-                                                {
-
-                                                    keywordsFeed.concat(keywordVal).filter((feed, index, array: string[]) =>
-                                                        feed.toLowerCase().match(keywordVal.toLowerCase()) && array.indexOf(feed.toLowerCase()) === index
-                                                    ).map(value => {
-                                                        return <div className='autocomplete-row' onClick={() => {
-                                                            if (keywords.indexOf(value) === -1) {
-                                                                setKeywords([...keywords, value]);
-                                                            }
-                                                            setKeywordVal('');
-                                                        }}>{value}</div>
-                                                    })
-                                                }
-                                            </div> :
-                                            <></>
-
-                                        }
-                                    </div>
-
-
-                                </div>
-
-                                <div>
-                                    {keywords.map((val) => {
-                                        return <MDBBadge className='search-tag pr-4 pl-3 py-3 m-2 z-depth-0'
-                                                         color="light">{val}
-                                            <div className='hover-pointer-cursor search-tag-close' onClick={() => {
-                                                setKeywords(keywords.filter(keyword => keyword !== val))
-                                            }}>x
-                                            </div>
-                                        </MDBBadge>
-                                    })}
-                                </div>
-                            </div>
-
-                        </MDBCol>
-                        <MDBCol sm='10' md='10' lg='5' className="mx-auto">
-                            <div className='d-flex flex-column'>
-                                <div className='d-flex flex-row'>
-                                    <div
-                                        className={wantToActive ? 'including-ingredients-heading-selected hover-pointer-cursor h4-responsive  flex-grow-1  text-center' : 'hover-pointer-cursor h4-responsive  flex-grow-1  text-center'}
-
-                                        onClick={() => {
-                                            setWantToActive(true)
-                                        }}>Want
-                                        to
-                                    </div>
-                                    <div
-                                        className={!wantToActive ? 'including-ingredients-heading-selected hover-pointer-cursor h4-responsive  flex-grow-1  text-center' : 'hover-pointer-cursor h4-responsive  flex-grow-1  text-center'}
-                                        onClick={() => {
-                                            setWantToActive(false)
-                                        }}>Do not want to
-                                    </div>
-                                </div>
-                                <div className='search-tags-wrapper d-flex flex-column px-3 pt-1 pb-5'>
-                                    <div className='autocomplete-wrapper'
-                                         onKeyDown={event => {
-                                             if (event.key === 'Enter' && wantToDoNotWantToVal.trim() !== '') {
-                                                 if (wantToActive) {
-                                                     if (wantTo.indexOf(wantToDoNotWantToVal) === -1) {
-                                                         setWantTo([...wantTo, wantToDoNotWantToVal]);
-                                                     }
-
-                                                 } else {
-                                                     if (dontWantTo.indexOf(wantToDoNotWantToVal) === -1) {
-                                                         setDoNotWantTo([...dontWantTo, wantToDoNotWantToVal])
-                                                     }
-                                                 }
-                                                 setWantToDoNotWantToVal('');
-
-                                             }
-                                         }}><MDBInput className='search-input' label="Ingredients I want to include"
-                                                      value={wantToDoNotWantToVal}
-                                                      onChange={(e => setWantToDoNotWantToVal(e.currentTarget.value))}
-
-
-                                    />
-                                        {wantToDoNotWantToVal.trim().length > 0 ?
-                                            <div
-                                                className='autocomplete shadow'>
-                                                {
-
-                                                    wantToDoNotWantToFeed.concat(wantToDoNotWantToVal).filter((feed, index, array: string[]) =>
-                                                        feed.toLowerCase().match(wantToDoNotWantToVal.toLowerCase()) && array.indexOf(feed.toLowerCase()) === index
-                                                    ).map(value => {
-                                                        return <div className='autocomplete-row' onClick={() => {
-                                                            if (wantToActive) {
-                                                                if (wantTo.indexOf(value) === -1) {
-                                                                    setWantTo([...wantTo, value]);
-                                                                }
-
-                                                            } else {
-                                                                if (dontWantTo.indexOf(value) === -1) {
-                                                                    setDoNotWantTo([...dontWantTo, value])
-                                                                }
-                                                            }
-                                                            setWantToDoNotWantToVal('');
-                                                        }}>{value}</div>
-                                                    })
-                                                }
-                                            </div> :
-                                            <></>
-
-                                        }
-
-                                    </div>
-                                    <div>
-                                        {
-                                            wantToActive ?
-                                                wantTo.map((val) => {
-                                                    return <MDBBadge className='search-tag pr-4 pl-3 py-3 m-2 z-depth-0'
-                                                                     color="light">{val}
-                                                        <div className='search-tag-close hover-pointer-cursor'
-                                                             onClick={() => {
-                                                                 setWantTo(wantTo.filter(wantTo => wantTo !== val))
-                                                             }}
-                                                        >x
-                                                        </div>
-                                                    </MDBBadge>
-                                                })
-                                                :
-                                                dontWantTo.map((val) => {
-                                                    return <MDBBadge className='search-tag pr-4 pl-3 py-3 m-2 z-depth-0'
-                                                                     color="light">{val}
-                                                        <div className='search-tag-close hover-pointer-cursor'
-                                                             onClick={() => {
-                                                                 setDoNotWantTo(dontWantTo.filter(doNotWantTo => doNotWantTo !== val))
-                                                             }}
-                                                        >x
-                                                        </div>
-                                                    </MDBBadge>
-                                                })
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                        </MDBCol>
-                    </MDBRow>
+            <div className='d-flex flex-row'>
+                <div className='d-flex flex-column'>
+                    <div>Diet types</div>
+                    <div className='d-flex flex-column'>
+                        <select  onChange={(event => {
+                            setDietType(event.target.value)
+                        })}>
+                        {dietTypes.map((value) => {
+                            return (
+                                <option value={value}>{value}</option>
+                            )
+                        })}
+                        </select>
+                    </div>
                 </div>
-                : <></>}
-
-
-            <div>
-                <RecipesGrid recipes={props.feed} heading={"Explore"}/>
+                <div className='d-flex flex-column ml-4'>
+                    <div>Specific diet</div>
+                    <div className='d-flex flex-column'>
+                        {specificDiets.map((value) => {
+                            return (
+                                <div className='d-flex flex-row'>
+                                    <div className='align-self-center'>
+                                        <input
+                                            checked={dietSubTypes.includes(value)}
+                                            onChange={() => !dietSubTypes.includes(value) ?
+                                                setDietSubTypes(oldArray => [...oldArray, value]) :
+                                                setDietSubTypes(oldArray => oldArray.filter(val => val !== value))}
+                                            type="checkbox"
+                                        />
+                                    </div>
+                                    <div className='align-self-center ml-2'>
+                                        {value}
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
+                <div className='d-flex flex-column ml-4'>
+                    <div>Cuisine</div>
+                    <div className='d-flex flex-column'>
+                        <select  onChange={(event => {
+                            setPreferredCuisine(event.target.value)
+                        })}>
+                            {cuisines.map((value) => {
+                                return (
+                                    <option value={value}>{value}</option>
+                                )
+                            })}
+                        </select>
+                    </div>
+                </div>
             </div>
+            <div className='d-flex'>
+                <MDBBtn
+                    className="background-color-primary color-background rounded z-depth-1 bold"
+                    type="button"
+                    onClick={() => {
+                        submit();
+                    }}>search
+                </MDBBtn>
+            </div>
+            {props.loading?
+                <div>
+                    <CircleLoader
+                        css={`margin:auto;`}
+                        size={75}
+                        color={"#123abc"}
+                        loading={props.loading}
+                    />
+                    <h2 className="text-center">Loading recipes</h2>
+                </div>:
+                props.recipes?
+                <div>
+                    <RecipesGrid recipes={props.recipes} heading={"Search result"}/>
+                </div>
+                :null}
         </MDBContainer>)
 
 }
