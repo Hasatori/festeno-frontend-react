@@ -9,11 +9,25 @@ import {SmallScreenNav} from "./smallscreennav/SmallScreenNav";
 import {User} from "../App";
 import {AppState} from "../../redux/store/Store";
 import {AppProps} from "../../index";
+import {ThunkDispatch} from "redux-thunk";
+import {AnyAction} from "redux";
+import {
+    loginActionCreator,
+    loginRecoveryCodeActionCreator,
+    loginTwoFactorActionCreator, logoutActionCreator
+} from "../../redux/actiontype/UserActionTypes";
+import {LoginRequest, TwoFactorLoginRequest} from "../user/login/Login";
 
 export interface HeaderProps {
     authenticated: boolean
+    onLogOut: () => void
 }
 
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, AnyAction>) {
+    return {
+        onLogOut: () => dispatch(logoutActionCreator())
+    };
+};
 
 function mapStateToProps(state: AppState, props: HeaderProps) {
     return {
@@ -44,4 +58,4 @@ export function resolveNavLinkClass(currentLocation: string, expectedLocation: s
     return result ? 'd-flex flex-row side-nav-link-active align-self-center' : 'd-flex flex-row side-nav-link align-self-center';
 }
 
-export default connect(mapStateToProps)(AppHeader);
+export default connect(mapStateToProps,mapDispatchToProps)(AppHeader);

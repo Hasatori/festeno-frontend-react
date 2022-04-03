@@ -73,6 +73,7 @@ export function BigScreenNav(props: HeaderProps) {
                 {props.authenticated ?
                     <div className='mt-auto d-flex flex-column'>
                         <div className={'mt-auto align-self-center additional-action'}
+                             onClick={() => props.onLogOut()}
                              onMouseEnter={() => setSignOutImg(signOut_active)}
                              onMouseLeave={() => setSignOutImg('')}>
                             <img src={signOutImg !== '' ? signOut_active : signOut} width={20}/>

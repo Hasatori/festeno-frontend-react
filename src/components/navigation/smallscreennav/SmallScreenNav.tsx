@@ -58,7 +58,8 @@ export function SmallScreenNav(props: HeaderProps) {
                 </div>
                 {props.authenticated ?
                 <div className='mt-auto d-flex flex-column'>
-                    <div className={'mt-auto align-self-center additional-action'}>
+                    <div className={'mt-auto align-self-center additional-action'}
+                         onClick={() => props.onLogOut()}>
                         <img src={signOut} width={20}/>
                     </div>
                     <Link to={Routes.PROFILE}
