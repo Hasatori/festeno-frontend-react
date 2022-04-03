@@ -16,6 +16,8 @@ import login_active from "../../../assets/images/common/login_active.svg";
 import login from "../../../assets/images/common/login.svg";
 import signUp_active from "../../../assets/images/common/signUp_active.svg";
 import signUp from "../../../assets/images/common/signUp.svg";
+import about_active from "../../../assets/images/common/about_active.svg";
+import about from "../../../assets/images/common/about.svg";
 import React, {useState} from "react";
 import {HeaderProps, resolveNavLinkClass, resolveNavLinkWrapperClass} from "../AppHeader";
 import {useTranslation} from "react-i18next";
@@ -26,6 +28,7 @@ export function BigScreenNav(props: HeaderProps) {
 
     const {t, i18n} = useTranslation();
     const location = useLocation();
+    const [aboutImg, setAboutImage] = useState('');
     const [exploreImg, setExploreImg] = useState('');
     const [feedImg, setFeedImage] = useState('');
     const [calendarImg, setCalendarImage] = useState('');
@@ -41,16 +44,29 @@ export function BigScreenNav(props: HeaderProps) {
                 <div className='d-flex align-self-center px-5'>
                     <img src={logo} width={70} className='mb-3'/>
                 </div>
-                <div className={resolveNavLinkWrapperClass(location.pathname, "/", true)}>
+
+                <div className={resolveNavLinkWrapperClass(location.pathname, Routes.ABOUT, false)}>
+                    <Link to={Routes.ABOUT}>
+                        <div className={resolveNavLinkClass(location.pathname, Routes.ABOUT, false)}
+                             onMouseEnter={() => setAboutImage(about_active)}
+                             onMouseLeave={() => setAboutImage('')}>
+                            <div className='mr-2 py-2'><img
+                                src={aboutImg !== '' ? aboutImg: location.pathname.startsWith(Routes.ABOUT) ? about_active : about}
+                                width={25}/></div>
+                            <div className='align-self-center'>About</div>
+                        </div>
+                    </Link>
+                </div>
+                <div className={resolveNavLinkWrapperClass(location.pathname, Routes.FEED, true)}>
                     {props.authenticated ?
-                        <Link to={Routes.HOME}>
-                            <div className={resolveNavLinkClass(location.pathname, "/", true)}
+                        <Link to={Routes.FEED}>
+                            <div className={resolveNavLinkClass(location.pathname, Routes.FEED, true)}
 
                                  onMouseEnter={() => setFeedImage(home_active)}
                                  onMouseLeave={() => setFeedImage('')}
                             >
                                 <div className='mr-2 py-2'><img
-                                    src={feedImg !== '' ? feedImg : location.pathname === "/" ? home_active : home}
+                                    src={feedImg !== '' ? feedImg : location.pathname === Routes.FEED ? home_active : home}
                                     width={25}/>
                                 </div>
                                 <div className='align-self-center'>Feed</div>

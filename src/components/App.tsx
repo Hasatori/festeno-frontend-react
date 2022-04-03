@@ -46,6 +46,7 @@ import ConfirmEmailChange from "./user/confirmemilchange/ConfirmEmailChange";
 import Explore from "./explore/Explore";
 import {Recipes} from "./recipes/Recipes";
 import {Routes} from "../util/Constants";
+import About from "./about/About";
 
 function mapStateToProps(state: AppState, props: AppProps) {
     return {
@@ -161,13 +162,14 @@ function App(appProps: AppProps) {
                 <div className='flex-grow-1 app-body'>
                     <Switch>
                         <Route exact path={Routes.EXPLORE} component={Explore}/>
+                        <Route exact path={Routes.ABOUT} component={About}/>
                         <Route path={Routes.RECIPES} render={(props) => <Recipes  {...appProps} />}/>
                         <PrivateRoute
-                            path={[Routes.HOME]}
+                            path={[Routes.FEED]}
                             {...{
                                 authenticated: appProps.authenticated,
                                 authenticationPath: Routes.LOGIN,
-                                redirectPathOnAuthentication: Routes.HOME
+                                redirectPathOnAuthentication: Routes.FEED
                             }} exact={true}
                             render={(props) => <Home loading={appProps.loading} feed={[]} loadFeed={() => {
                             }} user={appProps.user}/>}/>

@@ -12,7 +12,8 @@ export function GITHUB_AUTH_URL(locale: string): string {
 
 
 export enum Routes {
-    HOME = '/feed',
+    FEED = '/feed',
+    ABOUT = '/about',
     EXPLORE = '/explore',
     DIET_PLAN = '/diet-plan',
     RECIPES = '/recipes',

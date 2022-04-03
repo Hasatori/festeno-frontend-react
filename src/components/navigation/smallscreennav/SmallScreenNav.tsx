@@ -23,10 +23,13 @@ import login_active from "../../../assets/images/common/login_active.svg";
 import login from "../../../assets/images/common/login.svg";
 import signUp_active from "../../../assets/images/common/signUp_active.svg";
 import signUp from "../../../assets/images/common/signUp.svg";
+import about_active from "../../../assets/images/common/about_active.svg";
+import about from "../../../assets/images/common/about.svg";
 
 export function SmallScreenNav(props: HeaderProps) {
     const {t, i18n} = useTranslation();
     const location = useLocation();
+    const [aboutImg, setAboutImage] = useState('');
     const [navOpen, setNavOpen] = useState(false);
     const [loginImage, setLoginImg] = useState('');
     const [signUpImage, setSignUpImg] = useState('');
@@ -40,11 +43,18 @@ export function SmallScreenNav(props: HeaderProps) {
             {navOpen &&
             <div className='side-nav-collapsed pb-5 d-flex flex-column'>
 
+                <div className={resolveNavLinkClass(location.pathname, Routes.ABOUT, true) + '  align-self-left'}>
+                    <div className='py-2' onClick={(event => setNavOpen(false))}><MDBNavLink to={Routes.ABOUT}
+                                                                                             link><img
+                        src={location.pathname === Routes.ABOUT ? about_active : about}
+                        width={25}/>About</MDBNavLink>
+                    </div>
+                </div>
                 {props.authenticated ?
-                    <div className={resolveNavLinkClass(location.pathname, Routes.HOME, true) + '  align-self-left'}>
-                        <div className='py-2' onClick={(event => setNavOpen(false))}><MDBNavLink to={Routes.HOME}
+                    <div className={resolveNavLinkClass(location.pathname, Routes.FEED, true) + '  align-self-left'}>
+                        <div className='py-2' onClick={(event => setNavOpen(false))}><MDBNavLink to={Routes.FEED}
                                                                                                  link><img
-                            src={location.pathname === "/" ? home_active : home}
+                            src={location.pathname === Routes.FEED ? home_active : home}
                             width={25}/>Feed</MDBNavLink>
                         </div>
                     </div> : null}

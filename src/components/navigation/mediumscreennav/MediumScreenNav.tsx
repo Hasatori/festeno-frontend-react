@@ -22,11 +22,14 @@ import login_active from "../../../assets/images/common/login_active.svg";
 import login from "../../../assets/images/common/login.svg";
 import signUp_active from "../../../assets/images/common/signUp_active.svg";
 import signUp from "../../../assets/images/common/signUp.svg";
+import about_active from "../../../assets/images/common/about_active.svg";
+import about from "../../../assets/images/common/about.svg";
 
 
 export function MediumScreenNav(props: HeaderProps) {
     const {t, i18n} = useTranslation();
     const location = useLocation();
+    const [aboutImg, setAboutImage] = useState('');
     const [exploreImg, setExploreImg] = useState('');
     const [feedImg, setFeedImage] = useState('');
     const [calendarImg, setCalendarImage] = useState('');
@@ -42,12 +45,20 @@ export function MediumScreenNav(props: HeaderProps) {
                     <img src={logo} width={35}></img>
                 </div>
 
+                <div className={resolveNavLinkClass(location.pathname, Routes.ABOUT, true) + '  align-self-center'}
+                     onMouseEnter={() => setAboutImage(about_active)}
+                     onMouseLeave={() => setAboutImage('')}>
+                    <div className='py-2'><MDBNavLink to={Routes.ABOUT} link><img
+                        src={aboutImg !== '' ? aboutImg : location.pathname === Routes.ABOUT ? about_active : about}
+                        width={25}/></MDBNavLink>
+                    </div>
+                </div>
                 {props.authenticated ?
-                    <div className={resolveNavLinkClass(location.pathname, Routes.HOME, true) + '  align-self-center'}
+                    <div className={resolveNavLinkClass(location.pathname, Routes.FEED, true) + '  align-self-center'}
                          onMouseEnter={() => setFeedImage(home_active)}
                          onMouseLeave={() => setFeedImage('')}>
-                        <div className='py-2'><MDBNavLink to={Routes.HOME} link><img
-                            src={feedImg !== '' ? feedImg : location.pathname === Routes.HOME ? home_active : home}
+                        <div className='py-2'><MDBNavLink to={Routes.FEED} link><img
+                            src={feedImg !== '' ? feedImg : location.pathname === Routes.FEED ? home_active : home}
                             width={25}/></MDBNavLink>
                         </div>
                     </div> : null

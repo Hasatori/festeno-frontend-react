@@ -14,7 +14,7 @@ function NotFound() {
                 <MDBCardText className='text-center'>
                     {t('ns1:pageNotFoundMessage')}
                 </MDBCardText>
-                <Link to={Routes.HOME} >
+                <Link to={Routes.FEED} >
                 <MDBBtn className="flex-center" color="primary" href="#">{t('ns1:goBackButton')}</MDBBtn>
                 </Link>
             </MDBCardBody>
