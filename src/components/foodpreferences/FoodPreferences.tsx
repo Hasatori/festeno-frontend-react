@@ -96,7 +96,49 @@ function FoodPreferences(props: RecipesPreferencesProps) {
         'Lamb',
         'Apple',
         'Shrimp'];
-    const suggestedCuisines = ['Italian','Thai','French','Japanese','Lebanese','Spanish','German','Korean','SouthAfrican','Australian','Caribbean','Greek','Filipino','Scottish','Indian','Mexican','Indonesian','Brazilian','Chinese','American'];
+    const veganIngredients = ['Olive oil',
+        'Flour',
+        'Sugar',
+        'Salt',
+        'Rice',
+        'Vegetable oil',
+        'Cheese',
+        'Garlic',
+        'Orange',
+        'Onion',
+        'Corn',
+        'Chili',
+        'Almonds',
+        'Mushrooms',
+        'Coconut',
+        'Beets',
+        'Strawberries',
+        'Fennel',
+        'Apple'];
+    const vegetarianIngredients = ['Olive oil',
+        'Flour',
+        'Butter',
+        'Sugar',
+        'Salt',
+        'Egg',
+        'Rice',
+        'Vegetable oil',
+        'Cheese',
+        'Garlic',
+        'Orange',
+        'Onion',
+        'Corn',
+        'Milk',
+        'Mayonnaise',
+        'Chili',
+        'Almonds',
+        'Mushrooms',
+        'Coconut',
+        'Beets',
+        'Strawberries',
+        'Fennel',
+        'Apple'];
+    const suggestedCuisines = ['Italian', 'Thai', 'French', 'Japanese', 'Lebanese', 'Spanish', 'German', 'Korean', 'SouthAfrican', 'Australian', 'Caribbean', 'Greek', 'Filipino', 'Scottish', 'Indian', 'Mexican', 'Indonesian', 'Brazilian', 'Chinese', 'American'];
     const questions = [
         <SingleChoiceQuestion question={`${step}. Please select preferred diet.`}
                               options={["Vegan", "Vegetarian", "Omnivore"]}
@@ -122,13 +164,13 @@ function FoodPreferences(props: RecipesPreferencesProps) {
         />,
         <OpenQuestion
             answers={lovedFoods}
-            suggestedOptions={suggestedIngredients}
+            suggestedOptions={dietType==='Vegan'?veganIngredients:dietType === 'Vegetarian' ? vegetarianIngredients :suggestedIngredients}
             addAnswer={(answer => setLovedFoods(oldArray => [...oldArray, answer]))}
             removeAnswer={(answer => setLovedFoods(oldArray => oldArray.filter(value => value !== answer)))}
             question={`${step}. What food ingredients do you truly love?`}
         />,
         <OpenQuestion
-            suggestedOptions={suggestedIngredients}
+            suggestedOptions={dietType==='Vegan'?veganIngredients:dietType === 'Vegetarian' ? vegetarianIngredients :suggestedIngredients}
             answers={hatedFoods}
             addAnswer={(answer => setHatedFoods(oldArray => [...oldArray, answer]))}
             removeAnswer={(answer => setHatedFoods(oldArray => oldArray.filter(value => value !== answer)))}
@@ -265,20 +307,23 @@ function SubmitControl(props: SubmitProperties) {
     return (
         <div className='d-flex flex-row mx-auto'>
             <div className='align-self-center mr-3'>
-                <button className="btn btn-block btn-primary" type="button"
-                        onClick={() => {
-                            props.onPrevious();
-                        }}>previous
-                </button>
+                <MDBBtn
+                    className="background-color-primary color-background rounded z-depth-1 w-100 bold"
+                    type="button"
+                    onClick={() => {
+                        props.onPrevious();
+                    }}>previous
+                </MDBBtn>
             </div>
             <div className='align-self-center'>
-                <button className="btn btn-block btn-primary" type="button"
-                        onClick={() => {
-                            props.onSubmit();
-                        }}
-                        disabled={!props.canSubmit}
-                >Submit
-                </button>
+                <MDBBtn
+                    className="background-color-primary color-background rounded z-depth-1 w-100 bold"
+                    type="button"
+                    onClick={() => {
+                        props.onSubmit();
+                    }}
+                    disabled={!props.canSubmit}>submit
+                </MDBBtn>
             </div>
         </div>
     )
