@@ -53,7 +53,9 @@ function Explore(props: ExploreProps) {
     const dietTypes = ["Vegan", "Vegetarian", "Omnivore"];
     const [dietSubTypes, setDietSubTypes] = useState<Array<string>>([]);
     const specificDiets = ["low fat", "low carbohydrates", "high protein", "gluten free", "Low Lactose"];
-    const [wantedFood, setWantedFood] = useState([]);
+    const [wantedFood, setWantedFood] = useState<Array<string>>([]);
+    const [wantedFoodVal,setWantedFoodVal] = useState("");
+    const [wantedFoodError, setWantedFoodError] = useState("");
     const [notWantedFood, setNotWantedFood] = useState([]);
     const [preferredCuisine, setPreferredCuisine] = useState<string>(notSelectedOption);
     const cuisines = [notSelectedOption, 'Italian', 'Thai', 'French', 'Japanese', 'Lebanese', 'Spanish', 'German', 'Korean', 'SouthAfrican', 'Australian', 'Caribbean', 'Greek', 'Filipino', 'Scottish', 'Indian', 'Mexican', 'Indonesian', 'Brazilian', 'Chinese', 'American'];
@@ -75,6 +77,15 @@ function Explore(props: ExploreProps) {
                         foodPreferenceType: FoodPreferenceType.FAVOURITE_CUISINE
                     });
                 }
+
+                foodPreferences.push(...dietSub);
+                const favouriteFoodsReq: FoodPreference[] = wantedFood.map((lovedFood) => {
+                    return {value: lovedFood, foodPreferenceType: FoodPreferenceType.FAVOURITE_FOOD};
+                });
+                foodPreferences.push(...favouriteFoodsReq);
+                const hatedFoodsReq: FoodPreference[] = notWantedFood.map((hatedFood) => {
+                    return {value: hatedFood, foodPreferenceType: FoodPreferenceType.HATED_FOOD}
+                });
                 const request: RecipesSearchRequest = {
                     dietType: dietType,
                     foodPreferences: foodPreferences,
@@ -103,7 +114,9 @@ function Explore(props: ExploreProps) {
                     <div className='d-flex flex-column'>
                         <select onChange={(event => {
                             setDietType(event.target.value)
-                        })}>
+                        })}
+                        disabled={props.loading}
+                        >
                             {dietTypes.map((value) => {
                                 return (
                                     <option value={value}>{value}</option>
@@ -120,6 +133,7 @@ function Explore(props: ExploreProps) {
                                 <div className='d-flex flex-row'>
                                     <div className='align-self-center'>
                                         <input
+                                            disabled={props.loading}
                                             checked={dietSubTypes.includes(value)}
                                             onChange={() => !dietSubTypes.includes(value) ?
                                                 setDietSubTypes(oldArray => [...oldArray, value]) :
@@ -138,7 +152,9 @@ function Explore(props: ExploreProps) {
                 <div className='d-flex flex-column ml-4'>
                     <div>Cuisine</div>
                     <div className='d-flex flex-column'>
-                        <select onChange={(event => {
+                        <select
+                            disabled={props.loading}
+                            onChange={(event => {
                             setPreferredCuisine(event.target.value)
                         })}>
                             {cuisines.map((value) => {
@@ -149,9 +165,54 @@ function Explore(props: ExploreProps) {
                         </select>
                     </div>
                 </div>
+                {/*<div className='d-flex flex-column ml-4'>
+                    <div>Wanted food</div>
+                    <div className='d-flex flex-column'>
+                        <div className='d-flex flex-row'>
+                            <div className='d-flex align-self-center mr-1'>
+                                <div className="my-0">
+                                    <input
+                                        type="text"
+                                        placeholder='type in ingredient'
+                                        className={wantedFoodError !== '' ? 'form-control is-invalid' : 'form-control'}
+                                        value={wantedFoodVal}
+                                        onChange={(event) => setWantedFoodVal(event.target.value)}
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div className='d-flex align-self-center'>
+                                <MDBBtn
+                                    className="background-color-primary color-background rounded z-depth-1 w-100 bold"
+                                    type="button"
+                                    onClick={() => {
+                                        if (wantedFoodVal.trim() === "") {
+                                            setWantedFoodError("Fill value")
+                                        } else if (wantedFood.map((answer) => answer.toLowerCase().trim()).includes(wantedFoodVal.toLowerCase().trim())) {
+                                            setWantedFoodError("Already added");
+                                        } else {
+                                            setWantedFood(oldArray => [...oldArray, wantedFoodVal]);
+                                            setWantedFoodVal("");
+                                            setWantedFoodError("");
+                                        }
+                                    }}>Add
+                                </MDBBtn>
+                            </div>
+                        </div>
+                        <ul>
+                            {wantedFood.map(value => {
+                                return (
+                                    <li>{value}</li>
+                                )
+                            })}
+                        </ul>
+                    </div>
+                </div>*/}
             </div>
             <div className='d-flex'>
                 <MDBBtn
+
+                    disabled={props.loading}
                     className="background-color-primary color-background rounded z-depth-1 bold"
                     type="button"
                     onClick={async () => {
@@ -163,7 +224,7 @@ function Explore(props: ExploreProps) {
 
             {props?.recipesSearchResponse?.maxPages?
             <MDBPagination className="mb-5">
-                <MDBPageItem disabled={page === 0}>
+                <MDBPageItem disabled={page === 0 || props.loading}>
                     <MDBPageNav aria-label="Previous">
                                 <span aria-hidden="true" onClick={() => {
                                     setPage(page - 1);
@@ -173,7 +234,8 @@ function Explore(props: ExploreProps) {
                 {
                     Array.from(Array(props.recipesSearchResponse.maxPages).keys()).map((value, index) => {
                         return (
-                            <MDBPageItem active={index === page}>
+                            <MDBPageItem active={index === page}
+                                         disabled={props.loading}>
                                 <MDBPageNav>
                                         <span onClick={() => {
                                             {
@@ -185,7 +247,7 @@ function Explore(props: ExploreProps) {
                         )
                     })
                 }
-                <MDBPageItem disabled={page === props.recipesSearchResponse.maxPages - 1}>
+                <MDBPageItem disabled={page === props.recipesSearchResponse.maxPages - 1 || props.loading}>
                     <MDBPageNav aria-label="Previous">
                                 <span aria-hidden="true" onClick={() => {
                                     setPage(page + 1);
