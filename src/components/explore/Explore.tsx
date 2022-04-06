@@ -222,7 +222,7 @@ function Explore(props: ExploreProps) {
                 </MDBBtn>
             </div>
 
-            {props?.recipesSearchResponse?.maxPages?
+            {props?.recipesSearchResponse?.maxPages > 1?
             <MDBPagination className="mb-5">
                 <MDBPageItem disabled={page === 0 || props.loading}>
                     <MDBPageNav aria-label="Previous">
