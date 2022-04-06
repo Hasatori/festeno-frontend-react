@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import "./Explore.css";
-import {MDBBtn, MDBContainer} from "mdbreact";
+import {MDBBtn, MDBContainer, MDBPageItem, MDBPageNav, MDBPagination} from "mdbreact";
 import {useMediaQuery} from "react-responsive";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
@@ -15,13 +15,26 @@ import {CircleLoader} from "react-spinners";
 export interface ExploreProps {
     loading: boolean
     loadingMessage: string | undefined
-    recipes: Array<RecipeOverview>
-    searchRecipes: (foodPreferencesRequest: FoodPreferencesRequest) => void
+    recipesSearchResponse: RecipesSearchResponse
+    searchRecipes: (recipesSearchRequest: RecipesSearchRequest) => void
 }
+
+export interface RecipesSearchRequest {
+
+    dietType: string,
+    foodPreferences: Array<FoodPreference>,
+    pageNumber: number
+}
+
+export interface RecipesSearchResponse {
+    recipes: Array<RecipeOverview>
+    maxPages: number
+}
+
 
 function mapDispatchToProps(dispatch: ThunkDispatch<any, any, AnyAction>) {
     return {
-        searchRecipes: (foodPreferencesRequest: FoodPreferencesRequest) => dispatch(searchRecipes(foodPreferencesRequest))
+        searchRecipes: (recipesSearchRequest: RecipesSearchRequest) => dispatch(searchRecipes(recipesSearchRequest))
     };
 };
 
@@ -29,7 +42,7 @@ function mapStateToProps(state: AppState, props: ExploreProps) {
     return {
         loading: state.generalState.loading,
         loadingMessage: state.generalState.loadingMessage,
-        recipes: state.generalState.searchedRecipes
+        recipesSearchResponse: state.generalState.recipesSearchResponse
     }
 }
 
@@ -39,29 +52,44 @@ function Explore(props: ExploreProps) {
     const [dietType, setDietType] = useState<string | null>("Vegan");
     const dietTypes = ["Vegan", "Vegetarian", "Omnivore"];
     const [dietSubTypes, setDietSubTypes] = useState<Array<string>>([]);
-    const specificDiets = ["Low fat", "Low carb", "High protein", "Gluten free", "Lactose free"];
+    const specificDiets = ["low fat", "low carbohydrates", "high protein", "gluten free", "Low Lactose"];
+    const [wantedFood, setWantedFood] = useState([]);
+    const [notWantedFood, setNotWantedFood] = useState([]);
     const [preferredCuisine, setPreferredCuisine] = useState<string>(notSelectedOption);
     const cuisines = [notSelectedOption, 'Italian', 'Thai', 'French', 'Japanese', 'Lebanese', 'Spanish', 'German', 'Korean', 'SouthAfrican', 'Australian', 'Caribbean', 'Greek', 'Filipino', 'Scottish', 'Indian', 'Mexican', 'Indonesian', 'Brazilian', 'Chinese', 'American'];
-    function submit() {
-        if (dietType !== null) {
-            const foodPreferences: FoodPreference[] = []
-            const dietSub: FoodPreference[] = dietSubTypes.map((dietSubType) => {
-                return {value: dietSubType, foodPreferenceType: FoodPreferenceType.DIET_SUB_TYPE}
-            });
-            foodPreferences.push(...dietSub);
-            if (preferredCuisine !== notSelectedOption) {
-                foodPreferences.push({
-                    value: preferredCuisine,
-                    foodPreferenceType: FoodPreferenceType.FAVOURITE_CUISINE
+    const [page, setPage] = useState(-1);
+
+    async function submit() {
+        if (page === -1) {
+            await setPage(0);
+        }else {
+            if (dietType !== null) {
+                const foodPreferences: FoodPreference[] = []
+                const dietSub: FoodPreference[] = dietSubTypes.map((dietSubType) => {
+                    return {value: dietSubType, foodPreferenceType: FoodPreferenceType.DIET_SUB_TYPE}
                 });
+                foodPreferences.push(...dietSub);
+                if (preferredCuisine !== notSelectedOption) {
+                    foodPreferences.push({
+                        value: preferredCuisine,
+                        foodPreferenceType: FoodPreferenceType.FAVOURITE_CUISINE
+                    });
+                }
+                const request: RecipesSearchRequest = {
+                    dietType: dietType,
+                    foodPreferences: foodPreferences,
+                    pageNumber: page
+                }
+                props.searchRecipes(request);
             }
-            const request: FoodPreferencesRequest = {
-                dietType: dietType,
-                foodPreferences: foodPreferences,
-            }
-            props.searchRecipes(request);
         }
     }
+
+    useEffect(() => {
+        if (page >= 0) {
+            submit();
+        }
+    }, [page]);
 
     return (
         <MDBContainer className={isSmallScreen ? "mx-auto p-4 pt-2 mt-5" : "mx-auto p-5 mt-3"}>
@@ -73,14 +101,14 @@ function Explore(props: ExploreProps) {
                 <div className='d-flex flex-column'>
                     <div>Diet types</div>
                     <div className='d-flex flex-column'>
-                        <select  onChange={(event => {
+                        <select onChange={(event => {
                             setDietType(event.target.value)
                         })}>
-                        {dietTypes.map((value) => {
-                            return (
-                                <option value={value}>{value}</option>
-                            )
-                        })}
+                            {dietTypes.map((value) => {
+                                return (
+                                    <option value={value}>{value}</option>
+                                )
+                            })}
                         </select>
                     </div>
                 </div>
@@ -110,7 +138,7 @@ function Explore(props: ExploreProps) {
                 <div className='d-flex flex-column ml-4'>
                     <div>Cuisine</div>
                     <div className='d-flex flex-column'>
-                        <select  onChange={(event => {
+                        <select onChange={(event => {
                             setPreferredCuisine(event.target.value)
                         })}>
                             {cuisines.map((value) => {
@@ -126,12 +154,46 @@ function Explore(props: ExploreProps) {
                 <MDBBtn
                     className="background-color-primary color-background rounded z-depth-1 bold"
                     type="button"
-                    onClick={() => {
-                        submit();
+                    onClick={async () => {
+                        await setPage(0);
+                       await submit();
                     }}>search
                 </MDBBtn>
             </div>
-            {props.loading?
+
+            {props?.recipesSearchResponse?.maxPages?
+            <MDBPagination className="mb-5">
+                <MDBPageItem disabled={page === 0}>
+                    <MDBPageNav aria-label="Previous">
+                                <span aria-hidden="true" onClick={() => {
+                                    setPage(page - 1);
+                                }}>Previous</span>
+                    </MDBPageNav>
+                </MDBPageItem>
+                {
+                    Array.from(Array(props.recipesSearchResponse.maxPages).keys()).map((value, index) => {
+                        return (
+                            <MDBPageItem active={index === page}>
+                                <MDBPageNav>
+                                        <span onClick={() => {
+                                            {
+                                                setPage(index);
+                                            }
+                                        }}> {index} </span>
+                                </MDBPageNav>
+                            </MDBPageItem>
+                        )
+                    })
+                }
+                <MDBPageItem disabled={page === props.recipesSearchResponse.maxPages - 1}>
+                    <MDBPageNav aria-label="Previous">
+                                <span aria-hidden="true" onClick={() => {
+                                    setPage(page + 1);
+                                }}>Next</span>
+                    </MDBPageNav>
+                </MDBPageItem>
+            </MDBPagination>:null}
+            {props.loading ?
                 <div>
                     <CircleLoader
                         css={`margin:auto;`}
@@ -140,12 +202,13 @@ function Explore(props: ExploreProps) {
                         loading={props.loading}
                     />
                     <h2 className="text-center">Loading recipes</h2>
-                </div>:
-                props.recipes?
-                <div>
-                    <RecipesGrid recipes={props.recipes} heading={"Search result"}/>
-                </div>
-                :null}
+                </div> : props?.recipesSearchResponse?.recipes ?
+                    <div>
+                        <RecipesGrid recipes={props.recipesSearchResponse.recipes} heading={"Search result"}/>
+                    </div>
+                    : null
+            }
+
         </MDBContainer>)
 
 }

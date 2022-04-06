@@ -1,5 +1,13 @@
-import {DISMISS_SUCCESS, FAILURE, GeneralActionTypes, IN_PROGRESS, SUCCESS} from "../actiontype/GeneralActionTypes";
+import {
+    DISMISS_SUCCESS,
+    FAILURE,
+    GeneralActionTypes,
+    IN_PROGRESS,
+    RecipesSearchResult,
+    SUCCESS
+} from "../actiontype/GeneralActionTypes";
 import {Image, User} from "../../components/App";
+import {RecipesSearchResponse} from "../../components/explore/Explore";
 
 
 const initialState = {
@@ -18,7 +26,7 @@ export interface GeneralState {
     infoMessage: string | undefined,
     feed: Array<RecommendedRecipe>,
     recipeTags: Array<string>,
-    searchedRecipes: Array<RecipeOverview>,
+    recipesSearchResponse: RecipesSearchResponse,
     recipe: Recipe
 }
 
@@ -172,11 +180,10 @@ export default function generalReducer(state = initialState, action: GeneralActi
                 ...state,
                 feed: action.recipeOverviews
             }
-        case "LOAD_RECIPES":
-            console.log(action.recipeOverviews);
+        case "RECIPES_SEARCH_RESULT":
             return {
                 ...state,
-                searchedRecipes: action.recipeOverviews
+                recipesSearchResponse: action.recipesSearchResponse
             }
         case "LOAD_RECIPE":
             return {

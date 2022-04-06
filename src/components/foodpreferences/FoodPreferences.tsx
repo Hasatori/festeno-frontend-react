@@ -35,7 +35,6 @@ export interface FoodPreferencesRequest {
 
     dietType: string,
     foodPreferences: Array<FoodPreference>
-
 }
 
 export interface RecipesPreferencesProps {

@@ -6,6 +6,7 @@ import i18next from "i18next";
 import API from "../../util/APIUtils";
 import {AxiosResponse} from "axios";
 import {RecipesPreferences} from "../../components/App";
+import {RecipesSearchRequest, RecipesSearchResponse} from "../../components/explore/Explore";
 
 export const IN_PROGRESS = "IN_PROGRESS";
 export const SUCCESS = "SUCCESS";
@@ -20,7 +21,7 @@ export const DONE = "DONE";
 export const LOAD_FEED = "LOAD_FEED";
 export const LOAD_RECIPE_TAGS = "LOAD_RECIPE_TAGS";
 export const LOAD_RECIPE = "LOAD_RECIPE";
-export const LOAD_RECIPES = "LOAD_RECIPES";
+export const RECIPES_SEARCH_RESULT = "RECIPES_SEARCH_RESULT";
 
 export interface InProgressAction extends Action {
     type: typeof IN_PROGRESS,
@@ -73,9 +74,9 @@ export interface LoadFeed extends Action {
 
 }
 
-export interface LoadRecipes extends Action {
-    type: typeof LOAD_RECIPES
-    recipeOverviews: Array<RecipeOverview>
+export interface RecipesSearchResult extends Action {
+    type: typeof RECIPES_SEARCH_RESULT
+    recipesSearchResponse: RecipesSearchResponse
 
 }
 
@@ -165,15 +166,15 @@ export const loadRecipe: ActionCreator<ThunkAction<void,
 export const searchRecipes: ActionCreator<ThunkAction<void,
     void,
     RecipesPreferences,
-    AnyAction>> = (recipesPreferences: RecipesPreferences) => {
+    AnyAction>> = (recipesSearchRequest: RecipesSearchRequest) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator("Searching recipes"));
         API({
             url: process.env.REACT_APP_REST_API_URL + "/recipes/search",
             method: 'POST',
-            data: recipesPreferences
+            data: recipesSearchRequest
         }).then((response) => {
-            dispatch({type: LOAD_RECIPES, recipeOverviews: response.data})
+            dispatch({type: RECIPES_SEARCH_RESULT, recipesSearchResponse: response.data})
             dispatch(doneActionCreator(""));
         }).catch(error => {
             dispatch(failureActionCreator((error.response && error.response.data && error.response.data.message) || i18next.t('ns1:defaultErrorMessage')));
@@ -215,4 +216,4 @@ export type GeneralActionTypes =
     | LoadFeed
     | LoadRecipe
     | LoadRecipeTags
-    | LoadRecipes;
+    | RecipesSearchResult;
