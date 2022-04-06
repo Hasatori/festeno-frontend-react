@@ -54,7 +54,7 @@ function Explore(props: ExploreProps) {
     const [dietSubTypes, setDietSubTypes] = useState<Array<string>>([]);
     const specificDiets = ["low fat", "low carbohydrates", "high protein", "gluten free", "Low Lactose"];
     const [wantedFood, setWantedFood] = useState<Array<string>>([]);
-    const [wantedFoodVal,setWantedFoodVal] = useState("");
+    const [wantedFoodVal, setWantedFoodVal] = useState("");
     const [wantedFoodError, setWantedFoodError] = useState("");
     const [notWantedFood, setNotWantedFood] = useState([]);
     const [preferredCuisine, setPreferredCuisine] = useState<string>(notSelectedOption);
@@ -64,7 +64,7 @@ function Explore(props: ExploreProps) {
     async function submit() {
         if (page === -1) {
             await setPage(0);
-        }else {
+        } else {
             if (dietType !== null) {
                 const foodPreferences: FoodPreference[] = []
                 const dietSub: FoodPreference[] = dietSubTypes.map((dietSubType) => {
@@ -115,7 +115,7 @@ function Explore(props: ExploreProps) {
                         <select onChange={(event => {
                             setDietType(event.target.value)
                         })}
-                        disabled={props.loading}
+                                disabled={props.loading}
                         >
                             {dietTypes.map((value) => {
                                 return (
@@ -155,8 +155,8 @@ function Explore(props: ExploreProps) {
                         <select
                             disabled={props.loading}
                             onChange={(event => {
-                            setPreferredCuisine(event.target.value)
-                        })}>
+                                setPreferredCuisine(event.target.value)
+                            })}>
                             {cuisines.map((value) => {
                                 return (
                                     <option value={value}>{value}</option>
@@ -217,44 +217,11 @@ function Explore(props: ExploreProps) {
                     type="button"
                     onClick={async () => {
                         await setPage(0);
-                       await submit();
+                        await submit();
                     }}>search
                 </MDBBtn>
             </div>
 
-            {props?.recipesSearchResponse?.maxPages > 1?
-            <MDBPagination className="mb-5">
-                <MDBPageItem disabled={page === 0 || props.loading}>
-                    <MDBPageNav aria-label="Previous">
-                                <span aria-hidden="true" onClick={() => {
-                                    setPage(page - 1);
-                                }}>Previous</span>
-                    </MDBPageNav>
-                </MDBPageItem>
-                {
-                    Array.from(Array(props.recipesSearchResponse.maxPages).keys()).map((value, index) => {
-                        return (
-                            <MDBPageItem active={index === page}
-                                         disabled={props.loading}>
-                                <MDBPageNav>
-                                        <span onClick={() => {
-                                            {
-                                                setPage(index);
-                                            }
-                                        }}> {index} </span>
-                                </MDBPageNav>
-                            </MDBPageItem>
-                        )
-                    })
-                }
-                <MDBPageItem disabled={page === props.recipesSearchResponse.maxPages - 1 || props.loading}>
-                    <MDBPageNav aria-label="Previous">
-                                <span aria-hidden="true" onClick={() => {
-                                    setPage(page + 1);
-                                }}>Next</span>
-                    </MDBPageNav>
-                </MDBPageItem>
-            </MDBPagination>:null}
             {props.loading ?
                 <div>
                     <CircleLoader
@@ -266,7 +233,25 @@ function Explore(props: ExploreProps) {
                     <h2 className="text-center">Loading recipes</h2>
                 </div> : props?.recipesSearchResponse?.recipes ?
                     <div>
-                        <RecipesGrid recipes={props.recipesSearchResponse.recipes} heading={"Search result"}/>
+                        <RecipesGrid
+                            recipes={props.recipesSearchResponse.recipes}
+                            heading={"Search result"}
+                            pagination={{
+                                maxPages: props.recipesSearchResponse.maxPages,
+                                current: page,
+                                onPrevious: () => {
+                                    setPage(page - 1);
+                                },
+                                onNext: () => {
+                                    setPage(page + 1);
+                                },
+                                onSelected: (index: number) => {
+                                    setPage(index);
+                                },
+                                loading: props.loading
+                            }
+                            }
+                        />
                     </div>
                     : null
             }
