@@ -21,7 +21,7 @@ export default function About() {
             </div>
 
             <MDBTypography tag='h2' variant="h2-responsive">
-                <strong >Get feed with recipes tailored just for you!</strong>
+                <strong >Personalized feed</strong>
             </MDBTypography>
             <MDBBox tag='p' className="mt-5 lead">
                 All you need to do is to just create an <Link className="ml-1 link-black"
@@ -50,7 +50,7 @@ export default function About() {
             <MDBTypography tag='h2' variant="h2-responsive" className='mt-5'>
                 <MDBBox><strong>Explore new recipes</strong></MDBBox>
             </MDBTypography>
-            <MDBBox tag='p' className="mt-5">
+            <MDBBox tag='p' className="mt-5 lead">
                 <Link className="ml-1 link-black"
                       to={Routes.EXPLORE}>Search</Link> your favourite recipes using various filters
             </MDBBox>
