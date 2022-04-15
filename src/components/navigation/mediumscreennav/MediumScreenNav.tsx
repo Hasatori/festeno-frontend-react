@@ -24,6 +24,8 @@ import signUp_active from "../../../assets/images/common/signUp_active.svg";
 import signUp from "../../../assets/images/common/signUp.svg";
 import about_active from "../../../assets/images/common/about_active.svg";
 import about from "../../../assets/images/common/about.svg";
+import favourite_active from "../../../assets/images/common/favourite_active.svg";
+import favourite from "../../../assets/images/common/favourite.svg";
 
 
 export function MediumScreenNav(props: HeaderProps) {
@@ -38,6 +40,7 @@ export function MediumScreenNav(props: HeaderProps) {
     const [settingImg, setSettingsImg] = useState('');
     const [loginImage, setLoginImg] = useState('');
     const [signUpImage, setSignUpImg] = useState('');
+    const [favouriteImg, setFavouriteImg] = useState('');
     return (
         <div className='side-nav-wrapper'>
             <div className='side-nav-collapsed pb-5 d-flex flex-column'>
@@ -62,6 +65,15 @@ export function MediumScreenNav(props: HeaderProps) {
                             width={25}/></MDBNavLink>
                         </div>
                     </div> : null
+                }
+                {props.authenticated ?  <div
+                    className={resolveNavLinkClass(location.pathname, Routes.FAVOURITE_RECIPES, false) + '  align-self-center'}
+                    onMouseEnter={() => setFavouriteImg(favourite_active)}
+                    onMouseLeave={() => setFavouriteImg('')}>
+                    <div className='py-2'><MDBNavLink to={Routes.FAVOURITE_RECIPES} link><img
+                        src={favouriteImg !== '' ? favouriteImg : location.pathname.startsWith(Routes.FAVOURITE_RECIPES) ? favourite_active : favourite}
+                        width={25}/></MDBNavLink></div>
+                </div>: null
                 }
                 <div
                     className={resolveNavLinkClass(location.pathname, Routes.EXPLORE, false) + '  align-self-center'}

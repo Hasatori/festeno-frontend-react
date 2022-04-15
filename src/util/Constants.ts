@@ -19,6 +19,7 @@ export enum Routes {
     RECIPES = '/recipes',
     MY_RECIPES = '/recipes/my-recipes',
     CREATE_RECIPE = '/recipes/create',
+    FAVOURITE_RECIPES = '/recipes/favourite',
     RECIPE = '/recipes/recipe',
     ACCOUNT = '/account',
     LOGIN = '/login',
@@ -28,5 +29,5 @@ export enum Routes {
     PASSWORD_RESET = '/password-reset',
     OAUTH2_REDIRECT = '/oauth2/redirect',
     ACTIVATE_ACCOUNT = '/activate-account',
-    CONFIRM_EMAIL_CHANGE = '/confirm-email-change'
+    CONFIRM_EMAIL_CHANGE = '/confirm-email-change',
 }

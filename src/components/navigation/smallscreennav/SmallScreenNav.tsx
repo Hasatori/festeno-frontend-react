@@ -4,10 +4,6 @@ import logo from "../../../assets/images/logos/festeno_yellow2.svg";
 import {MDBNavLink} from "mdbreact";
 import home_active from "../../../assets/images/common/home-active.svg";
 import home from "../../../assets/images/common/home.svg";
-import book_active from "../../../assets/images/common/book_active.svg";
-import book from "../../../assets/images/common/book.svg";
-import calendar_active from "../../../assets/images/common/calendar_active.svg";
-import calendar from "../../../assets/images/common/calendar.svg";
 import loupe_active from "../../../assets/images/common/loupe_active.svg";
 import loupe from "../../../assets/images/common/loupe.svg";
 import signOut from "../../../assets/images/common/sign-out.svg";
@@ -25,6 +21,8 @@ import signUp_active from "../../../assets/images/common/signUp_active.svg";
 import signUp from "../../../assets/images/common/signUp.svg";
 import about_active from "../../../assets/images/common/about_active.svg";
 import about from "../../../assets/images/common/about.svg";
+import favourite from "../../../assets/images/common/favourite.svg";
+import favourite_active from "../../../assets/images/common/favourite_active.svg";
 
 export function SmallScreenNav(props: HeaderProps) {
     const {t, i18n} = useTranslation();
@@ -57,8 +55,17 @@ export function SmallScreenNav(props: HeaderProps) {
                             src={location.pathname === Routes.FEED ? home_active : home}
                             width={25}/>Feed</MDBNavLink>
                         </div>
-                    </div> : null}
+                    </div>
 
+                    : null}
+                {props.authenticated ? <div
+                    className={resolveNavLinkClass(location.pathname, Routes.FAVOURITE_RECIPES, false) + '  align-self-center'}>
+                    <div className='py-2' onClick={(event => setNavOpen(false))}><MDBNavLink
+                        to={Routes.FAVOURITE_RECIPES}
+                        link><img
+                        src={location.pathname.startsWith(Routes.FAVOURITE_RECIPES) ? favourite_active : favourite}
+                        width={25}/>Favourite</MDBNavLink></div>
+                </div> : null}
                 <div className={resolveNavLinkClass(location.pathname, Routes.EXPLORE, false) + '  align-self-center'}>
                     <div className='py-2' onClick={(event => setNavOpen(false))}><MDBNavLink to={Routes.EXPLORE}
                                                                                              link><img
@@ -67,20 +74,20 @@ export function SmallScreenNav(props: HeaderProps) {
 
                 </div>
                 {props.authenticated ?
-                <div className='mt-auto d-flex flex-column'>
-                    <div className={'mt-auto align-self-center additional-action'}
-                         onClick={() => props.onLogOut()}>
-                        <img src={signOut} width={20}/>
-                    </div>
-                    <Link to={Routes.PROFILE}
-                          className={location.pathname === Routes.PROFILE ? ' mt-3 align-self-center additional-action-active' : 'mt-3 align-self-center additional-action'}
-                          onClick={(event => setNavOpen(false))}
-                    >
-                        <img
-                            src={location.pathname === Routes.PROFILE ? settings_active : settings}
-                            width={20}/>
-                    </Link>
-                </div>:
+                    <div className='mt-auto d-flex flex-column'>
+                        <div className={'mt-auto align-self-center additional-action'}
+                             onClick={() => props.onLogOut()}>
+                            <img src={signOut} width={20}/>
+                        </div>
+                        <Link to={Routes.PROFILE}
+                              className={location.pathname === Routes.PROFILE ? ' mt-3 align-self-center additional-action-active' : 'mt-3 align-self-center additional-action'}
+                              onClick={(event => setNavOpen(false))}
+                        >
+                            <img
+                                src={location.pathname === Routes.PROFILE ? settings_active : settings}
+                                width={20}/>
+                        </Link>
+                    </div> :
                     <div className='mt-auto d-flex flex-column'>
 
                         <div className={resolveNavLinkWrapperClass(location.pathname, Routes.LOGIN, true)}>

@@ -23,6 +23,8 @@ import {HeaderProps, resolveNavLinkClass, resolveNavLinkWrapperClass} from "../A
 import {useTranslation} from "react-i18next";
 import './BigScreenNav.css';
 import {Routes} from "../../../util/Constants";
+import favourite_active from "../../../assets/images/common/favourite_active.svg";
+import favourite from "../../../assets/images/common/favourite.svg";
 
 export function BigScreenNav(props: HeaderProps) {
 
@@ -37,7 +39,7 @@ export function BigScreenNav(props: HeaderProps) {
     const [settingImg, setSettingsImg] = useState('');
     const [loginImage, setLoginImg] = useState('');
     const [signUpImage, setSignUpImg] = useState('');
-
+    const [favouriteImg, setFavouriteImg] = useState('');
     return (
         <div className='side-nav-wrapper'>
             <div className='side-nav d-flex flex-column py-5'>
@@ -70,6 +72,23 @@ export function BigScreenNav(props: HeaderProps) {
                                     width={25}/>
                                 </div>
                                 <div className='align-self-center'>Feed</div>
+                            </div>
+                        </Link> : null
+                    }
+                </div>
+                <div className={resolveNavLinkWrapperClass(location.pathname, Routes.FAVOURITE_RECIPES, true)}>
+                    {props.authenticated ?
+                        <Link to={Routes.FAVOURITE_RECIPES}>
+                            <div className={resolveNavLinkClass(location.pathname, Routes.FAVOURITE_RECIPES, true)}
+
+                                 onMouseEnter={() => setFavouriteImg(favourite_active)}
+                                 onMouseLeave={() => setFavouriteImg('')}
+                            >
+                                <div className='mr-2 py-2'><img
+                                    src={favouriteImg !== '' ? favouriteImg : location.pathname === Routes.FAVOURITE_RECIPES ? favourite_active : favourite}
+                                    width={25}/>
+                                </div>
+                                <div className='align-self-center'>Favourite</div>
                             </div>
                         </Link> : null
                     }
