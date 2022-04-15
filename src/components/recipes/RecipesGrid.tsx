@@ -10,6 +10,7 @@ import React, {useEffect, useState} from "react";
 import {CircleLoader} from "react-spinners";
 import {useMediaQuery} from "react-responsive";
 import "./RecipesGrid.css"
+
 export interface RecipesGridProps {
     recipes: Array<RecipeOverview>
     heading: string
@@ -38,7 +39,7 @@ export default function RecipesGrid(props: RecipesGridProps) {
                         <MDBRow>
                             <div className="d-flex flex-left mt-5 p-2"><h2>{props.heading}</h2></div>
                         </MDBRow>
-                        {props.pagination ? <MDBRow center={isSmallScreen}
+                        {props.pagination && props.pagination.maxPages > 1 ? <MDBRow center={isSmallScreen}
                                                     className={'px-5 mt-5'}><RecipesPaginationEl{...props.pagination}/></MDBRow> : null}
                         <MDBRow>
                             {props.recipes.map((recipe: RecipeOverview, index) => {
@@ -60,7 +61,7 @@ export default function RecipesGrid(props: RecipesGridProps) {
                                 )
                             })}
                         </MDBRow>
-                        {props.pagination ? <MDBRow center={isSmallScreen}
+                        {props.pagination && props.pagination.maxPages > 1 ? <MDBRow center={isSmallScreen}
                                                     className='px-5 mt-5'><RecipesPaginationEl{...props.pagination}/></MDBRow> : null}
                     </MDBContainer>
 
@@ -73,34 +74,40 @@ export default function RecipesGrid(props: RecipesGridProps) {
 
 function RecipesPaginationEl(pagination: RecipesPagination) {
     const isSmallScreen = useMediaQuery({query: '(max-width: 700px)'});
-    const [paginationItems,setPaginationItems] = useState<Array<number>>([]);
-    useEffect(()=>{
+    const maxPagItemsToDisplay = isSmallScreen ? 4 : 10;
+    const [paginationItems, setPaginationItems] = useState<Array<number>>([]);
+    useEffect(() => {
         const items = Array.from(Array(pagination.maxPages).keys());
-            const newPagItems:Array<number> = [];
-            let lastI= pagination.current;
+        if(items.length > maxPagItemsToDisplay) {
+            const newPagItems: Array<number> = [];
+            let lastI = pagination.current;
             for (let i = pagination.current; i < items.length; i++) {
-                if (newPagItems.length === 5) {
+                if (newPagItems.length === maxPagItemsToDisplay / 2) {
                     lastI = i;
                     break;
                 }
                 newPagItems.push(items[i]);
             }
-            for (let i = pagination.current-1; i >= 0; i--) {
-                if (newPagItems.length === 10) {
+            for (let i = pagination.current - 1; i >= 0; i--) {
+                if (newPagItems.length === maxPagItemsToDisplay) {
                     break;
                 }
                 newPagItems.unshift(items[i]);
             }
-            if (newPagItems.length < 10) {
+            if (newPagItems.length < maxPagItemsToDisplay) {
                 for (let i = lastI; i < items.length; i++) {
-                    if (newPagItems.length === 10) {
+                    if (newPagItems.length === maxPagItemsToDisplay) {
                         break;
                     }
                     newPagItems.push(items[i]);
                 }
             }
-            setPaginationItems(old=>newPagItems);
-    },[pagination.current])
+            setPaginationItems(old => newPagItems);
+        }else {
+
+            setPaginationItems(old => items);
+        }
+    }, [pagination.current])
     return (
         <MDBPagination>
             <MDBPageItem disabled={pagination.current === 0 || pagination.loading}>
@@ -108,23 +115,16 @@ function RecipesPaginationEl(pagination: RecipesPagination) {
                     <span aria-hidden="true" onClick={() => pagination.onPrevious()}>Previous</span>
                 </MDBPageNav>
             </MDBPageItem>
-            {!isSmallScreen ?
-                paginationItems.map((value, index) => {
-                    return (
-                        <MDBPageItem active={value === pagination.current}
-                                     disabled={pagination.loading}>
-                            <MDBPageNav>
-                                <span onClick={() => pagination.onSelected(value)}> {value} </span>
-                            </MDBPageNav>
-                        </MDBPageItem>
-                    )
-                })
-                : <MDBPageItem active={true}
-                               disabled={pagination.loading}>
-                    <MDBPageNav>
-                        <span> {pagination.current} </span>
-                    </MDBPageNav>
-                </MDBPageItem>}
+            {paginationItems.map((value, index) => {
+                return (
+                    <MDBPageItem active={value === pagination.current}
+                                 disabled={pagination.loading}>
+                        <MDBPageNav>
+                            <span onClick={() => pagination.onSelected(value)}> {value} </span>
+                        </MDBPageNav>
+                    </MDBPageItem>
+                )
+            })}
             <MDBPageItem disabled={pagination.current === pagination.maxPages - 1 || pagination.loading}>
                 <MDBPageNav aria-label="Previous">
                     <span aria-hidden="true" onClick={() => pagination.onNext()}>Next</span>

@@ -77,6 +77,10 @@ body {
   border: 1px solid #B2B2B2 !important;
 }
 
+.border-light-grey {
+  border: 1px solid #DDDDDD !important;
+}
+
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -414,4 +418,4 @@ a:hover {
   opacity: 1;
 }
 
-/*# sourceMappingURL=Recipe.css.map */
+/*# sourceMappingURL=RecipeDetail.css.map */

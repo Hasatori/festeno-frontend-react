@@ -88,6 +88,10 @@ body {
   border: 1px solid #B2B2B2 !important;
 }
 
+.border-light-grey {
+  border: 1px solid $color-light-grey !important;
+}
+
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
