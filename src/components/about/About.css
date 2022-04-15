@@ -37,6 +37,19 @@ body {
   opacity: 1;
 }
 
+.link-black {
+  font-weight: bold;
+  color: #181818;
+  text-decoration: underline;
+  opacity: 0.9;
+}
+
+.link-black:hover {
+  color: #181818;
+  text-decoration: underline;
+  opacity: 1;
+}
+
 .my-font {
   font-family: "Dancing Script", cursive;
 }
@@ -359,6 +372,7 @@ a:hover {
   border-radius: 15% 15% 15% 15% !important;
   max-width: 250px;
   margin: auto;
+  position: relative;
 }
 
 .recipe-image {
@@ -416,6 +430,10 @@ a:hover {
 
 .action-button:hover {
   opacity: 1;
+}
+
+.sample-image {
+  width: 50px !important;
 }
 
 /*# sourceMappingURL=About.css.map */

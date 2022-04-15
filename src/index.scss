@@ -48,6 +48,18 @@ body {
   opacity: 1;
 }
 
+.link-black {
+  font-weight: bold;
+  color: $color-background;
+  text-decoration: underline;
+  opacity: 0.9;
+}
+
+.link-black:hover {
+  color: $color-background;
+  text-decoration: underline;
+  opacity: 1;
+}
 .my-font {
   font-family: 'Dancing Script', cursive;
 }
