@@ -19,17 +19,17 @@ export default function About() {
                     <strong>Festeno</strong>
                 </MDBTypography>
             </div>
-
             <MDBTypography tag='h2' variant="h2-responsive">
                 <strong >Personalized feed</strong>
             </MDBTypography>
+            <MDBBox tag='p' className="mt-5 lead">Wanna have feed with recipes tailored just for you?</MDBBox>
             <MDBBox tag='p' className="mt-5 lead">
-                All you need to do is to just create an <Link className="ml-1 link-black"
+               All you need to do is to just create an <Link className="ml-1 link-black"
                                                               to={Routes.SIGNUP}>account</Link>, login and fill then a short
                 questionnaire.
             </MDBBox>
 
-            <MDBRow className='border-light-grey'>
+            <MDBRow className='border-light-grey my-5'>
                 <MDBCol lg="5" md="12" className="mb-4  mx-auto">
                     <img src={preferences_sample_1} className="img-fluid p-3" alt=""/>
                 </MDBCol>
@@ -38,10 +38,10 @@ export default function About() {
                 </MDBCol>
             </MDBRow>
             <MDBBox tag='p' className="mt-5 lead">
-                Festeno will then based on your answers prepare a feed with recipes according to your preferences. Feed will be regularly
-                updated so that you can always try something new!
+                Based on your preferences Festeno will generate a personalized feed. Feed will be regularly
+                updated so there will be always something new to try out!
             </MDBBox>
-            <MDBRow className='border-light-grey'>
+            <MDBRow className='border-light-grey  my-5'>
                 <MDBCol lg="10" md="12" className="mb-4  mx-auto">
                     <img src={preferences_sample_3} className="img-fluid p-3" alt=""/>
                 </MDBCol>
