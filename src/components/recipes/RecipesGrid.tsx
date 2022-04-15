@@ -1,13 +1,8 @@
 import {RecipeOverview} from "../../redux/reducer/GeneralReducer";
-import {MDBCol, MDBContainer, MDBPageItem, MDBPageNav, MDBPagination, MDBRow} from "mdbreact";
+import {MDBCol, MDBContainer, MDBIcon, MDBPageItem, MDBPageNav, MDBPagination, MDBRow, MDBTooltip} from "mdbreact";
 import {Link} from "react-router-dom";
 import {Routes} from "../../util/Constants";
-import star_filled from "../../assets/images/common/star_filled.svg";
-import star_empty from "../../assets/images/common/star_empty.svg";
-import heart_empty from "../../assets/images/common/heart_empty.svg";
-import heart_filled from "../../assets/images/common/heart_filled.svg";
 import React, {useEffect, useState} from "react";
-import {CircleLoader} from "react-spinners";
 import {useMediaQuery} from "react-responsive";
 import "./RecipesGrid.css"
 
@@ -45,18 +40,35 @@ export default function RecipesGrid(props: RecipesGridProps) {
                             {props.recipes.map((recipe: RecipeOverview, index) => {
                                 return (
                                     <MDBCol md='6' xl='3' sm="12" className='mt-5 px-4'>
-                                        <Link to={`${Routes.RECIPE}/${recipe.id}`}>
+
                                             <div className='d-flex flex-column recipe-wrapper z-depth-1'>
 
-                                                <div><img className='recipe-image'
+                                                <Link to={`${Routes.RECIPE}/${recipe.id}`}><div><img className='recipe-image'
                                                           src={`data:${recipe?.overviewImage?.type};base64,${recipe?.overviewImage?.data}`}/>
                                                 </div>
+
+                                                </Link>
                                                 <div className='recipe-footer d-flex flex-column position-relative'>
                                                     <div className="mb-3 h5-responsive flex-center">
                                                         <strong>{recipe.title}</strong></div>
                                                 </div>
+                                                <div className='favourites pt-5 hover-pointer-cursor'>
+                                                    <Link to={`${Routes.LOGIN}`} className='color-background'>
+                                                        <MDBTooltip placement="top">
+                                                            {recipe.isInFavourites ?
+                                                                <MDBIcon icon="heart"/> :
+                                                                <MDBIcon far icon="heart"/>
+                                                            }
+                                                            {recipe.isInFavourites ?
+                                                                <div>Remove from favourites</div> :
+                                                                <div>Add to favourites</div>
+                                                            }
+
+                                                        </MDBTooltip>
+                                                    </Link>
+                                                </div>
                                             </div>
-                                        </Link>
+
                                     </MDBCol>
                                 )
                             })}

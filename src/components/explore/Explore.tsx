@@ -52,7 +52,7 @@ function Explore(props: ExploreProps) {
     const [dietType, setDietType] = useState<string | null>("Vegan");
     const dietTypes = ["Vegan", "Vegetarian", "Omnivore"];
     const [dietSubTypes, setDietSubTypes] = useState<Array<string>>([]);
-    const specificDiets = ["low fat", "low carbohydrates", "high protein", "gluten free", "Low Lactose"];
+    const specificDiets = ["low fat", "low carbohydrates", "high protein", "gluten free", "Low Lactose", "Sugar free"];
     const [wantedFood, setWantedFood] = useState<Array<string>>([]);
     const [wantedFoodVal, setWantedFoodVal] = useState("");
     const [wantedFoodError, setWantedFoodError] = useState("");

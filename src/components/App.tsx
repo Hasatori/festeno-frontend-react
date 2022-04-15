@@ -234,3 +234,4 @@ export interface Image {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
+

@@ -45,6 +45,7 @@ export interface RecipeOverview {
     author: User,
     overviewImage: Image
     tags: Array<string>
+    isInFavourites: boolean,
 }
 
 

@@ -359,6 +359,7 @@ a:hover {
   border-radius: 15% 15% 15% 15% !important;
   max-width: 250px;
   margin: auto;
+  position: relative;
 }
 
 .recipe-image {
@@ -422,6 +423,13 @@ a:hover {
   background-color: #FFF27E !important;
   color: #181818 !important;
   font-weight: bold;
+}
+
+.favourites {
+  position: absolute;
+  right: 10%;
+  bottom: 5%;
+  color: #181818 !important;
 }
 
 /*# sourceMappingURL=RecipesGrid.css.map */
