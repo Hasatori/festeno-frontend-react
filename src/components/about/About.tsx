@@ -21,7 +21,7 @@ export default function About() {
             </div>
 
             <MDBTypography tag='h2' variant="h2-responsive">
-                <strong >Get feed with recipes tailored for you!</strong>
+                <strong >Get feed with recipes tailored just for you!</strong>
             </MDBTypography>
             <MDBBox tag='p' className="mt-5 lead">
                 All you need to do is to just create an <Link className="ml-1 link-black"
