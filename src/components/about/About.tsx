@@ -25,7 +25,7 @@ export default function About() {
             </MDBTypography>
             <MDBBox tag='p' className="mt-5 lead">
                 All you need to do is to just create an <Link className="ml-1 link-black"
-                                                              to={Routes.SIGNUP}>account</Link> login and fill a short
+                                                              to={Routes.SIGNUP}>account</Link>, login and fill then a short
                 questionnaire.
             </MDBBox>
 
@@ -38,7 +38,7 @@ export default function About() {
                 </MDBCol>
             </MDBRow>
             <MDBBox tag='p' className="mt-5 lead">
-                Festeno will then prepare feed with recipes according to your preferences. Feed will be regularly
+                Festeno will then based on your answers prepare a feed with recipes according to your preferences. Feed will be regularly
                 updated so that you can always try something new!
             </MDBBox>
             <MDBRow className='border-light-grey'>
