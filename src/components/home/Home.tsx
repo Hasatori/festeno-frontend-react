@@ -98,7 +98,7 @@ function Home(props: HomeProps) {
                     :null}
                 {Array.from(recipesByGroup.entries()).map(([groupName,recipes])=>{
                     return (
-                        <RecipesGrid recipes={recipes} heading={groupName}/>
+                        <RecipesGrid recipes={recipes} heading={groupName} />
                     )
                 })}
             </div>

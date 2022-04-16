@@ -5,11 +5,24 @@ import {Routes} from "../../util/Constants";
 import React, {useEffect, useState} from "react";
 import {useMediaQuery} from "react-responsive";
 import "./RecipesGrid.css"
+import {ThunkDispatch} from "redux-thunk";
+import {AnyAction} from "redux";
+import {addToFavourite, loadFeed} from "../../redux/actiontype/GeneralActionTypes";
+import {AppState} from "../../redux/store/Store";
+import {connect} from "react-redux";
+
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, AnyAction>) {
+    return {
+        addToFavourite: (recipeOverview: RecipeOverview) => dispatch(addToFavourite(recipeOverview))
+    };
+};
+
 
 export interface RecipesGridProps {
     recipes: Array<RecipeOverview>
     heading: string
     pagination?: RecipesPagination
+    addToFavourite: (recipeOverview: RecipeOverview) => void
 
 }
 
@@ -22,7 +35,7 @@ export interface RecipesPagination {
     onSelected: (page: number) => void
 }
 
-export default function RecipesGrid(props: RecipesGridProps) {
+function RecipesGrid(props: RecipesGridProps) {
     const starWidth = 25;
     const isSmallScreen = useMediaQuery({query: '(max-width: 700px)'});
     return (
@@ -52,12 +65,15 @@ export default function RecipesGrid(props: RecipesGridProps) {
                                                     <div className="mb-3 h5-responsive flex-center">
                                                         <strong>{recipe.title}</strong></div>
                                                 </div>
-                                                <div className='favourites pt-5 hover-pointer-cursor'>
-                                                    <Link to={`${Routes.LOGIN}`} className='color-background'>
+                                                <div className='favourites pt-5 hover-pointer-cursor' onClick={()=>{
+                                                    if (!recipe.isInFavourites){
+                                                        props.addToFavourite(recipe);
+                                                    }
+                                                }}>
                                                         <MDBTooltip placement="top">
                                                             {recipe.isInFavourites ?
-                                                                <MDBIcon icon="heart"/> :
-                                                                <MDBIcon far icon="heart"/>
+                                                                <MDBIcon icon="heart" className='mt-3'/> :
+                                                                <MDBIcon far icon="heart" className='mt-3'/>
                                                             }
                                                             {recipe.isInFavourites ?
                                                                 <div>Remove from favourites</div> :
@@ -65,7 +81,6 @@ export default function RecipesGrid(props: RecipesGridProps) {
                                                             }
 
                                                         </MDBTooltip>
-                                                    </Link>
                                                 </div>
                                             </div>
 
@@ -145,3 +160,5 @@ function RecipesPaginationEl(pagination: RecipesPagination) {
         </MDBPagination>
     );
 }
+
+export default connect(null, mapDispatchToProps)(RecipesGrid)

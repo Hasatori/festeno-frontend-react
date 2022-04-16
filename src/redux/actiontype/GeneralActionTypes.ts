@@ -22,6 +22,8 @@ export const LOAD_FEED = "LOAD_FEED";
 export const LOAD_RECIPE_TAGS = "LOAD_RECIPE_TAGS";
 export const LOAD_RECIPE = "LOAD_RECIPE";
 export const RECIPES_SEARCH_RESULT = "RECIPES_SEARCH_RESULT";
+export const ADD_TO_FAVOURITE = 'ADD_TO_FAVOURITE';
+export const LOAD_FAVOURITE_RECIPES = 'LOAD_FAVOURITE_RECIPES';
 
 export interface InProgressAction extends Action {
     type: typeof IN_PROGRESS,
@@ -92,6 +94,17 @@ export interface LoadRecipeTags extends Action {
 
 }
 
+export interface AddToFavourite extends Action {
+    readonly  type: typeof ADD_TO_FAVOURITE
+    recipe: RecipeOverview
+}
+
+
+export interface LoadFavouriteRecipes extends Action {
+    readonly  type: typeof LOAD_FAVOURITE_RECIPES
+    favouriteRecipes: Array<RecipeOverview>
+}
+
 export const inProgressActionCreator: ActionCreator<InProgressAction> = (message: string) => {
     return configureStore().dispatch({type: IN_PROGRESS, message: message});
 };
@@ -124,6 +137,7 @@ export const dismissFailure: ActionCreator<DismissFailure> = () => {
     return configureStore().dispatch({type: DISMISS_FAILURE});
 };
 
+
 export const loadFeed: ActionCreator<ThunkAction<void,
     void,
     void,
@@ -139,6 +153,22 @@ export const loadFeed: ActionCreator<ThunkAction<void,
         }).catch(error => {
             dispatch(failureActionCreator((error.response && error.response.data && error.response.data.message) || i18next.t('ns1:defaultErrorMessage')));
             dispatch(doneActionCreator(""));
+        });
+    };
+};
+
+export const loadFavouriteRecipes: ActionCreator<ThunkAction<void,
+    void,
+    void,
+    AnyAction>> = () => {
+    return async (dispatch: Dispatch) => {
+        API({
+            url: process.env.REACT_APP_REST_API_URL + "/favourite-recipes",
+            method: 'GET'
+        }).then((response) => {
+            dispatch({type: LOAD_FAVOURITE_RECIPES, favouriteRecipes: response.data})
+        }).catch(error => {
+            //dispatch(failureActionCreator((error.response && error.response.data && error.response.data.message) || i18next.t('ns1:defaultErrorMessage')));
         });
     };
 };
@@ -202,6 +232,24 @@ export const getTags: ActionCreator<ThunkAction<void,
     };
 };
 
+
+export const addToFavourite: ActionCreator<ThunkAction<void,
+    void,
+    void,
+    AnyAction>> = (recipeOverview: RecipeOverview) => {
+    return async (dispatch: Dispatch) => {
+        API({
+            url: process.env.REACT_APP_REST_API_URL + "/add-to-favourite",
+            method: 'POST',
+            data: {recipeId: recipeOverview.id}
+        }).then((response) => {
+            dispatch({type: ADD_TO_FAVOURITE, recipe: recipeOverview})
+        }).catch(error => {
+            //dispatch(failureActionCreator((error.response && error.response.data && error.response.data.message) || i18next.t('ns1:defaultErrorMessage')));
+        });
+    };
+};
+
 export type GeneralActionTypes =
     InProgressAction
     | FailureAction
@@ -216,4 +264,6 @@ export type GeneralActionTypes =
     | LoadFeed
     | LoadRecipe
     | LoadRecipeTags
-    | RecipesSearchResult;
+    | RecipesSearchResult
+    | AddToFavourite
+    | LoadFavouriteRecipes;

@@ -22,7 +22,7 @@ export function Recipes(appProps:AppProps) {
                     authenticationPath: Routes.LOGIN,
                     redirectPathOnAuthentication: Routes.FAVOURITE_RECIPES
                 }} exact={true}
-                render={(props) => <FavouriteRecipes/>}/>
+                render={(props) => <FavouriteRecipes favouriteRecipes={[]}/>}/>
             <PrivateRoute
                 path={[Routes.MY_RECIPES, Routes.RECIPES]}
                 {...{

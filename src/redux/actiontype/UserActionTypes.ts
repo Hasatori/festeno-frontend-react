@@ -9,7 +9,7 @@ import {
     doneActionCreator,
     failureActionCreator,
     GeneralActionTypes,
-    inProgressActionCreator,
+    inProgressActionCreator, loadFavouriteRecipes,
     successActionCreator
 } from "./GeneralActionTypes";
 import {SignUpRequest} from "../../components/user/signup/Signup";
@@ -182,7 +182,7 @@ export const logoutActionCreator: ActionCreator<ThunkAction<void, void, void, Lo
 };
 
 export const loadCurrentlyLoggedInUser: ActionCreator<ThunkAction<void, void, TwoFactorLoginRequest, LoginSuccessAction>> = () => {
-    return async (dispatch: Dispatch) => {
+    return async (dispatch: ThunkDispatch<any, any, AnyAction>) => {
         dispatch(inProgressActionCreator(''));
         API({
             url: process.env.REACT_APP_REST_API_URL + "/user/me",
@@ -190,6 +190,7 @@ export const loadCurrentlyLoggedInUser: ActionCreator<ThunkAction<void, void, Tw
         }).then(response => {
             dispatch(doneActionCreator());
             dispatch({type: ADD_USER, user: response.data})
+            dispatch(loadFavouriteRecipes());
         }).catch(error => {
             dispatch(doneActionCreator());
             dispatch(failureActionCreator((error.response && error.response.data && error.response.data.message) || i18next.t('ns1:defaultErrorMessage')));
