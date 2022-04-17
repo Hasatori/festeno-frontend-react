@@ -10,11 +10,13 @@ import {RecipeOverview} from "../../../redux/reducer/GeneralReducer";
 
 export interface FavouriteRecipesProps {
     favouriteRecipes: Array<RecipeOverview>
+    loading:boolean
 }
 
 function mapStateToProps(state: AppState, props: FavouriteRecipesProps) {
     return {
-        favouriteRecipes: state.generalState.favouriteRecipes
+        favouriteRecipes: state.generalState.favouriteRecipes,
+        loading: state.generalState.loading
     }
 }
 
@@ -25,13 +27,13 @@ function FavouriteRecipes(props:FavouriteRecipesProps){
             <div className="d-flex flex-center mt-5 p-2"><h1>Yours favourite</h1></div>
             <div
                 className={'d-flex flex-column pt-4 pl-2'}>
-                {props.favouriteRecipes.length ===0?
+                {props.loading?
                     <div>
                         <CircleLoader
                             css={`margin:auto;`}
                             size={75}
                             color={"#123abc"}
-                            loading={true}
+                            loading={props.loading}
                         />
                         <h2 className="text-center">Loading favourite recipes</h2>
                     </div>
