@@ -22,7 +22,8 @@ export interface AppProps {
     onLogOut: () => void,
     refreshToken: () => void,
     user: User,
-    accessToken: string
+    accessToken: string,
+    redirectUrl: string | undefined
 }
 
 export const initProps: AppProps = {
@@ -41,7 +42,8 @@ export const initProps: AppProps = {
         },
         refreshToken: () => {
         },
-        accessToken: ""
+        accessToken: "",
+    redirectUrl:undefined,
     }
 ;
 ReactDOM.render(

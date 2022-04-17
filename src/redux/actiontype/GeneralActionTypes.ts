@@ -24,7 +24,8 @@ export const LOAD_RECIPE = "LOAD_RECIPE";
 export const RECIPES_SEARCH_RESULT = "RECIPES_SEARCH_RESULT";
 export const ADD_TO_FAVOURITE = 'ADD_TO_FAVOURITE';
 export const LOAD_FAVOURITE_RECIPES = 'LOAD_FAVOURITE_RECIPES';
-
+export const REDIRECT = "REDIRECT";
+export const REDIRECT_DONE = "REDIRECT_DONE";
 export interface InProgressAction extends Action {
     type: typeof IN_PROGRESS,
     message: string;
@@ -69,6 +70,15 @@ export interface WarningAction extends Action {
 export interface DismissWarning extends Action {
     type: typeof DISMISS_WARNING
 }
+export interface Redirect extends Action {
+    type: typeof REDIRECT,
+    url: string
+}
+
+export interface RedirectDone extends Action {
+    type: typeof REDIRECT_DONE
+}
+
 
 export interface LoadFeed extends Action {
     type: typeof LOAD_FEED
@@ -136,7 +146,13 @@ export const dismissInfo: ActionCreator<DismissInfo> = () => {
 export const dismissFailure: ActionCreator<DismissFailure> = () => {
     return configureStore().dispatch({type: DISMISS_FAILURE});
 };
+export const dismissRedirect: ActionCreator<Redirect> = (url:string) => {
+    return configureStore().dispatch({type: REDIRECT,url:url});
+};
 
+export const dismissRedirectDone: ActionCreator<RedirectDone> = () => {
+    return configureStore().dispatch({type: REDIRECT_DONE});
+};
 
 export const loadFeed: ActionCreator<ThunkAction<void,
     void,
@@ -266,4 +282,7 @@ export type GeneralActionTypes =
     | LoadRecipeTags
     | RecipesSearchResult
     | AddToFavourite
-    | LoadFavouriteRecipes;
+    | LoadFavouriteRecipes
+    | Redirect
+    | RedirectDone
+    ;

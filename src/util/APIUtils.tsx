@@ -3,6 +3,8 @@ import {store} from "../index";
 import {LOGOUT_USER, TOKEN_REFRESHED} from "../redux/actiontype/UserActionTypes";
 import axios from "axios";
 import i18next from "i18next";
+import {dismissRedirect, doneActionCreator, infoActionCreator, REDIRECT} from "../redux/actiontype/GeneralActionTypes";
+import {Routes} from "./Constants";
 
 const API = axios.create({
     baseURL: process.env.REACT_APP_REST_API_URL,
@@ -31,6 +33,9 @@ API.interceptors.response.use(
                     store.dispatch({type:LOGOUT_USER})
                     return Promise.reject(error);
                 });
+        } else if (error.response.status === 401 &&
+            !store.getState().userState.loggedIn) {
+            store.dispatch(dismissRedirect(Routes.LOGIN))
         }
         return Promise.reject(error);
     }

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Redirect, Route, Switch, useLocation} from 'react-router-dom';
+import {Redirect, Route, Switch, useHistory, useLocation} from 'react-router-dom';
 import AppHeader from './navigation/AppHeader';
 import Home from './home/Home';
 import Signup from './user/signup/Signup';
@@ -31,7 +31,7 @@ import {ThunkDispatch} from "redux-thunk";
 
 import {
     dismissFailure,
-    dismissInfo,
+    dismissInfo, dismissRedirectDone,
     dismissSuccess,
     dismissWarning,
     FAILURE,
@@ -59,7 +59,8 @@ function mapStateToProps(state: AppState, props: AppProps) {
         authenticated: state.userState.authenticated,
         loggedIn: state.userState.loggedIn,
         user: state.userState.currentUser,
-        accessToken: state.userState.accessToken
+        accessToken: state.userState.accessToken,
+        redirectUrl: state.generalState.redirectUrl,
     }
 }
 
@@ -116,6 +117,7 @@ function toastEmitter(type: string): ToastOptions {
 function App(appProps: AppProps) {
     const location = useLocation();
     const showMenu = location.pathname !== "/login" && location.pathname !== Routes.SIGNUP
+    const history = useHistory();
     useEffect(() => {
         if (typeof appProps.warningMessage !== "undefined") {
             toast.warning('⚠    ' + appProps.warningMessage, toastEmitter(WARNING));
@@ -152,6 +154,12 @@ function App(appProps: AppProps) {
             toast.dismiss();
         }
     }, [appProps.loading])
+    useEffect(() => {
+        if (typeof appProps.redirectUrl !== 'undefined'){
+            history.push(appProps.redirectUrl)
+            store.dispatch(dismissRedirectDone());
+        }
+    },[appProps.redirectUrl])
 
     return (
 

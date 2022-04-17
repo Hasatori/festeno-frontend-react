@@ -22,7 +22,8 @@ export interface GeneralState {
     recipeTags: Array<string>,
     recipesSearchResponse: RecipesSearchResponse,
     recipe: Recipe,
-    favouriteRecipes: Array<RecipeOverview>
+    favouriteRecipes: Array<RecipeOverview>,
+    redirectUrl: string | undefined
 }
 
 export interface RecommendedRecipe {
@@ -271,6 +272,16 @@ export default function generalReducer(state = initialState, action: GeneralActi
                 favouriteRecipes: action.favouriteRecipes.map((favRec)=>{return {...favRec, isInFavourites:true}}),
                 recipesSearchResponse: {...state.recipesSearchResponse, recipes: searchResult},
                 feed: feed
+            }
+        case "REDIRECT":
+            return {
+                ...state,
+                redirectUrl: action.url
+            }
+        case "REDIRECT_DONE":
+            return {
+                ...state,
+                redirectUrl: undefined
             }
         default:
             return state;
