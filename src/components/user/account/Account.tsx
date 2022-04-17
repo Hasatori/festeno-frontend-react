@@ -6,24 +6,31 @@ import {connect} from "react-redux";
 import CloseAccount from "./CloseAccount";
 import Profile from "./Profile";
 import {useTranslation} from "react-i18next";
+import {MDBCol, MDBContainer, MDBRow, MDBTypography} from "mdbreact";
+import {useMediaQuery} from "react-responsive";
 
 
 function Account() {
     const {t} = useTranslation();
+    const isSmallScreen = useMediaQuery({query: '(max-width: 700px)'});
     return (
-
-        <div>
-            <div className="container mt-5">
-                <h5 className='text-center  '>{t('ns1:manageProfileHeading')}</h5>
+        <MDBContainer className={isSmallScreen ? "mx-auto p-4 pt-2 mt-5" : "mx-auto p-5 mt-3"}>
+        <MDBRow>
+            <MDBCol lg="1"/>
+            <MDBCol  md="12" lg="10">
+                    <div className="mb-5">
+                        <MDBTypography tag='h1' variant="h1-responsive" className="text-center ">
+                            <strong>{t('ns1:manageProfileHeading')}</strong>
+                        </MDBTypography>
+                    </div>
                 <Profile {...{} as any}/>
-                <div className='divider'/>
                 <ChangePassword {...{} as any}/>
-                <div className='divider'/>
                 <TwoFactorSetup {...{} as any}/>
-                <div className='divider'/>
                 <CloseAccount/>
-            </div>
-        </div>
+            </MDBCol>
+            <MDBCol  lg="1"/>
+        </MDBRow>
+        </MDBContainer>
     );
 
 }

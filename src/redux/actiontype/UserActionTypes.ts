@@ -6,9 +6,10 @@ import API, {AccountActivationRequest} from "../../util/APIUtils";
 
 
 import {
+    dismissRedirect,
     doneActionCreator,
     failureActionCreator,
-    GeneralActionTypes,
+    GeneralActionTypes, infoActionCreator,
     inProgressActionCreator, loadFavouriteRecipes,
     successActionCreator
 } from "./GeneralActionTypes";
@@ -20,6 +21,7 @@ import i18next from "i18next";
 import {UpdateProfileRequest} from "../../components/user/account/Profile";
 import {VerifyTwoFactor} from "../../components/user/account/TwoFactorSetup";
 import {FoodPreferencesRequest} from "../../components/foodpreferences/FoodPreferences";
+import {Routes} from "../../util/Constants";
 
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
@@ -31,7 +33,7 @@ export const TOKEN_REFRESHED = 'TOKEN_REFRESHED';
 export const TWO_FACTOR_DISABLED = 'TWO_FACTOR_DISABLED';
 export const TWO_FACTOR_ENABLED = 'TWO_FACTOR_ENABLED';
 export const EMPTY_BACKUP_CODES = 'EMPTY_BACKUP_CODES';
-
+export const PASSWORD_RESET = 'PASSWORD_RESET';
 export interface LoginSuccessAction extends Action {
     readonly  type: typeof LOGIN_SUCCESS,
     readonly accessToken: string;
@@ -86,19 +88,16 @@ export interface TwoFactorEnabled extends Action {
 export interface EmptyBackupCodes extends Action {
     readonly  type: typeof EMPTY_BACKUP_CODES
 }
+export interface PasswordReset extends Action {
+    readonly type: typeof PASSWORD_RESET
+    userEmail: string
+}
 
-export const loginActionCreator: ActionCreator<ThunkAction<// The type of the last action to be dispatched - will always be promise<T> for async actions
-    void,
-    // The type for the data within the last action
-    void,
-    // The type of the parameter for the nested function
-    LoginRequest,
-    // The type of the last action to be dispatched
-    LoginSuccessAction>> = (loginRequest: LoginRequest) => {
+export const loginActionCreator: ActionCreator<ThunkAction<void, void, LoginRequest, LoginSuccessAction>> = (loginRequest: LoginRequest) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(""));
         API({
-            url: process.env.REACT_APP_REST_API_URL + "/auth/login",
+            url: "auth/login",
             method: 'POST',
             data: loginRequest
         }).then((response: AxiosResponse<UserLoggedInResponse>) => {
@@ -116,29 +115,23 @@ export const loginActionCreator: ActionCreator<ThunkAction<// The type of the la
         });
     };
 };
-
-export const refreshTokenActionCreator: ActionCreator<ThunkAction<void,
-    void,
-    void,
-    AnyAction>> = () => {
+export const refreshTokenActionCreator: ActionCreator<ThunkAction<void, void, void, AnyAction>> = () => {
     return async (dispatch: Dispatch) => {
         API({
-            url: process.env.REACT_APP_REST_API_URL + "/auth/access-token",
+            url: "auth/access-token",
             method: 'GET'
         }).then((response) => {
             dispatch({type: TOKEN_REFRESHED, accessToken: response.data.accessToken})
-        }).catch(error => {
-            //dispatch(failureActionCreator((error.response && error.response.data && error.response.data.message) || i18next.t('ns1:defaultErrorMessage')));
-        });
+        }).catch((error)=>{});
     };
 };
 export const loginTwoFactorActionCreator: ActionCreator<ThunkAction<void, void, TwoFactorLoginRequest, LoginSuccessAction>> = (loginRequest: TwoFactorLoginRequest) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(""));
         API({
-            url: process.env.REACT_APP_REST_API_URL + "/auth/login/verify",
+            url: "auth/login/verify",
             method: 'POST',
-            data: JSON.stringify(loginRequest)
+            data: loginRequest
         }).then(response => {
             dispatch({type: LOGIN_SUCCESS, accessToken: response.data.accessToken})
         }).catch(error => {
@@ -147,14 +140,13 @@ export const loginTwoFactorActionCreator: ActionCreator<ThunkAction<void, void, 
         });
     };
 };
-
 export const loginRecoveryCodeActionCreator: ActionCreator<ThunkAction<void, void, TwoFactorLoginRequest, LoginSuccessAction>> = (loginRequest: TwoFactorLoginRequest) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(""));
         API({
-            url: process.env.REACT_APP_REST_API_URL + "/auth/login/recovery-code",
+            url: "auth/login/recovery-code",
             method: 'POST',
-            data: JSON.stringify(loginRequest)
+            data: loginRequest
         }).then(response => {
             dispatch({type: LOGIN_SUCCESS, accessToken: response.data.accessToken})
         }).catch(error => {
@@ -163,13 +155,11 @@ export const loginRecoveryCodeActionCreator: ActionCreator<ThunkAction<void, voi
         });
     };
 };
-
-
 export const logoutActionCreator: ActionCreator<ThunkAction<void, void, void, LoginSuccessAction>> = () => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(""));
         API({
-            url: process.env.REACT_APP_REST_API_URL + "/logout",
+            url: "logout",
             method: 'POST'
         }).then(response => {
             dispatch(doneActionCreator());
@@ -180,31 +170,28 @@ export const logoutActionCreator: ActionCreator<ThunkAction<void, void, void, Lo
         });
     }
 };
-
 export const loadCurrentlyLoggedInUser: ActionCreator<ThunkAction<void, void, TwoFactorLoginRequest, LoginSuccessAction>> = () => {
-    return async (dispatch: ThunkDispatch<any, any, AnyAction>) => {
+    return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
         API({
-            url: process.env.REACT_APP_REST_API_URL + "/user/me",
+            url: "user/me",
             method: 'GET'
         }).then(response => {
             dispatch(doneActionCreator());
             dispatch({type: ADD_USER, user: response.data})
-            dispatch(loadFavouriteRecipes());
         }).catch(error => {
             dispatch(doneActionCreator());
             dispatch(failureActionCreator((error.response && error.response.data && error.response.data.message) || i18next.t('ns1:defaultErrorMessage')));
         });
     }
 };
-
 export const activateAccount: ActionCreator<ThunkAction<void, void, TwoFactorLoginRequest, GeneralActionTypes>> = (accountActivationRequest: AccountActivationRequest) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
         API({
-            url: process.env.REACT_APP_REST_API_URL + "/auth/activateAccount",
+            url: "auth/activate-account",
             method: 'POST',
-            data: JSON.stringify(accountActivationRequest)
+            data: accountActivationRequest
         }).then(response => {
             dispatch(successActionCreator(response.data.message));
             dispatch(doneActionCreator());
@@ -220,9 +207,9 @@ export const confirmEmailChange: ActionCreator<ThunkAction<void, void, TwoFactor
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
         API({
-            url: process.env.REACT_APP_REST_API_URL + "/auth/confirm-email-change",
+            url: "auth/confirm-email-change",
             method: 'POST',
-            data: JSON.stringify(accountActivationRequest)
+            data: accountActivationRequest
         }).then(response => {
             dispatch(successActionCreator(response.data.message));
             dispatch(doneActionCreator());
@@ -234,17 +221,17 @@ export const confirmEmailChange: ActionCreator<ThunkAction<void, void, TwoFactor
         );
     };
 };
-
 export const signUp: ActionCreator<ThunkAction<void, void, TwoFactorLoginRequest, GeneralActionTypes>> = (signupRequest: SignUpRequest) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
         API({
-            url: process.env.REACT_APP_REST_API_URL + "/auth/signup",
+            url: "auth/signup",
             method: 'POST',
-            data: JSON.stringify(signupRequest)
+            data: signupRequest
         }).then(response => {
             dispatch(successActionCreator(response.data.message));
             dispatch(doneActionCreator());
+            dispatch(dismissRedirect(Routes.LOGIN))
         }).catch(error => {
                 dispatch(doneActionCreator());
                 dispatch(failureActionCreator((error.response && error.response.data && error.response.data.message) || i18next.t('ns1:defaultErrorMessage')));
@@ -252,14 +239,13 @@ export const signUp: ActionCreator<ThunkAction<void, void, TwoFactorLoginRequest
         );
     };
 };
-
 export const forgottenPasswordRequest: ActionCreator<ThunkAction<void, void, TwoFactorLoginRequest, GeneralActionTypes>> = (email: string) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
         API({
-            url: process.env.REACT_APP_REST_API_URL + "/auth/forgottenPassword",
+            url: "auth/forgotten-password",
             method: 'POST',
-            data: JSON.stringify({email: email})
+            data: {email: email}
         }).then(response => {
             dispatch(doneActionCreator());
             dispatch(successActionCreator(response.data.message));
@@ -269,17 +255,18 @@ export const forgottenPasswordRequest: ActionCreator<ThunkAction<void, void, Two
         });
     };
 };
-
 export const resetPassword: ActionCreator<ThunkAction<void, void, TwoFactorLoginRequest, GeneralActionTypes>> = (resetPasswordRequest: ResetPasswordRequest) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
         API({
-            url: process.env.REACT_APP_REST_API_URL + "/auth/passwordReset",
+            url: "auth/password-reset",
             method: 'POST',
-            data: JSON.stringify(resetPasswordRequest)
+            data: resetPasswordRequest
         }).then(response => {
             dispatch(doneActionCreator());
             dispatch(successActionCreator(response.data.message));
+            dispatch(dismissRedirect(Routes.LOGIN))
+            dispatch({type: PASSWORD_RESET, userEmail: resetPasswordRequest.email})
         }).catch(error => {
             dispatch(doneActionCreator());
             dispatch(failureActionCreator((error.response && error.response.data && error.response.data.message) || i18next.t('ns1:defaultErrorMessage')));
@@ -290,9 +277,9 @@ export const changePassword: ActionCreator<ThunkAction<void, void, TwoFactorLogi
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
         API({
-            url: process.env.REACT_APP_REST_API_URL + "/changePassword",
+            url: "change-password",
             method: 'POST',
-            data: JSON.stringify(changePasswordRequest)
+            data: changePasswordRequest
         }).then(response => {
             dispatch(successActionCreator(response.data.message));
             dispatch({type: TOKEN_REFRESHED, accessToken: response.data.accessToken})
@@ -307,7 +294,7 @@ export const cancelAccount: ActionCreator<ThunkAction<void, void, LoginRequest, 
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
         API({
-            url: process.env.REACT_APP_REST_API_URL + "/cancel-account",
+            url: "cancel-account",
             method: 'POST'
         }).then(response => {
             dispatch(successActionCreator(response.data.message));
@@ -319,18 +306,18 @@ export const cancelAccount: ActionCreator<ThunkAction<void, void, LoginRequest, 
         });
     };
 };
-
 export const updateProfile: ActionCreator<ThunkAction<void, void, UpdateProfileRequest, GeneralActionTypes>> = (updateProfileRequest: UpdateProfileRequest) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
         API({
-            url: process.env.REACT_APP_REST_API_URL + "/update-profile",
-            method: 'POST',
-            data: JSON.stringify(updateProfileRequest)
+            url: "update-profile",
+            method: 'PUT',
+            data: updateProfileRequest
         }).then(response => {
             dispatch(doneActionCreator());
-            dispatch({type: UPDATE_USER, newUser: response.data.user})
-            dispatch(successActionCreator(response.data.message));
+            dispatch({type: UPDATE_USER, newUser: updateProfileRequest})
+            dispatch(successActionCreator(i18next.t('ns1:profileUpdated')));
+            dispatch(infoActionCreator(i18next.t('ns1:profileUpdateEmailActivation')))
         }).catch(error => {
             dispatch(doneActionCreator());
             dispatch(failureActionCreator((error.response && error.response.data && error.response.data.message) || i18next.t('ns1:defaultErrorMessage')));
@@ -341,9 +328,9 @@ export const enableTwoFactor: ActionCreator<ThunkAction<void, void, VerifyTwoFac
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
         API({
-            url: process.env.REACT_APP_REST_API_URL + "/verifyTwoFactor",
+            url: "verify-two-factor",
             method: 'POST',
-            data: JSON.stringify(verifyTwoFactor)
+            data: verifyTwoFactor
         }).then(response => {
             dispatch({type: TWO_FACTOR_ENABLED, backupCodes: response.data.verificationCodes});
             dispatch(successActionCreator(response.data.message));
@@ -354,16 +341,15 @@ export const enableTwoFactor: ActionCreator<ThunkAction<void, void, VerifyTwoFac
         });
     };
 };
-
 export const disableTwoFactor: ActionCreator<ThunkAction<void, void, void, GeneralActionTypes>> = () => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator(''));
         API({
-            url: process.env.REACT_APP_REST_API_URL + "/disable-two-factor",
-            method: 'POST'
+            url: "disable-two-factor",
+            method: 'PUT'
         }).then(response => {
             dispatch({type: TWO_FACTOR_DISABLED});
-            dispatch(successActionCreator(response.data.message));
+            dispatch(successActionCreator(i18next.t('ns1:profileUpdated')));
             dispatch(doneActionCreator());
         }).catch(error => {
             dispatch(doneActionCreator());
@@ -417,3 +403,4 @@ export type UserActionTypes =
     | TwoFactorEnabled
     | TwoFactorDisabled
     | EmptyBackupCodes
+    | PasswordReset

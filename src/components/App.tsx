@@ -232,10 +232,16 @@ export interface User {
     profileImage: Image;
     twoFactorEnabled: boolean;
     backupCodes: string[]
-    recipesPreferences: RecipesPreferences
+    recipesPreferences: RecipesPreferences,
+    o2AuthInfo: O2AuthInfo | null ;
+}
+
+export interface O2AuthInfo {
+    needToSetPassword: boolean;
 }
 
 export interface Image {
+    id: number;
     name?: string;
     type?: string;
     data?: string;

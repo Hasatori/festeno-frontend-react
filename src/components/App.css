@@ -11,4 +11,5 @@
     overflow-x: hidden;
     overflow-y: scroll;
     max-height: 100vh;
+    margin: 0 !important;
 }

@@ -17,19 +17,18 @@ import {
 } from "mdbreact";
 import CopyToClipboard from "react-copy-to-clipboard";
 import {connect} from "react-redux";
-import axios from "axios";
 import {useTranslation} from "react-i18next";
 import {AppState} from "../../../redux/store/Store";
 import {
     disableTwoFactor,
     EMPTY_BACKUP_CODES,
-    enableTwoFactor,
-    getNewBackupCodes
+    enableTwoFactor
 } from "../../../redux/actiontype/UserActionTypes";
 import {AnyAction} from "redux";
 import {ThunkDispatch} from "redux-thunk";
 import {store} from "../../../index";
 import API from "../../../util/APIUtils";
+import {TwoFactorBackupCodes} from "../../modal/TwoFactorBackupCodes";
 
 interface TwoFactorProps {
     twoFactorEnabled: boolean,
@@ -37,20 +36,23 @@ interface TwoFactorProps {
     enableTwoFactor: (verifyTwoFactor: VerifyTwoFactor) => void,
     disableTwoFactor: () => void,
     getNewBackupCodes: () => void,
+    isO2AuthAccount: boolean,
+    email:string
 }
 
 function mapStateToProps(state: AppState, props: TwoFactorProps) {
     return {
         twoFactorEnabled: state.userState.currentUser.twoFactorEnabled,
-        backupCodes: state.userState.currentUser.backupCodes
+        backupCodes: state.userState.currentUser.backupCodes,
+        isO2AuthAccount: state.userState.currentUser.o2AuthInfo !== null,
+        email:state.userState.currentUser.email
     }
 }
 
 function mapDispatchToProps(dispatch: ThunkDispatch<any, any, AnyAction>) {
     return {
         enableTwoFactor: (verifyTwoFactor: VerifyTwoFactor) => dispatch(enableTwoFactor(verifyTwoFactor)),
-        disableTwoFactor: () => dispatch(disableTwoFactor()),
-        getNewBackupCodes: () => dispatch(getNewBackupCodes()),
+        disableTwoFactor: () => dispatch(disableTwoFactor())
     };
 };
 
@@ -58,10 +60,9 @@ function TwoFactorSetup(props: TwoFactorProps) {
     const [twoFactorSetup, setTwoFactorSetup] = useState<TwoFactorSetup>();
     const [verificationCode, setVerificationCode] = useState('');
     const {t} = useTranslation();
-
     function getTwoFactorSetup() {
         API({
-            url: process.env.REACT_APP_REST_API_URL + "/getTwoFactorSetup",
+            url: process.env.REACT_APP_REST_API_URL + "/two-factor-setup",
             method: 'POST'
         }).then(response => {
             console.log(response);
@@ -70,7 +71,6 @@ function TwoFactorSetup(props: TwoFactorProps) {
             Alert.error((error && error.message) || 'Oops! Something went wrong. Please try again!');
         });
     }
-
     function handleSubmit(event: React.FormEvent<EventTarget>) {
         event.preventDefault();
         props.enableTwoFactor({code: verificationCode});
@@ -78,7 +78,6 @@ function TwoFactorSetup(props: TwoFactorProps) {
 
     return (
         <div className='row py-5 px-3'>
-
             <div className='col-md-4 col-sm-12 mb-3'>
                 <div className='text-primary'>{t('ns1:twoFactorAuthenticationLabel')}</div>
                 <div className='small'>{t('ns1:twoFactorAuthenticationDescription')}</div>
@@ -88,36 +87,31 @@ function TwoFactorSetup(props: TwoFactorProps) {
                 <div className='d-flex flex-column'>
                     {props.twoFactorEnabled ?
                         <>
-                            {props.backupCodes ? <Modal codes={props.backupCodes}
+                            {props.backupCodes ? <TwoFactorBackupCodes codes={props.backupCodes}
                                                         show={props.backupCodes && props.backupCodes.length > 0}
                                                         onClose={() => {
                                                             store.dispatch({type: EMPTY_BACKUP_CODES})
-                                                        }}/> : <></>}
+                                                        }}
+                            email={props.email}
+                            /> : <></>}
 
                             <div className='d-flex flex-row'>
-                                <div className='d-flex flex-center'><MDBAlert color="success">
+                                <div className='d-flex flex-center'><MDBAlert className="alert-success">
                                     {t('ns1:twoFactorAuthenticationEnabledMessage')}
                                 </MDBAlert></div>
-                                <div className='d-flex flex-center'><MDBBtn outline
+                                <div className='d-flex flex-center'><MDBBtn
                                                                             onClick={() => props.disableTwoFactor()}
-                                                                            color="danger">{t('ns1:disableButton')}</MDBBtn>
-                                </div>
-                            </div>
-                            <div className='d-flex flex-shrink-1'>
-                                <div>
-                                    <button type="submit" onClick={() => props.getNewBackupCodes()}
-                                            className="btn btn-block btn-primary">{t('ns1:twoFactorAuthenticationGetBackupCodesButton')}
-                                    </button>
+                                                                            className='btn-danger'>{t('ns1:disableButton')}</MDBBtn>
                                 </div>
                             </div>
 
                         </>
                         : twoFactorSetup == null ?
-                            <div className='d-flex flex-row'>
-                                <div className='d-flex flex-shrink-1'>
-                                    <MDBBtn color="primary"
-                                            onClick={getTwoFactorSetup}>{t('ns1:enableTwoFactorAuthenticationButton')}</MDBBtn>
+                            <div className='d-flex flex-column'>
+                                <div><MDBBtn color="primary"
+                                             onClick={getTwoFactorSetup}>{t('ns1:enableTwoFactorAuthenticationButton')}</MDBBtn>
                                 </div>
+
                             </div>
                             : <>
                                 <form onSubmit={handleSubmit}>
@@ -127,7 +121,7 @@ function TwoFactorSetup(props: TwoFactorProps) {
                                     >
                                         {t('ns1:twoFactorAuthenticationScanQRInstruction')}
                                     </label>
-                                    <div className='flex-center'><img
+                                    <div className='flex-center mb-3'><img
                                         src={`data:${twoFactorSetup.mimeType};base64,${twoFactorSetup.qrData}`}
                                         className="flex-center img-fluid"/></div>
 
@@ -140,7 +134,7 @@ function TwoFactorSetup(props: TwoFactorProps) {
                                            onChange={(event) => setVerificationCode(event.target.value)}/>
                                     <br/>
                                     <div className="form-item mt-3 save text-center">
-                                        <MDBBtn color="primary" type='submit'> {t('ns1:enableButton')}</MDBBtn>
+                                        <MDBBtn color="primary" type='submit' disabled={verificationCode===''}> {t('ns1:enableButton')}</MDBBtn>
                                     </div>
                                 </form>
                             </>
@@ -154,54 +148,6 @@ function TwoFactorSetup(props: TwoFactorProps) {
     )
 
 
-}
-
-interface ModalProps {
-    codes: Array<string>;
-    show: boolean;
-    onClose: () => void
-
-}
-
-export function Modal(modalProps: ModalProps) {
-    const codesString = modalProps.codes.join('\n');
-    const [copied, setCopied] = useState(false);
-    const {t} = useTranslation();
-    return (
-        <MDBContainer>
-            <MDBModal overflowScroll={false} inline={false} noClickableBodyWithoutBackdrop={false}
-                      isOpen={modalProps.show}
-                      position="top-center">
-                <MDBModalHeader>{t('ns1:twoFactorAuthenticationSaveBackupCodesHeading')}</MDBModalHeader>
-                <MDBModalBody>
-                    <MDBInput type="textarea" label="Codes" outline value={codesString} rows={16}
-                              style={{resize: 'none'}}/>
-                </MDBModalBody>
-                <MDBModalFooter>
-                    <CopyToClipboard text={codesString}>
-                        <MDBBtn size={"sm"} color={copied ? 'success' : 'primary'} onClick={() => {
-                            setCopied(true);
-                        }}>     {copied ? t('ns1:copiedLabel') : t('ns1:copyToClipboardLabel')}</MDBBtn>
-                    </CopyToClipboard>
-                    <MDBBtn size={"sm"} color="primary"
-                            onClick={() => {
-                                let link = document.createElement("a");
-                                const data = new Blob([codesString], {type: 'text/plain'});
-                                link.href = URL.createObjectURL(data);
-                                link.download = 'backup_codes_txt';
-                                link.click();
-                                URL.revokeObjectURL(link.href);
-                            }}
-
-                    > <MDBIcon icon="download"/>{t('ns1:downloadSomethingLabel')}</MDBBtn>
-                    <MDBBtn size={"sm"} color="danger" onClick={() => {
-                        modalProps.onClose();
-                    }}>{t('ns1:closeLabel')}</MDBBtn>
-
-                </MDBModalFooter>
-            </MDBModal>
-        </MDBContainer>
-    )
 }
 
 export interface TwoFactorSetup {
