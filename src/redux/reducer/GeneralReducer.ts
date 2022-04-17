@@ -242,7 +242,33 @@ export default function generalReducer(state = initialState, action: GeneralActi
                 ...state,
                 recipesSearchResponse: {...state.recipesSearchResponse, recipes: newSearchResult},
                 feed: newFeed,
-                favouriteRecipes: [...state.favouriteRecipes,action.recipe]
+                favouriteRecipes: [...state.favouriteRecipes,{...action.recipe,isInFavourites:true}]
+            }
+        case "REMOVE_FROM_FAVOURITE":
+            return {
+                ...state,
+                recipesSearchResponse: {...state.recipesSearchResponse, recipes: state.recipesSearchResponse?.recipes?.map((recipeOverview) => {
+                        if (recipeOverview.id === action.recipe.id) {
+                            return {
+                                ...recipeOverview,
+                                isInFavourites: false
+                            }
+                        }
+                        return recipeOverview;
+                    })},
+                feed: state.feed.map((recommendedRecipe) => {
+                    if (recommendedRecipe.recipe.id === action.recipe.id) {
+                        return {
+                            ...recommendedRecipe,
+                            recipe: {
+                                ...recommendedRecipe.recipe,
+                                isInFavourites: false
+                            }
+                        }
+                    }
+                    return recommendedRecipe;
+                }),
+                favouriteRecipes: state.favouriteRecipes.filter((recipe)=>{return recipe.id!==action.recipe.id})
             }
         case "LOAD_FAVOURITE_RECIPES":
             const favouriteRecipesIds = action.favouriteRecipes.map((recipeOverview)=>{return recipeOverview.id});

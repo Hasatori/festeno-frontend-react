@@ -23,6 +23,7 @@ export const LOAD_RECIPE_TAGS = "LOAD_RECIPE_TAGS";
 export const LOAD_RECIPE = "LOAD_RECIPE";
 export const RECIPES_SEARCH_RESULT = "RECIPES_SEARCH_RESULT";
 export const ADD_TO_FAVOURITE = 'ADD_TO_FAVOURITE';
+export const REMOVE_FROM_FAVOURITE = 'REMOVE_FROM_FAVOURITE';
 export const LOAD_FAVOURITE_RECIPES = 'LOAD_FAVOURITE_RECIPES';
 export const REDIRECT = "REDIRECT";
 export const REDIRECT_DONE = "REDIRECT_DONE";
@@ -106,6 +107,11 @@ export interface LoadRecipeTags extends Action {
 
 export interface AddToFavourite extends Action {
     readonly  type: typeof ADD_TO_FAVOURITE
+    recipe: RecipeOverview
+}
+
+export interface RemoveFromFavourite extends Action {
+    readonly  type: typeof REMOVE_FROM_FAVOURITE
     recipe: RecipeOverview
 }
 
@@ -266,6 +272,23 @@ export const addToFavourite: ActionCreator<ThunkAction<void,
     };
 };
 
+export const removeFromFavourite: ActionCreator<ThunkAction<void,
+    void,
+    void,
+    AnyAction>> = (recipeOverview: RecipeOverview) => {
+    return async (dispatch: Dispatch) => {
+        API({
+            url: process.env.REACT_APP_REST_API_URL + "/remove-from-favourite",
+            method: 'POST',
+            data: {recipeId: recipeOverview.id}
+        }).then((response) => {
+            dispatch({type: REMOVE_FROM_FAVOURITE, recipe: recipeOverview})
+        }).catch(error => {
+            //dispatch(failureActionCreator((error.response && error.response.data && error.response.data.message) || i18next.t('ns1:defaultErrorMessage')));
+        });
+    };
+};
+
 export type GeneralActionTypes =
     InProgressAction
     | FailureAction
@@ -282,6 +305,7 @@ export type GeneralActionTypes =
     | LoadRecipeTags
     | RecipesSearchResult
     | AddToFavourite
+    | RemoveFromFavourite
     | LoadFavouriteRecipes
     | Redirect
     | RedirectDone
