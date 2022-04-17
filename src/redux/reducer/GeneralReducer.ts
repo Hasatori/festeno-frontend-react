@@ -34,13 +34,7 @@ export interface RecommendedRecipe {
 export interface RecipeOverview {
     id: string,
     title: string,
-    cookingTimeInMinutes: number,
-    rating: number,
-    description: number,
-    portions: number,
-    author: User,
     overviewImage: Image
-    tags: Array<string>
     isInFavourites: boolean,
 }
 
