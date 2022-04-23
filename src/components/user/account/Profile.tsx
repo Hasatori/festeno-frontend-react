@@ -1,5 +1,5 @@
 import {connect} from "react-redux";
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import {RouteComponentProps} from "react-router-dom";
 import {Image, User} from "../../App";
 import {AppState} from "../../../redux/store/Store";
@@ -13,6 +13,10 @@ import {isEmailValid} from "../../../util/ValidationUtils";
 import {store} from "../../../index";
 import {failureActionCreator} from "../../../redux/actiontype/GeneralActionTypes";
 import i18next from "i18next";
+import API from "../../../util/APIUtils";
+import {AxiosResponse} from "axios";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import LoadingIndicator from "../../loading/LoadingIndicator";
 
 export interface ProfileProps extends RouteComponentProps {
     user: User,
@@ -40,19 +44,30 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any, any, AnyAction>) {
 
 function Profile(props: ProfileProps) {
     let user: User = props.user;
-    let [file, setFile] = useState<Image>(user.profileImage);
+    let [file, setFile] = useState<Image|null>(null);
     let [email, setEmail] = useState(user.email);
     const [emailValidationStarted, setEmailValidationStarted] = useState(false);
     const [emailValid, setEmailValid] = useState(isEmailValid(user.email));
     let [name, setName] = useState(user.name);
     let [nameValid, setNameValid] = useState(false);
     let [nameValidationStarted, setNameValidationStarted] = useState(false);
+    const [profileImage, setProfileImage] = useState<string|undefined>(undefined);
+
+    useEffect(() => {
+        API({
+            url: "profile-image",
+            method: 'GET',
+            responseType: 'blob'
+        }).then((res) => {
+            setProfileImage(URL.createObjectURL(res.data))
+        });
+    }, []);
     const {t} = useTranslation();
 
     function handleChange(event: ChangeEvent<HTMLInputElement>) {
         event.preventDefault();
         let files = event.target.files;
-        if (files !== null) {
+        if (file!== null && files !== null) {
             const newProfileFile = files[0];
             const allowedTypes = [
                 {extension: "jpg", mimeType: "image/jpeg"},
@@ -69,8 +84,8 @@ function Profile(props: ProfileProps) {
                     setFile({
                         data: reader.result?.toString().split(",")[1],
                         type: newProfileFile?.type,
-                        name: file.name,
-                        id: file.id
+                        name: "profile-image",
+                        id: 1
                     })
                 };
                 reader.readAsDataURL(newProfileFile)
@@ -80,14 +95,14 @@ function Profile(props: ProfileProps) {
 
     function handleSubmit(event: React.FormEvent<EventTarget>) {
         event.preventDefault();
-        if (emailValid)
+        if (emailValid && file !== null)
             props.updateProfile({
                 name: name,
                 email: email,
                 profileImage: file
             });
     }
-
+    const placeholder = (<div className="photo-placeholder">placeholder</div>);
     return (
         <form onSubmit={handleSubmit}>
             <div className='row py-5 px-3 '>
@@ -107,22 +122,17 @@ function Profile(props: ProfileProps) {
                     <div className="profile-avatar mb-2 text-center">
 
                         {
-                            typeof file !== 'undefined' ?
-                                <img
-                                    style={{height:150,width:150}}
-                                    src={`data:${file.type};base64,${file.data}`}
-                                    alt={user?.name}/>
-                                :
-                                user.profileImage !== null ? (
-                                    <img
-                                        style={{width: 150}}
-                                        src={`data:${user?.profileImage.type};base64,${user?.profileImage.data}`}
-                                        alt={user?.name}/>
-                                ) : (
-                                    <div className="text-avatar">
-                                        <span>{user.name && user.name[0]}</span>
-                                    </div>
-                                )
+
+
+                                   <LazyLoadImage
+                                       placeholder={placeholder}
+                                       effect="blur"
+                                       alt={"Profile image"}
+                                       src={profileImage}
+                                       width={150}
+                                       height={150}
+                                   />
+
                         }
                     </div>
                     <div className="input-group mb-2">
@@ -174,7 +184,7 @@ function Profile(props: ProfileProps) {
                     <div className="form-item mt-3 save text-center">
                         <MDBBtn color="primary"
                                 type="submit"
-                                disabled={((typeof file === 'undefined' || file.data === user.profileImage.data) && email === user.email && name === user.name) || !isEmailValid(email)}
+                                disabled={((typeof file === 'undefined' || file?.data === user.profileImage?.data) && email === user.email && name === user.name) || !isEmailValid(email)}
 
                         >  {t('ns1:saveButtonLabel')}</MDBBtn>
                     </div>

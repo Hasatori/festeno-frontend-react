@@ -9,6 +9,7 @@ import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
 import {addToFavourite, removeFromFavourite} from "../../redux/actiontype/GeneralActionTypes";
 import {connect} from "react-redux";
+import {LazyLoadImage} from "react-lazy-load-image-component";
 
 function mapDispatchToProps(dispatch: ThunkDispatch<any, any, AnyAction>) {
     return {
@@ -58,8 +59,15 @@ function RecipesGrid(props: RecipesGridProps) {
                                         <div className='d-flex flex-column recipe-wrapper z-depth-1'>
 
                                             <Link to={`${Routes.RECIPE}/${recipe.id}`}>
-                                                <div><img className='recipe-image'
-                                                          src={`data:${recipe?.overviewImage?.type};base64,${recipe?.overviewImage?.data}`}/>
+                                                <div>
+                                                    <LazyLoadImage
+                                                        className={'recipe-image'}
+                                                        effect="blur"
+                                                        alt={"Profile image"}
+                                                        src={`http://localhost:8080/recipes/overview-image?id=${recipe.id}`}
+                                                        width='100%'
+                                                        height='100%'
+                                                    />
                                                 </div>
 
                                             </Link>

@@ -26,13 +26,13 @@ body {
 }
 
 .link-yellow {
-  color: #FFF27E;
+  color: #FFF27E !important;
   text-decoration: underline;
   opacity: 0.9;
 }
 
 .link-yellow:hover {
-  color: #FFF27E;
+  color: #FFF27E !important;
   text-decoration: underline;
   opacity: 1;
 }

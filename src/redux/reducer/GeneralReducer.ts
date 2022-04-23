@@ -85,7 +85,12 @@ export interface Salt {
 
 }
 
+export interface RecipeImage {
+    id: number;
+}
+
 export interface Recipe {
+    id: string,
     title: string,
     cookingTimeInMinutes: number,
     rating: number,
@@ -95,7 +100,7 @@ export interface Recipe {
     overviewImage: Image,
     tags: Array<string>,
     ingredients: Array<string>,
-    recipeImages: Array<Image>
+    recipeImages: Array<RecipeImage>
     cookingProcedureSteps: Array<string>
     carbohydrate: Carbohydrate,
     protein: Protein,

@@ -37,13 +37,13 @@ body {
 }
 
 .link-yellow {
-  color: $color-primary;
+  color: $color-primary  !important;
   text-decoration: underline;
   opacity: 0.9;
 }
 
 .link-yellow:hover {
-  color: $color-primary;
+  color: $color-primary !important;
   text-decoration: underline;
   opacity: 1;
 }

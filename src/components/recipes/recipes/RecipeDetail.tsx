@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import "./RecipeDetail.css"
 import {useLocation} from "react-router";
 import {useHistory, useParams} from "react-router-dom";
@@ -25,6 +25,9 @@ import {AnyAction} from "redux";
 import {loadRecipe} from "../../../redux/actiontype/GeneralActionTypes";
 import {AppState} from "../../../redux/store/Store";
 import {Recipe} from "../../../redux/reducer/GeneralReducer";
+import {Image} from "../../App";
+import API from "../../../util/APIUtils";
+import {LazyLoadImage} from "react-lazy-load-image-component";
 
 function mapDispatchToProps(dispatch: ThunkDispatch<any, any, AnyAction>) {
     return {
@@ -50,6 +53,7 @@ function RecipeDetail(props: RecipeProps) {
     const location = useLocation();
     const {id} = useParams<{ id: string }>();
     let history = useHistory();
+    const [recipesImages,setRecipeImages] = useState<Array<Image>>([])
 
     useEffect(() => {
         props.loadRecipe(id);
@@ -86,22 +90,23 @@ function RecipeDetail(props: RecipeProps) {
                                     <MDBCarousel
                                         activeItem={0}
                                         length={props?.recipe?.recipeImages.length-1}
-                                        showControls={true}
+                                        showControls={props?.recipe?.recipeImages.length-1 > 0}
                                         showIndicators={true}
                                         className="z-depth-1"
                                     >
                                         <MDBCarouselInner>
                                             {props?.recipe?.recipeImages.map((image, index) => {
-                                                console.log(image);
                                                 return (
                                                     <MDBCarouselItem itemId={index++}>
-                                                        <MDBView>
-                                                            <img
-                                                                className="d-block w-100"
-                                                                src={`data:${image.type};base64,${image.data}`}
-                                                                alt={image.name}
+                                                        <MDBView >
+                                                            <LazyLoadImage
+                                                                placeholderSrc={'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640'}
+                                                                effect="blur"
+                                                                alt={"Profile image"}
+                                                                src={`http://localhost:8080/recipes/recipe-image?id=${image.id}`}
+                                                                width='100%'
+                                                                height='100%'
                                                             />
-
                                                         </MDBView>
                                                     </MDBCarouselItem>
                                                 )
@@ -113,33 +118,8 @@ function RecipeDetail(props: RecipeProps) {
 
                                 <MDBCol className="mt-4">
                                     <div className="d-flex flex-column">
-                                        <div className="d-flex flex-row">
-                                            <div><img
-                                                src={`data:${props?.recipe?.author.profileImage.type};base64,${props?.recipe?.author.profileImage.data}`}
-                                                className='recipe-author-image' alt="aligment"/></div>
-                                            <div className='ml-2 d-flex flex-column '>
-                                                <div><small className='hr-bold'>{props?.recipe?.author?.name}</small>
-                                                </div>
-                                                <div><small>2m</small></div>
-                                            </div>
-                                            {new Array(5).fill("").map((value, index, array) => {
-                                                return (<div className="ml-1"><img
-                                                    src={index < props?.recipe?.rating ? star_filled : star_empty}
-                                                    width={30}/></div>)
-                                            })}
-                                            <div className="ml-5 align-self-center">Review(9)</div>
-                                        </div>
                                         <div className="h2-responsive">{props?.recipe?.title}</div>
 
-                                        <div className="mt-3">
-
-                                            {props?.recipe?.tags.map((tag) => {
-                                                return (
-                                                    <div
-                                                        className="neutral-button color-secondary background-color-success">{tag}</div>
-                                                )
-                                            })}
-                                        </div>
 
                                         <div>
                                             <MDBListGroup>
