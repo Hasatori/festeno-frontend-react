@@ -103,7 +103,7 @@ function RecipeDetail(props: RecipeProps) {
                                                                 placeholderSrc={'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640'}
                                                                 effect="blur"
                                                                 alt={"Profile image"}
-                                                                src={`http://localhost:8080/recipes/recipe-image?id=${image.id}`}
+                                                                src={`${process.env.REACT_APP_REST_API_URL}/recipes/recipe-image?id=${image.id}`}
                                                                 width='100%'
                                                                 height='100%'
                                                             />

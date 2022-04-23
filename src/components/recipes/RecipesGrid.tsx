@@ -64,7 +64,7 @@ function RecipesGrid(props: RecipesGridProps) {
                                                         className={'recipe-image'}
                                                         effect="blur"
                                                         alt={"Profile image"}
-                                                        src={`http://localhost:8080/recipes/overview-image?id=${recipe.id}`}
+                                                        src={`${process.env.REACT_APP_REST_API_URL}/recipes/overview-image?id=${recipe.id}`}
                                                         width='100%'
                                                         height='100%'
                                                     />
