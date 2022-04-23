@@ -1,6 +1,5 @@
 import './index.css';
 
-import registerServiceWorker from './registerServiceWorker';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {Provider} from "react-redux";
 import configureStore from "./redux/store/Store";
@@ -55,5 +54,3 @@ ReactDOM.render(
     </Router>,
     document.getElementById('root')
 )
-
-registerServiceWorker();
