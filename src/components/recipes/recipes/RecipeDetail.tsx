@@ -76,9 +76,6 @@ function RecipeDetail(props: RecipeProps) {
                             }}><MDBIcon icon="arrow-left"/></div>
                     </div>
 
-                    <div className='d-flex'>
-                        <MDBNavLink className='action-button ' to={Routes.CREATE_RECIPE}>Create new</MDBNavLink>
-                    </div>
                 </div>
                 <div className='divider mt-3 mb-5'/>
                 <div>
