@@ -10,13 +10,10 @@ import {
     MDBIcon,
     MDBListGroup,
     MDBListGroupItem,
-    MDBMask,
     MDBNavLink,
     MDBRow,
     MDBView
 } from "mdbreact";
-import star_filled from "../../../assets/images/common/star_filled.svg"
-import star_empty from "../../../assets/images/common/star_empty.svg"
 import {useMediaQuery} from "react-responsive";
 import {Routes} from "../../../util/Constants";
 import {connect} from "react-redux";
@@ -26,7 +23,6 @@ import {loadRecipe} from "../../../redux/actiontype/GeneralActionTypes";
 import {AppState} from "../../../redux/store/Store";
 import {Recipe} from "../../../redux/reducer/GeneralReducer";
 import {Image} from "../../App";
-import API from "../../../util/APIUtils";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 
 function mapDispatchToProps(dispatch: ThunkDispatch<any, any, AnyAction>) {
@@ -64,7 +60,7 @@ function RecipeDetail(props: RecipeProps) {
         return <div>Loading</div>
     } else {
 
-        console.log(props.recipe);
+        console.log(history);
         return (
             <div className={isSmallScreen ? "mx-2 px-0 pt-2 mt-5" : "mx-3 px-0 mt-2"}>
                 <div className='d-flex flex-row justify-content-between'>
@@ -72,7 +68,11 @@ function RecipeDetail(props: RecipeProps) {
                         <div
                             className={'nav-button-active hover-pointer-cursor'}
                             onClick={(e) => {
-                                history.goBack()
+                                if (history.length <= 2) {
+                                    history.push(Routes.EXPLORE)
+                                } else {
+                                    history.goBack();
+                                }
                             }}><MDBIcon icon="arrow-left"/></div>
                     </div>
 
