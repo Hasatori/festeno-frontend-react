@@ -87,6 +87,18 @@ function RecipeDetail(props: RecipeProps) {
                             <MDBRow>
 
                                 <MDBCol sm={"12"} lg={"8"} xl={"7"}>
+                                    {props?.recipe?.recipeImages.length===1?
+                                    <MDBView >
+                                        <LazyLoadImage
+                                            placeholderSrc={'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640'}
+                                            effect="blur"
+                                            alt={"Profile image"}
+                                            src={`${process.env.REACT_APP_REST_API_URL}/recipes/recipe-image?id=${props?.recipe?.recipeImages[0].id}`}
+                                            width='100%'
+                                            height='100%'
+                                        />
+                                    </MDBView>
+                                    :
                                     <MDBCarousel
                                         activeItem={0}
                                         length={props?.recipe?.recipeImages.length-1}
@@ -114,6 +126,8 @@ function RecipeDetail(props: RecipeProps) {
                                             })}
                                         </MDBCarouselInner>
                                     </MDBCarousel>
+                                }
+
                                 </MDBCol>
 
                                 <MDBCol className="mt-4">
