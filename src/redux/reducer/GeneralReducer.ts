@@ -245,10 +245,10 @@ export default function generalReducer(state = initialState, action: GeneralActi
                 ...state,
                 recipesSearchResponse: {...state.recipesSearchResponse, recipes: newSearchResult},
                 feed: newFeed,
-                favouriteRecipes: [...state.favouriteRecipes.filter((recipe)=>{return recipe.id!==action.recipe.id}),{...action.recipe,isInFavourites:true}],
+                favouriteRecipes: [...state.favouriteRecipes.filter((recipe)=>{return recipe.id!=action.recipe.id}),{...action.recipe,isInFavourites:true}],
                 recipe: {
                     ...state.recipe,
-                    isInFavourites: state?.recipe?.id === action.recipe.id
+                    isInFavourites: state?.recipe?.id == action.recipe.id
                 }
             }
         case "REMOVE_FROM_FAVOURITE":
@@ -278,7 +278,7 @@ export default function generalReducer(state = initialState, action: GeneralActi
                 favouriteRecipes: state.favouriteRecipes.filter((recipe)=>{return recipe.id!=action.recipe.id}),
                 recipe: {
                     ...state.recipe,
-                    isInFavourites: state?.recipe?.id !== action.recipe.id
+                    isInFavourites: state?.recipe?.id != action.recipe.id
                 }
             }
         case "LOAD_FAVOURITE_RECIPES":
