@@ -35,7 +35,7 @@ import {
     dismissSuccess,
     dismissWarning,
     FAILURE,
-    INFO,
+    INFO, loadFavouriteRecipes,
     SUCCESS,
     WARNING
 } from "../redux/actiontype/GeneralActionTypes";
@@ -68,7 +68,8 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any, any, AnyAction>) {
     return {
         loadCurrentUser: () => dispatch(loadCurrentlyLoggedInUser()),
         onLogOut: () => dispatch(logoutActionCreator()),
-        refreshToken: () => dispatch(refreshTokenActionCreator())
+        refreshToken: () => dispatch(refreshTokenActionCreator()),
+        loadFavouriteRecipes: () => {dispatch(loadFavouriteRecipes())}
     };
 };
 
@@ -142,6 +143,7 @@ function App(appProps: AppProps) {
     useEffect(() => {
         if (appProps.loggedIn) {
             appProps.loadCurrentUser();
+            appProps.loadFavouriteRecipes();
         }
     }, [appProps.loggedIn])
     useEffect(() => {

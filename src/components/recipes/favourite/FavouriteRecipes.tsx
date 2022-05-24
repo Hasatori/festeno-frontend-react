@@ -11,31 +11,17 @@ import {RecipeOverview} from "../../../redux/reducer/GeneralReducer";
 export interface FavouriteRecipesProps {
     favouriteRecipes: Array<RecipeOverview>
     loading: boolean
-    loadFavouriteRecipes: () => void
 }
 
 function mapStateToProps(state: AppState, props: FavouriteRecipesProps) {
     return {
-        favouriteRecipes: state.generalState.favouriteRecipes,
-        loading: state.generalState.loading
+        favouriteRecipes: state.generalState.favouriteRecipes
     }
 }
 
-function mapDispatchToProps(dispatch: ThunkDispatch<any, any, AnyAction>) {
-    return {
-        loadFavouriteRecipes: () => {
-            dispatch(loadFavouriteRecipes())
-        }
-    };
-};
 
 
 function FavouriteRecipes(props: FavouriteRecipesProps) {
-
-
-    useEffect(() => {
-        props.loadFavouriteRecipes();
-    }, [])
     return (
         <div>
             <div className="d-flex flex-center mt-5 p-2"><h1>Yours favourite</h1></div>
@@ -59,4 +45,4 @@ function FavouriteRecipes(props: FavouriteRecipesProps) {
     )
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(FavouriteRecipes);
+export default connect(mapStateToProps,null)(FavouriteRecipes);
