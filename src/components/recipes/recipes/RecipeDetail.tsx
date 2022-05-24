@@ -128,6 +128,16 @@ function RecipeDetail(props: RecipeProps) {
                                                                 width='100%'
                                                                 height='100%'
                                                             />
+                                                            <div className='favourite hover-pointer-cursor z-depth-1' onClick={() => {
+                                                                if (!props.recipe.isInFavourites) {
+                                                                    props.addToFavourite(props.recipe);
+                                                                } else {props.removeFromFavourite(props.recipe);}
+                                                            }}>
+                                                                {props.recipe?.isInFavourites ?
+                                                                    <MDBIcon icon="heart" size="2x" className='mt-3'/> :
+                                                                    <MDBIcon far icon="heart"  size="2x" className='mt-3'/>
+                                                                }
+                                                            </div>
                                                         </MDBView>
                                                     </MDBCarouselItem>
                                                 )
