@@ -78,6 +78,10 @@ body {
   background-color: #02C016 !important;
 }
 
+.background-color-error {
+  background-color: #d9534f !important;
+}
+
 .background-color-background {
   background-color: #181818 !important;
 }

@@ -107,7 +107,7 @@ function Profile(props: ProfileProps) {
         <form onSubmit={handleSubmit}>
             <div className='row py-5 px-3 '>
                 <div className='col-md-4 col-sm-12 mb-3'>
-                    <div className='text-primary'>{t('ns1:profileHeading')}</div>
+                    <div className='color-background bold'>{t('ns1:profileHeading')}</div>
                     <div className='small'>{t('ns1:profileDescription')}</div>
                 </div>
 
@@ -182,7 +182,7 @@ function Profile(props: ProfileProps) {
                            invalidValueMessage={t('ns1:invalidNameMessage')}
                            required={true}/>
                     <div className="form-item mt-3 save text-center">
-                        <MDBBtn color="primary"
+                        <MDBBtn className="background-color-primary color-background rounded bold"
                                 type="submit"
                                 disabled={((typeof file === 'undefined' || file?.data === user.profileImage?.data) && email === user.email && name === user.name) || !isEmailValid(email)}
 

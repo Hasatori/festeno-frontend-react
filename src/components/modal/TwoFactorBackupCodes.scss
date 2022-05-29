@@ -1,4 +1,4 @@
-@import "../App";
+@import "../../index";
 
 
 
@@ -16,6 +16,6 @@
   border-color: var(--color-text-secondary);
 }
 .md-form.md-outline label.active{
-  background-color: var(--color-primary) !important;
-  color: var(--color-text-primary) !important;
+  background-color: $color-primary !important;
+  color: $color-background !important;
 }

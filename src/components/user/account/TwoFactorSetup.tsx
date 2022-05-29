@@ -79,7 +79,7 @@ function TwoFactorSetup(props: TwoFactorProps) {
     return (
         <div className='row py-5 px-3'>
             <div className='col-md-4 col-sm-12 mb-3'>
-                <div className='text-primary'>{t('ns1:twoFactorAuthenticationLabel')}</div>
+                <div className='color-background bold'>{t('ns1:twoFactorAuthenticationLabel')}</div>
                 <div className='small'>{t('ns1:twoFactorAuthenticationDescription')}</div>
             </div>
 
@@ -108,7 +108,7 @@ function TwoFactorSetup(props: TwoFactorProps) {
                         </>
                         : twoFactorSetup == null ?
                             <div className='d-flex flex-column'>
-                                <div><MDBBtn color="primary"
+                                <div><MDBBtn className="background-color-primary color-background rounded bold"
                                              onClick={getTwoFactorSetup}>{t('ns1:enableTwoFactorAuthenticationButton')}</MDBBtn>
                                 </div>
 
@@ -134,7 +134,9 @@ function TwoFactorSetup(props: TwoFactorProps) {
                                            onChange={(event) => setVerificationCode(event.target.value)}/>
                                     <br/>
                                     <div className="form-item mt-3 save text-center">
-                                        <MDBBtn color="primary" type='submit' disabled={verificationCode===''}> {t('ns1:enableButton')}</MDBBtn>
+                                        <MDBBtn className="background-color-primary color-background rounded bold"
+
+                                                type='submit' disabled={verificationCode===''}> {t('ns1:enableButton')}</MDBBtn>
                                     </div>
                                 </form>
                             </>

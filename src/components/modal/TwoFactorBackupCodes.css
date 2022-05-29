@@ -1,17 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
-
-$color-primary: #FFF27E;
-$color-secondary: #F9F9F9;
-$color-background: #181818;
-$color-background-transparent: rgba(24, 24, 24, 0.5);
-$color-grey: #4F5150;
-$color-danger: #d9534f;
-$color-light-grey: #DDDDDD;
-$color-success: #02C016;
-$button-border-radius: 11px;
-
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
 body {
-  background-color: $color-secondary !important;
+  background-color: #F9F9F9 !important;
 }
 
 .hover-pointer-cursor:hover {
@@ -21,7 +10,7 @@ body {
 .dot, .smaller-dot, .small-dot {
   height: 110px;
   width: 110px;
-  background-color: $color-primary;
+  background-color: #FFF27E;
   border-radius: 50%;
   display: inline-block;
 }
@@ -37,67 +26,68 @@ body {
 }
 
 .link-yellow {
-  color: $color-primary  !important;
+  color: #FFF27E !important;
   text-decoration: underline;
   opacity: 0.9;
 }
 
 .link-yellow:hover {
-  color: $color-primary !important;
+  color: #FFF27E !important;
   text-decoration: underline;
   opacity: 1;
 }
 
 .link-black {
   font-weight: bold;
-  color: $color-background;
+  color: #181818;
   text-decoration: underline;
   opacity: 0.9;
 }
 
 .link-black:hover {
-  color: $color-background;
+  color: #181818;
   text-decoration: underline;
   opacity: 1;
 }
+
 .my-font {
-  font-family: 'Dancing Script', cursive;
+  font-family: "Dancing Script", cursive;
 }
 
 .color-background {
-  color: $color-background !important;
+  color: #181818 !important;
 }
 
 .color-secondary {
-  color: $color-secondary !important;
+  color: #F9F9F9 !important;
 }
 
 .color-primary {
-  color: $color-primary !important;
+  color: #FFF27E !important;
 }
 
 .background-color-primary {
-  background-color: $color-primary !important;
+  background-color: #FFF27E !important;
 }
 
 .background-color-secondary {
-  background-color: $color-secondary !important;
+  background-color: #F9F9F9 !important;
 }
 
 .background-color-success {
-  background-color: $color-success !important;
+  background-color: #02C016 !important;
 }
 
 .background-color-error {
-  background-color: $color-danger !important;
+  background-color: #d9534f !important;
 }
 
 .background-color-background {
-  background-color: $color-background !important;
+  background-color: #181818 !important;
 }
 
 .background-color-grey {
-  background-color: $color-grey !important;
+  background-color: #4F5150 !important;
 }
 
 .border-grey {
@@ -105,7 +95,7 @@ body {
 }
 
 .border-light-grey {
-  border: 1px solid $color-light-grey !important;
+  border: 1px solid #DDDDDD !important;
 }
 
 * {
@@ -126,8 +116,8 @@ button {
   box-sizing: border-box;
 }
 
-input[type="checkbox"],
-input[type="radio"] {
+input[type=checkbox],
+input[type=radio] {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -159,28 +149,23 @@ body {
     padding-right: 30px;
   }
 }
-
 /**
   Link
 **/
-
 a {
-  color: $color-primary;
+  color: #FFF27E;
   text-decoration: none;
   word-wrap: break-word;
   cursor: pointer;
 }
 
 a:hover {
-
   text-decoration: none;
 }
 
 /**
   Button
 **/
-
-
 .btn {
   display: inline-block;
   font-weight: 400;
@@ -200,10 +185,10 @@ a:hover {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  -webkit-transition: all .3s cubic-bezier(.645, .045, .355, 1);
-  transition: all .3s cubic-bezier(.645, .045, .355, 1);
+  -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
   position: relative;
-  color: rgba(0, 0, 0, .65);
+  color: rgba(0, 0, 0, 0.65);
   background-color: transparent;
   border-color: #e8e8e8;
   outline: none;
@@ -242,7 +227,6 @@ a:hover {
   border-color: #52c41a;
 }
 
-
 .btn-link {
   border: none;
   height: 34px;
@@ -250,14 +234,12 @@ a:hover {
 }
 
 .btn-link:hover {
-  background-color: rgba(158, 158, 158, 0.20);
+  background-color: rgba(158, 158, 158, 0.2);
 }
-
 
 /**
   Form
 **/
-
 .form-item {
   margin-bottom: 18px;
 }
@@ -271,7 +253,7 @@ a:hover {
   font-weight: 500;
   display: inline-block;
   margin-bottom: 5px;
-  color: rgba(0, 0, 0, .65);
+  color: rgba(0, 0, 0, 0.65);
 }
 
 .form-control {
@@ -285,13 +267,13 @@ a:hover {
   height: 45px;
   font-size: 0.87em;
   line-height: 45px;
-  color: rgba(0, 0, 0, .80);
+  color: rgba(0, 0, 0, 0.8);
   background-color: #fff;
   background-image: none;
   border: 1px solid #e8e8e8;
   border-radius: 4px;
-  transition: all .3s;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  transition: all 0.3s;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
 .checkBox {
@@ -306,16 +288,15 @@ a:hover {
 }
 
 .form-control:focus, .form-control:active {
-  box-shadow: 0 0 0 2px rgba(24, 144, 255, .2);
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
 }
 
 .form-control.invalid {
   border-color: #f5222d;
 }
 
-
 .form-control.invalid:focus, .form-control.invalid:active {
-  box-shadow: 0 0 0 2px rgba(245, 34, 45, .2);
+  box-shadow: 0 0 0 2px rgba(245, 34, 45, 0.2);
 }
 
 .error-color {
@@ -338,7 +319,6 @@ a:hover {
 /**
   Or separator
 **/
-
 .or-separator {
   border-bottom: 1px solid #eee;
   padding: 10px 0;
@@ -355,7 +335,7 @@ a:hover {
   top: 0;
   background: #fff;
   padding: 10px;
-  color: rgba(0, 0, 0, .45);
+  color: rgba(0, 0, 0, 0.45);
 }
 
 .visible {
@@ -376,25 +356,24 @@ a:hover {
   text-align: justify !important;
 }
 
-
-.neutral-button,.primary-button {
+.neutral-button, .primary-button {
   padding: 10px;
   margin: 4px;
   display: inline-block;
-  background-color: $color-light-grey;
-  border-radius: $button-border-radius;
-}
-.primary-button {
-  background-color: $color-primary;
+  background-color: #DDDDDD;
+  border-radius: 11px;
 }
 
+.primary-button {
+  background-color: #FFF27E;
+}
 
 .bold {
   font-weight: bold;
 }
 
 .recipe-wrapper {
-  border-radius: 15% 15% 15% 15%  !important;
+  border-radius: 15% 15% 15% 15% !important;
   max-width: 250px;
   height: 100%;
   margin: auto;
@@ -402,18 +381,17 @@ a:hover {
 }
 
 .recipe-image {
-  border-radius: 15% 15%  0 0 !important;
+  border-radius: 15% 15% 0 0 !important;
   width: 100% !important;
   height: 200px;
   object-fit: cover;
 }
 
 .recipe-footer {
-  color: $color-background;
-  background-color: $color-secondary;
+  color: #181818;
+  background-color: #F9F9F9;
   padding: 15px;
-  border-radius:100%;
-
+  border-radius: 100%;
 }
 
 .recipe-header {
@@ -422,7 +400,7 @@ a:hover {
   left: 0;
   width: 100%;
   height: 20%;
-  background-color: $color-background;
+  background-color: #181818;
   opacity: 0.4;
   border-radius: 30% 30% 0 0;
   filter: blur(0.5rem);
@@ -434,10 +412,10 @@ a:hover {
   margin: 5px;
 }
 
-.tags{
+.tags {
   position: absolute;
-  right:0;
-  top: 0
+  right: 0;
+  top: 0;
 }
 
 .recipe-author-image {
@@ -447,14 +425,35 @@ a:hover {
 
 .action-button {
   display: inline-block;
-  background-color: $color-primary !important;
-  color: $color-background;
+  background-color: #FFF27E !important;
+  color: #181818;
   font-weight: bold;
-  border: 1px solid $color-light-grey;
-  border-radius: $button-border-radius;
+  border: 1px solid #DDDDDD;
+  border-radius: 11px;
   opacity: 0.9;
 }
 
 .action-button:hover {
   opacity: 1;
 }
+
+.modal-header {
+  background-color: var(--color-primary);
+}
+
+.text-codes-area {
+  padding: 10px !important;
+  color: var(--color-text-main) !important;
+  border-color: var(--color-text-secondary);
+}
+
+.text-codes-area:hover {
+  border-color: var(--color-text-secondary);
+}
+
+.md-form.md-outline label.active {
+  background-color: #FFF27E !important;
+  color: #181818 !important;
+}
+
+/*# sourceMappingURL=TwoFactorBackupCodes.css.map */

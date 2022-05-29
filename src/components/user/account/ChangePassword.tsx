@@ -55,13 +55,13 @@ function ChangePassword(props: ChangePasswordProps) {
 
         <div className='row py-5 px-3'>
             <div className='col-md-4 col-sm-12 mb-3'>
-                <div className='text-primary'>    {t('ns1:passwordHeading')}</div>
+                <div className='color-background bold'>    {t('ns1:passwordHeading')}</div>
                 <div className='small'>{t('ns1:passwordDescription')}</div>
             </div>
 
             <div className='col-md-4 col-sm-12'>
                 {props.user.o2AuthInfo?.needToSetPassword ?
-                    <MDBBtn color="primary"
+                    <MDBBtn className="background-color-primary color-background rounded bold"
                             onClick={() => {setNewPasswordRequested(prevState => true);props.forgottenPasswordRequest(props.user.email)}} disabled={newPasswordRequested}>{newPasswordRequested?t('ns1:newPasswordRequested'):t('ns1:requestNewPassword')}</MDBBtn>
                     :
                     <form onSubmit={handleSubmit}>
@@ -112,7 +112,7 @@ function ChangePassword(props: ChangePasswordProps) {
                         />
 
                         <div className="form-item mt-3 save text-center">
-                            <MDBBtn color="primary" type='submit'
+                            <MDBBtn className="background-color-primary color-background rounded bold" type='submit'
                                     disabled={!confirmPasswordValid || !confirmPasswordValidationStarted || !newPasswordValid || !newPasswordValidationStarted}>     {t('ns1:saveButtonLabel')}</MDBBtn>
                         </div>
                     </form>
