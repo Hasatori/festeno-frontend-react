@@ -91,7 +91,6 @@ function RecipesGrid(props: RecipesGridProps) {
                                                         <div>Remove from favourites</div> :
                                                         <div>Add to favourites</div>
                                                     }
-
                                                 </MDBTooltip>
                                             </div>
                                         </div>

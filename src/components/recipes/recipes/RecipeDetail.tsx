@@ -10,35 +10,35 @@ import {
     MDBIcon,
     MDBListGroup,
     MDBListGroupItem,
-    MDBMask,
     MDBNavLink,
-    MDBRow,
+    MDBRow, MDBTooltip,
     MDBView
 } from "mdbreact";
-import star_filled from "../../../assets/images/common/star_filled.svg"
-import star_empty from "../../../assets/images/common/star_empty.svg"
 import {useMediaQuery} from "react-responsive";
 import {Routes} from "../../../util/Constants";
 import {connect} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
-import {loadRecipe} from "../../../redux/actiontype/GeneralActionTypes";
+import {addToFavourite, loadRecipe, removeFromFavourite} from "../../../redux/actiontype/GeneralActionTypes";
 import {AppState} from "../../../redux/store/Store";
-import {Recipe} from "../../../redux/reducer/GeneralReducer";
+import {Recipe, RecipeOverview} from "../../../redux/reducer/GeneralReducer";
 import {Image} from "../../App";
-import API from "../../../util/APIUtils";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 
 function mapDispatchToProps(dispatch: ThunkDispatch<any, any, AnyAction>) {
     return {
-        loadRecipe: (id: string) => dispatch(loadRecipe(id))
+        loadRecipe: (id: string) => dispatch(loadRecipe(id)),
+        addToFavourite: (recipeOverview: RecipeOverview) => dispatch(addToFavourite(recipeOverview)),
+        removeFromFavourite: (recipeOverview: RecipeOverview) => dispatch(removeFromFavourite(recipeOverview))
     };
 };
 
 interface RecipeProps {
     loadRecipe: (id: string) => void;
     recipe: Recipe;
-    loading: boolean
+    loading: boolean;
+    addToFavourite: (recipeOverview: RecipeOverview) => void
+    removeFromFavourite: (recipeOverview: RecipeOverview) => void
 }
 
 function mapStateToProps(state: AppState, props: RecipeProps) {
@@ -63,8 +63,6 @@ function RecipeDetail(props: RecipeProps) {
     if (props.loading) {
         return <div>Loading</div>
     } else {
-
-        console.log(props.recipe);
         return (
             <div className={isSmallScreen ? "mx-2 px-0 pt-2 mt-5" : "mx-3 px-0 mt-2"}>
                 <div className='d-flex flex-row justify-content-between'>
@@ -72,12 +70,12 @@ function RecipeDetail(props: RecipeProps) {
                         <div
                             className={'nav-button-active hover-pointer-cursor'}
                             onClick={(e) => {
-                                history.goBack()
+                                if (history.length <= 2) {
+                                    history.push(Routes.EXPLORE)
+                                } else {
+                                    history.goBack();
+                                }
                             }}><MDBIcon icon="arrow-left"/></div>
-                    </div>
-
-                    <div className='d-flex'>
-                        <MDBNavLink className='action-button ' to={Routes.CREATE_RECIPE}>Create new</MDBNavLink>
                     </div>
                 </div>
                 <div className='divider mt-3 mb-5'/>
@@ -87,15 +85,38 @@ function RecipeDetail(props: RecipeProps) {
                             <MDBRow>
 
                                 <MDBCol sm={"12"} lg={"8"} xl={"7"}>
+                                    {props?.recipe?.recipeImages?.length===1?
+                                    <MDBView >
+                                        <LazyLoadImage
+                                            placeholderSrc={'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640'}
+                                            effect="blur"
+                                            alt={"Profile image"}
+                                            src={`${process.env.REACT_APP_REST_API_URL}/recipes/recipe-image?id=${props?.recipe?.recipeImages[0].id}`}
+                                            width='100%'
+                                            height='100%'
+                                        >
+                                        </LazyLoadImage>
+                                        <div className='favourite hover-pointer-cursor z-depth-1' onClick={() => {
+                                            if (!props.recipe.isInFavourites) {
+                                                props.addToFavourite(props.recipe);
+                                            } else {props.removeFromFavourite(props.recipe);}
+                                        }}>
+                                                {props.recipe?.isInFavourites ?
+                                                    <MDBIcon icon="heart" size="2x" className='mt-3'/> :
+                                                    <MDBIcon far icon="heart"  size="2x" className='mt-3'/>
+                                                }
+                                        </div>
+                                    </MDBView>
+                                    :
                                     <MDBCarousel
                                         activeItem={0}
-                                        length={props?.recipe?.recipeImages.length-1}
-                                        showControls={props?.recipe?.recipeImages.length-1 > 0}
+                                        length={props?.recipe?.recipeImages?.length-1}
+                                        showControls={props?.recipe?.recipeImages?.length-1 > 0}
                                         showIndicators={true}
                                         className="z-depth-1"
                                     >
                                         <MDBCarouselInner>
-                                            {props?.recipe?.recipeImages.map((image, index) => {
+                                            {props?.recipe?.recipeImages?.map((image, index) => {
                                                 return (
                                                     <MDBCarouselItem itemId={index++}>
                                                         <MDBView >
@@ -107,6 +128,16 @@ function RecipeDetail(props: RecipeProps) {
                                                                 width='100%'
                                                                 height='100%'
                                                             />
+                                                            <div className='favourite hover-pointer-cursor z-depth-1' onClick={() => {
+                                                                if (!props.recipe.isInFavourites) {
+                                                                    props.addToFavourite(props.recipe);
+                                                                } else {props.removeFromFavourite(props.recipe);}
+                                                            }}>
+                                                                {props.recipe?.isInFavourites ?
+                                                                    <MDBIcon icon="heart" size="2x" className='mt-3'/> :
+                                                                    <MDBIcon far icon="heart"  size="2x" className='mt-3'/>
+                                                                }
+                                                            </div>
                                                         </MDBView>
                                                     </MDBCarouselItem>
                                                 )
@@ -114,6 +145,8 @@ function RecipeDetail(props: RecipeProps) {
                                             })}
                                         </MDBCarouselInner>
                                     </MDBCarousel>
+                                }
+
                                 </MDBCol>
 
                                 <MDBCol className="mt-4">
@@ -139,35 +172,35 @@ function RecipeDetail(props: RecipeProps) {
                                                     <MDBRow className="d-flex flex-row">
                                                         <MDBCol size="6">Energy</MDBCol>
                                                         <MDBCol
-                                                            size="6">{props?.recipe?.energy.energyValue} {props?.recipe?.energy.energyUnit}</MDBCol>
+                                                            size="6">{props?.recipe?.energy?.energyValue} {props?.recipe?.energy?.energyUnit}</MDBCol>
                                                     </MDBRow>
                                                 </MDBListGroupItem>
                                                 <MDBListGroupItem>
                                                     <MDBRow className="d-flex flex-rwo">
                                                         <MDBCol size="6">Carbohydrate</MDBCol>
                                                         <MDBCol
-                                                            size="6">{props?.recipe?.carbohydrate.carbohydrateAmount} {props?.recipe?.carbohydrate.carbohydrateAmountUnit.toLowerCase()}</MDBCol>
+                                                            size="6">{props?.recipe?.carbohydrate?.carbohydrateAmount} {props?.recipe?.carbohydrate?.carbohydrateAmountUnit.toLowerCase()}</MDBCol>
                                                     </MDBRow>
                                                 </MDBListGroupItem>
                                                 <MDBListGroupItem>
                                                     <MDBRow className="d-flex flex-rwo">
                                                         <MDBCol size="6">Protein</MDBCol>
                                                         <MDBCol
-                                                            size="6">{props?.recipe?.protein.proteinAmount} {props?.recipe?.protein.proteinWeightUnit.toLowerCase()}</MDBCol>
+                                                            size="6">{props?.recipe?.protein?.proteinAmount} {props?.recipe?.protein?.proteinWeightUnit.toLowerCase()}</MDBCol>
                                                     </MDBRow>
                                                 </MDBListGroupItem>
                                                 <MDBListGroupItem>
                                                     <MDBRow className="d-flex flex-rwo">
                                                         <MDBCol size="6">Fat</MDBCol>
                                                         <MDBCol
-                                                            size="6">{props?.recipe?.fat.fatAmount} {props?.recipe?.fat.fatWeightUnit.toLowerCase()}</MDBCol>
+                                                            size="6">{props?.recipe?.fat?.fatAmount} {props?.recipe?.fat?.fatWeightUnit.toLowerCase()}</MDBCol>
                                                     </MDBRow>
                                                 </MDBListGroupItem>
                                                 <MDBListGroupItem>
                                                     <MDBRow className="d-flex flex-rwo">
                                                         <MDBCol size="6">Fiber</MDBCol>
                                                         <MDBCol
-                                                            size="6">{props?.recipe?.fiber.fiberValue} {props?.recipe?.fiber.fiberWeightUnit.toLowerCase()}</MDBCol>
+                                                            size="6">{props?.recipe?.fiber?.fiberValue} {props?.recipe?.fiber?.fiberWeightUnit.toLowerCase()}</MDBCol>
                                                     </MDBRow>
                                                 </MDBListGroupItem>
                                             </MDBListGroup>

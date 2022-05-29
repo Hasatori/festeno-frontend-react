@@ -21,6 +21,7 @@ export interface ExploreProps {
 
 export interface RecipesSearchRequest {
 
+    nameOrKeyword?: string
     dietType: string,
     foodPreferences: Array<FoodPreference>,
     pageNumber: number
@@ -49,6 +50,7 @@ function mapStateToProps(state: AppState, props: ExploreProps) {
 function Explore(props: ExploreProps) {
     const notSelectedOption = "Not selected";
     const isSmallScreen = useMediaQuery({query: '(max-width: 700px)'});
+    const [nameOrKeyword, setNameOrKeyword] = useState<string>();
     const [dietType, setDietType] = useState<string | null>("Vegan");
     const dietTypes = ["Vegan", "Vegetarian", "Omnivore"];
     const [dietSubTypes, setDietSubTypes] = useState<Array<string>>([]);
@@ -91,6 +93,7 @@ function Explore(props: ExploreProps) {
                 });
                 foodPreferences.push(...hatedFoodsReq);
                 const request: RecipesSearchRequest = {
+                    nameOrKeyword: nameOrKeyword,
                     dietType: dietType,
                     foodPreferences: foodPreferences,
                     pageNumber: page
@@ -151,6 +154,30 @@ function Explore(props: ExploreProps) {
                     <MDBRow>
                         <MDBCol md='3' sm='6' className={"mt-5"}>
                             <div className='d-flex flex-column'>
+                                <div>Name or keyword</div>
+                                <div className='d-flex flex-column'>
+                                    <div className='d-flex flex-row'>
+                                        <div className='d-flex align-self-center mr-1'>
+                                            <div className="my-0">
+                                                <input
+                                                    type="text"
+                                                    placeholder='name or keyword'
+                                                    className='form-control'
+                                                    value={nameOrKeyword===null?"":nameOrKeyword}
+                                                    onChange={(event) => setNameOrKeyword(event.target.value)}
+                                                    required
+                                                />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </MDBCol>
+                    </MDBRow>
+                    <MDBRow>
+                        <MDBCol md='3' sm='6' className={"mt-5"}>
+                            <div className='d-flex flex-column'>
                                 <div>Diet types</div>
                                 <div className='d-flex flex-column'>
                                     <select onChange={(event => {
@@ -168,7 +195,6 @@ function Explore(props: ExploreProps) {
                                 </div>
                             </div>
                         </MDBCol>
-
                         <MDBCol md='3' sm='6' className={"mt-5"}>
                             <div className='d-flex flex-column'>
                                 <div>Specific diet</div>
@@ -212,7 +238,8 @@ function Explore(props: ExploreProps) {
                                     </select>
                                 </div>
                             </div>
-                        </MDBCol></MDBRow>
+                        </MDBCol>
+                    </MDBRow>
                     <MDBRow>
                         <MDBCol xl='3' sm='6' className={"mt-5"}>
                             <div className='d-flex flex-column'>

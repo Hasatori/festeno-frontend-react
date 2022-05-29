@@ -7,6 +7,7 @@ import App, {User} from "./components/App";
 import ReactDOM from 'react-dom';
 import React from 'react';
 import './i18n/I18nConfig';
+
 export const store = configureStore();
 export interface AppProps {
     loading: boolean,
@@ -17,7 +18,8 @@ export interface AppProps {
     infoMessage: string | undefined
     authenticated: boolean,
     loggedIn: boolean,
-    loadCurrentUser: () => void
+    loadCurrentUser: () => void,
+    loadFavouriteRecipes: () => void,
     onLogOut: () => void,
     refreshToken: () => void,
     user: User,
@@ -38,6 +40,8 @@ export const initProps: AppProps = {
         onLogOut: () => {
         },
         loadCurrentUser: () => {
+        },
+        loadFavouriteRecipes: () => {
         },
         refreshToken: () => {
         },

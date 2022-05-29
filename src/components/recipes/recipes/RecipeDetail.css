@@ -433,4 +433,19 @@ a:hover {
   opacity: 1;
 }
 
+.favourite {
+  position: absolute;
+  right: 1%;
+  bottom: 2%;
+  color: #181818 !important;
+  background-color: #FFF27E;
+  padding: 3px;
+  border-radius: 5px;
+  opacity: 0.9;
+}
+
+.favourite:hover {
+  opacity: 1;
+}
+
 /*# sourceMappingURL=RecipeDetail.css.map */
