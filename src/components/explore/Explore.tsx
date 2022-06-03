@@ -22,7 +22,7 @@ export interface ExploreProps {
 export interface RecipesSearchRequest {
 
     nameOrKeyword?: string
-    dietType: string,
+    dietType?: string,
     foodPreferences: Array<FoodPreference>,
     pageNumber: number
 }
@@ -51,8 +51,8 @@ function Explore(props: ExploreProps) {
     const notSelectedOption = "Not selected";
     const isSmallScreen = useMediaQuery({query: '(max-width: 700px)'});
     const [nameOrKeyword, setNameOrKeyword] = useState<string>();
-    const [dietType, setDietType] = useState<string | null>("Vegan");
-    const dietTypes = ["Vegan", "Vegetarian", "Omnivore"];
+    const [dietType, setDietType] = useState<string | null>(notSelectedOption);
+    const dietTypes = [notSelectedOption, "Vegan", "Vegetarian"];
     const [dietSubTypes, setDietSubTypes] = useState<Array<string>>([]);
     const specificDiets = ["low fat", "low carbohydrates", "high protein", "gluten free", "Low Lactose", "Sugar free"];
     const [wantedFood, setWantedFood] = useState<Array<string>>([]);
@@ -94,7 +94,7 @@ function Explore(props: ExploreProps) {
                 foodPreferences.push(...hatedFoodsReq);
                 const request: RecipesSearchRequest = {
                     nameOrKeyword: nameOrKeyword,
-                    dietType: dietType,
+                    dietType: dietType === notSelectedOption ? undefined : dietType,
                     foodPreferences: foodPreferences,
                     pageNumber: page
                 }
