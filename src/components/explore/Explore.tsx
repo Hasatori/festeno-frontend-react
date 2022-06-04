@@ -166,7 +166,7 @@ function Explore(props: ExploreProps) {
     const [filterHidden, setFilterHidden] = useState(false);
 
     useEffect(() => {
-        if (props.recipesSearchResponse == undefined && query.values().next().value != undefined) {
+        if (query.values().next().value != undefined) {
             submit();
         }
     }, [])

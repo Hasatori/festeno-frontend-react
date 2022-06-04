@@ -172,7 +172,7 @@ function App(appProps: AppProps) {
                 <div className='flex-grow-1 app-body'>
                     <Switch>
                         <Route exact path={"/"} render={()=> <Redirect to={Routes.ABOUT}/>} />
-                        <Route exact path={Routes.EXPLORE} component={Explore}/>
+                        <Route exact path={`${Routes.EXPLORE}*`} component={Explore}/>
                         <Route exact path={Routes.ABOUT} component={About}/>
                         <Route path={Routes.RECIPES} render={(props) => <Recipes  {...appProps} />}/>
                         <PrivateRoute
