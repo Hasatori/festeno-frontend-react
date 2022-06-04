@@ -22,7 +22,6 @@ export interface ExploreProps {
 }
 
 export interface RecipesSearchRequest {
-
     nameOrKeyword?: string
     dietType?: string,
     foodPreferences: Array<FoodPreference>,
@@ -65,6 +64,7 @@ function updateSearch(currentSearch: string, paramName: string, paramValue: stri
         return `${currentSearch}&${paramName}=${paramValue}`;
     }
 }
+
 
 function updateGroupParamSearch(currentSearch: string, paramBaseName: string, paramGroupValues: Array<string>): string {
     const parts = currentSearch.split("&");
@@ -111,10 +111,12 @@ function getArrayFromQuery(paramBaseName: string, searchParams: URLSearchParams,
 
 const DIET_TYPE = 'dietType';
 const PREFERRED_CUISINE = 'preferredCuisine';
+const NAME_OR_KEYWORD = 'nameOrKeyword';
+const PAGE = 'page';
 const DIET_SUB_TYPE = 'dietSubType';
 const WANTED_FOOD = "wantedFood";
 const NOT_WANTED_FOOD = "notWantedFood";
-const regularQueryProps = [DIET_TYPE, PREFERRED_CUISINE];
+const regularQueryProps = [DIET_TYPE, PREFERRED_CUISINE, NAME_OR_KEYWORD, PAGE];
 const groupQueryProps = [DIET_SUB_TYPE,WANTED_FOOD, NOT_WANTED_FOOD]
 
 function Explore(props: ExploreProps) {
@@ -142,7 +144,7 @@ function Explore(props: ExploreProps) {
     }
     const notSelectedOption = "Not selected";
     const isSmallScreen = useMediaQuery({query: '(max-width: 700px)'});
-    const [nameOrKeyword, setNameOrKeyword] = useState<string>(query.get('nameOrKeyword') ?? "");
+    const [nameOrKeyword, setNameOrKeyword] = useState<string>(query.get(NAME_OR_KEYWORD) ?? "");
     const dietTypes = [notSelectedOption, "Vegan", "Vegetarian"];
     const [dietType, setDietType] = useState<string>(dietTypes.find((dietType) => {
         return dietType == query.get(DIET_TYPE) ?? notSelectedOption
@@ -159,7 +161,7 @@ function Explore(props: ExploreProps) {
     const [preferredCuisine, setPreferredCuisine] = useState<string>(cuisines.find((cuisine) => {
         return cuisine == query.get(PREFERRED_CUISINE) ?? notSelectedOption
     }) ?? notSelectedOption);
-    const [page, setPage] = useState(-1);
+    const [page, setPage] = useState(Number(query.get(PAGE)) ?? -1);
 
     const [filterHidden, setFilterHidden] = useState(false);
 
@@ -211,6 +213,16 @@ function Explore(props: ExploreProps) {
             submit();
         }
     }, [page]);
+
+    useEffect(() => {
+        if( page > props?.recipesSearchResponse?.maxPages){
+            setPage(0);
+            history.push({
+                pathname: history.location.pathname,
+                search: updateSearch(history.location.search, PAGE, (0).toString() )
+            });
+        }
+    },[props.recipesSearchResponse])
 
     function addWantedFood() {
         if (wantedFoodVal.trim() === "") {
@@ -286,7 +298,7 @@ function Explore(props: ExploreProps) {
                                                             setNameOrKeyword(event.target.value)
                                                             history.push({
                                                                 pathname: history.location.pathname,
-                                                                search: updateSearch(history.location.search, 'nameOrKeyword', event.target.value)
+                                                                search: updateSearch(history.location.search, NAME_OR_KEYWORD, event.target.value)
                                                             });
                                                         }}
                                                         required
@@ -546,12 +558,25 @@ function Explore(props: ExploreProps) {
                                 current: page,
                                 onPrevious: () => {
                                     setPage(page - 1);
+                                    history.push({
+                                        pathname: history.location.pathname,
+                                        search: updateSearch(history.location.search, PAGE, (page - 1).toString() )
+                                    });
                                 },
                                 onNext: () => {
                                     setPage(page + 1);
+                                    history.push({
+                                        pathname: history.location.pathname,
+                                        search: updateSearch(history.location.search, PAGE, (page + 1).toString() )
+                                    });
+
                                 },
                                 onSelected: (index: number) => {
                                     setPage(index);
+                                    history.push({
+                                        pathname: history.location.pathname,
+                                        search: updateSearch(history.location.search, PAGE, (index).toString() )
+                                    });
                                 },
                                 loading: props.loading
                             }
