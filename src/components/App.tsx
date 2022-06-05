@@ -117,7 +117,7 @@ function toastEmitter(type: string): ToastOptions {
 
 function App(appProps: AppProps) {
     const location = useLocation();
-    const showMenu = location.pathname !== Routes.LOGIN && location.pathname !== Routes.SIGNUP && location.pathname !== Routes.FORGOTTEN_PASSWORD && location.pathname !== Routes.PASSWORD_RESET
+    const showMenu = location.pathname !== Routes.LOGIN && location.pathname !== Routes.SIGNUP && location.pathname !== Routes.FORGOTTEN_PASSWORD && location.pathname !== Routes.PASSWORD_RESET && location.pathname !== Routes.OAUTH2_REDIRECT
     const history = useHistory();
     useEffect(() => {
         if (typeof appProps.warningMessage !== "undefined") {
