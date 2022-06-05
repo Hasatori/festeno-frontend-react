@@ -1,61 +1,53 @@
-import googleLogo from "../../../assets/images/logos/google-logo.svg";
-import fbLogo from "../../../assets/images/logos/fb-logo.svg";
-import githubLogo from "../../../assets/images/logos/github-logo.png";
 import React from "react";
-import {FACEBOOK_AUTH_URL, GITHUB_AUTH_URL, GOOGLE_AUTH_URL} from "../../../util/Constants";
+import {OAUTH2_PROVIDER_LOCAL_STORAGE_NAME, O2AUTH_URL, OAuth2Provider} from "../../../util/Constants";
 import {connect} from "react-redux";
 import {store} from "../../../index";
 import {IN_PROGRESS} from "../../../redux/actiontype/GeneralActionTypes";
 import i18next from "i18next";
-import './O2Authentication.css';
+import {useTranslation} from "react-i18next";
+import "./O2AuthAuthentication.css"
+import {SocialIcon} from "react-social-icons";
 
 export interface O2AuthAuthenticationProps {
     registration: boolean
 }
 
 function O2AuthAuthentication(props: O2AuthAuthenticationProps) {
+    const {t, i18n} = useTranslation();
+    const iconSize = 35;
+    const providers = [
+        {
+            authUrl: O2AUTH_URL(OAuth2Provider.GOOGLE, i18n.language),
+            provider: OAuth2Provider.GOOGLE
+        },
+        {
+            authUrl: O2AUTH_URL(OAuth2Provider.FACEBOOK, i18n.language),
+            provider: OAuth2Provider.FACEBOOK
+        },
+        {
+            authUrl: O2AUTH_URL(OAuth2Provider.GITHUB, i18n.language),
+            provider: OAuth2Provider.GITHUB
+        }
+    ]
 
     return (
-        <div className="d-flex flex-row flex-center">
-            <div className="mx-1 third-party-tile">
-                <a href={GOOGLE_AUTH_URL(i18next.language)} onClick={() => {
-                    store.dispatch({
-                        type: IN_PROGRESS,
-                        message: props.registration ? 'Signing up with Google' : 'Logging in with Google'
-                    });
-                }}>
-                    <img className="rounded" width={25} height={25} src={googleLogo}
-                         alt="Google"/>
-                </a></div>
-            <div className="mx-1 third-party-tile">
-                <a
-                    onClick={() => {
-                        store.dispatch({
-                            type: IN_PROGRESS,
-                            message: props.registration ? 'Signing up with Facebook' : 'Logging in with Facebook'
-                        });
-                    }} href={FACEBOOK_AUTH_URL(i18next.language)}>
-                    <img className="rounded" src={fbLogo} width={25} height={25}
-                         alt="Facebook"/> </a></div>
-
-            <div className="mx-1 third-party-tile"><a
-                onClick={() => {
-                    store.dispatch({
-                        type: IN_PROGRESS,
-                        message: props.registration ? 'Signing up with Github' : 'Logging in with Github'
-                    });
-                }}
-                href={GITHUB_AUTH_URL(i18next.language)}>
-                <img className="rounded" width={25} height={25} src={githubLogo}
-                     alt="Github"/>
-            </a></div>
-
+        <div className="d-flex flex-row flex-center o2auth-wrapper">
+            {providers.map((o2auth)=>{
+                return (
+                    <div className="mx-2 o2auth-provider">
+                        <a href={o2auth.authUrl} onClick={() => {
+                            localStorage.setItem(OAUTH2_PROVIDER_LOCAL_STORAGE_NAME, o2auth.provider);
+                            store.dispatch({
+                                type: IN_PROGRESS,
+                                message: props.registration ? i18next.t('ns1:signingUpWithProvider', {providerName: `${o2auth.provider}`}) : i18next.t('ns1:loggingInWithProvider', {providerName: `${o2auth.provider}`})
+                            });
+                        }}>
+                            <SocialIcon network={o2auth.provider}  style={{height: iconSize, width: iconSize}}/>
+                        </a></div>
+                )
+            })}
         </div>
     );
-}
-
-export interface O2AuthProps {
-    registration: boolean;
 }
 
 export default connect()(O2AuthAuthentication);

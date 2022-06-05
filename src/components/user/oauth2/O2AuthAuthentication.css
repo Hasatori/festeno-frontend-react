@@ -1,0 +1,31 @@
+.s-alert-box {
+  min-width: 250px;
+}
+
+.s-alert-close::before, .s-alert-close::after {
+  width: 2px;
+}
+
+.app-body {
+  min-height: 90vh !important;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  max-height: 100vh;
+  margin: 0 !important;
+}
+
+.o2auth-provider {
+  border-radius: 50px;
+  background-color: var(--color-text-primary) !important;
+}
+
+/*
+.social-svg-mask {
+  fill: var(--color-primary) !important;
+}
+.social-svg-icon {
+  fill: var(--color-text-primary) !important;
+}
+*/
+
+/*# sourceMappingURL=O2AuthAuthentication.css.map */

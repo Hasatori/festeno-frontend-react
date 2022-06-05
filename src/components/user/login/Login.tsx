@@ -17,6 +17,7 @@ import {failureActionCreator} from "../../../redux/actiontype/GeneralActionTypes
 import {store} from "../../../index";
 import {useTranslation} from "react-i18next";
 import {Routes} from "../../../util/Constants";
+import TwoFactorCodeForm from "./TwoFactorCodeForm";
 
 function mapDispatchToProps(dispatch: ThunkDispatch<any, any, AnyAction>) {
     return {
@@ -40,6 +41,11 @@ export interface LoginProps {
     loginRecoveryCode: (loginRequest: TwoFactorLoginRequest) => void,
     twoFactorRequired: boolean,
     loading: boolean
+}
+export interface TwoFactorFormProps {
+    loginTwoFactor: (code:string) => void
+    loginRecoveryCode: (code:string) => void;
+    userRecoveryCode:boolean
 }
 
 function Login(props: RouteComponentProps & LoginProps) {
@@ -73,28 +79,6 @@ function Login(props: RouteComponentProps & LoginProps) {
         const loginRequest: LoginRequest = {email: email, password: password, rememberMe: rememberMe,}
         props.login(loginRequest);
 
-    }
-
-    function handleTwoFactorLogin(event: React.FormEvent<EventTarget>) {
-        event.preventDefault();
-        const loginRequest: TwoFactorLoginRequest = {
-            email: email,
-            password: password,
-            rememberMe: rememberMe,
-            code: code
-        };
-        props.loginTwoFactor(loginRequest);
-    }
-
-    function handleRecoveyCodeLogin(event: React.FormEvent<EventTarget>) {
-        event.preventDefault();
-        const loginRequest: TwoFactorLoginRequest = {
-            email: email,
-            password: password,
-            rememberMe: rememberMe,
-            code: recoveryCode
-        };
-        props.loginRecoveryCode(loginRequest);
     }
         return (
             <div className="background-overlay">
@@ -162,59 +146,27 @@ function Login(props: RouteComponentProps & LoginProps) {
                                     </div>
                                 </div>
                             </form></>
-                        :userRecoveryCode?
-                                <form onSubmit={handleRecoveyCodeLogin}>
-                                    <label
-                                        htmlFor="code"
-                                        className="color-primary m-0 p-0"
-                                    >
-                                        {t('ns1:recoveryCodeLabel')}
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="code"
-                                        className="form-control background-color-grey border-grey color-secondary"
-                                        value={recoveryCode} onChange={(event) => setRecoveryCode(event.target.value)}
-                                        required
-                                    />
-                                    <div className="text-center py-4 mt-3">
-                                        <div className="text-center my-2">
-
-                                            <MDBBtn  className="background-color-primary color-background rounded z-depth-1 w-100 bold" type="submit"
-                                                     disabled={props.loading}>{t('ns1:loginLabel')}</MDBBtn>
-                                        </div>
-                                    </div>
-                                </form>
-                                :<>
-                                    <form onSubmit={handleTwoFactorLogin}>
-                                        <label
-                                            htmlFor="code"
-                                            className="color-primary m-0 p-0"
-                                        >
-                                            {t('ns1:twoFactorCodeLabel')}
-                                        </label>
-                                        <input
-                                            type="text"
-                                            id="code"
-                                            className="form-control background-color-grey border-grey color-secondary"
-                                            value={code} onChange={(event) => setCode(event.target.value)} required
-                                        />
-                                        <div className="text-center py-4 mt-1">
-                                            <div className="text-center my-2">
-
-                                                <MDBBtn  className="background-color-primary color-background rounded z-depth-1 w-100 bold" type="submit"
-                                                         disabled={props.loading}>{t('ns1:loginLabel')}</MDBBtn>
-                                            </div>
-                                        </div>
-                                    </form>
-                                    <div className="mb-3"><span className="color-secondary">{t('ns1:havingProblemsLoginTwoFactorQuestion')}</span>
-                                        <Link
-                                            className="ml-1 link-yellow" onClick={() => {
-                                            setUseRecoveryCode(true)
-                                        }}
-                                            to="#">{t('ns1:useRecoveryCodeLabel')}</Link>
-                                    </div></>
-
+                        : <TwoFactorCodeForm
+                                loginTwoFactor={(code:string)=>{
+                                    const loginRequest: TwoFactorLoginRequest = {
+                                        email: email,
+                                        password: password,
+                                        rememberMe: rememberMe,
+                                        code: code
+                                    };
+                                    props.loginTwoFactor(loginRequest);
+                                }}
+                                loginRecoveryCode={(code:string)=>{
+                                    const loginRequest: TwoFactorLoginRequest = {
+                                        email: email,
+                                        password: password,
+                                        rememberMe: rememberMe,
+                                        code: code
+                                    };
+                                    props.loginRecoveryCode(loginRequest);
+                                }}
+                                userRecoveryCode={false}
+                            />
 
                         }
 
