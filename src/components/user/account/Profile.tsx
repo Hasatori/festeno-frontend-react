@@ -59,7 +59,17 @@ function Profile(props: ProfileProps) {
             method: 'GET',
             responseType: 'blob'
         }).then((res) => {
-            setProfileImage(URL.createObjectURL(res.data))
+            setProfileImage(URL.createObjectURL(res.data));
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setFile({
+                    data: reader.result?.toString().split(",")[1],
+                    type: "image/png",
+                    name: "profile-image",
+                    id: 1
+                })
+            };
+            reader.readAsDataURL(res.data);
         });
     }, []);
     const {t} = useTranslation();
@@ -67,7 +77,7 @@ function Profile(props: ProfileProps) {
     function handleChange(event: ChangeEvent<HTMLInputElement>) {
         event.preventDefault();
         let files = event.target.files;
-        if (file!== null && files !== null) {
+        if (profileImage!== null && files !== null) {
             const newProfileFile = files[0];
             const allowedTypes = [
                 {extension: "jpg", mimeType: "image/jpeg"},
@@ -87,6 +97,7 @@ function Profile(props: ProfileProps) {
                         name: "profile-image",
                         id: 1
                     })
+                    console.log(file);
                 };
                 reader.readAsDataURL(newProfileFile)
             }
@@ -102,6 +113,7 @@ function Profile(props: ProfileProps) {
                 profileImage: file
             });
     }
+
     const placeholder = (<div className="photo-placeholder">placeholder</div>);
     return (
         <form onSubmit={handleSubmit}>
@@ -122,16 +134,21 @@ function Profile(props: ProfileProps) {
                     <div className="profile-avatar mb-2 text-center">
 
                         {
+                            file == null ?
+                                <LazyLoadImage
+                                    placeholder={placeholder}
+                                    effect="blur"
+                                    alt={"Profile image"}
+                                    src={profileImage}
+                                    width={150}
+                                    height={150}
+                                />
+                                :
+                                <img
+                                    style={{height:150,width:150}}
+                                    src={`data:${file.type};base64,${file.data}`}
+                                    alt={user?.name}/>
 
-
-                                   <LazyLoadImage
-                                       placeholder={placeholder}
-                                       effect="blur"
-                                       alt={"Profile image"}
-                                       src={profileImage}
-                                       width={150}
-                                       height={150}
-                                   />
 
                         }
                     </div>
