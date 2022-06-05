@@ -161,12 +161,13 @@ function Explore(props: ExploreProps) {
     const [preferredCuisine, setPreferredCuisine] = useState<string>(cuisines.find((cuisine) => {
         return cuisine == query.get(PREFERRED_CUISINE) ?? notSelectedOption
     }) ?? notSelectedOption);
-    const [page, setPage] = useState(Number(query.get(PAGE)) ?? -1);
+    const [page, setPage] = useState(Number(query.get(PAGE) ?? -1));
 
     const [filterHidden, setFilterHidden] = useState(false);
 
     useEffect(() => {
         if (query.values().next().value != undefined) {
+            console.log("here1");
             submit();
         }
     }, [])
