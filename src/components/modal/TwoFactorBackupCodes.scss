@@ -9,11 +9,15 @@
 .text-codes-area{
   padding: 10px !important;
   color: var(--color-text-main) !important;
-  border-color: var(--color-text-secondary);
+  border-color: $color-light-grey !important;
+  outline: $color-light-grey  !important;
+  transition: 0s;
 }
 
-.text-codes-area:hover{
-  border-color: var(--color-text-secondary);
+.text-codes-area:hover, .text-codes-area:active{
+  border-color: $color-light-grey !important;
+  outline: $color-light-grey  !important;
+  transition: 0s;
 }
 .md-form.md-outline label.active{
   background-color: $color-primary !important;
