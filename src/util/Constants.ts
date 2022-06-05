@@ -25,7 +25,7 @@ export enum Routes {
     LOGIN = '/login',
     SIGNUP = '/signup',
     PROFILE = '/profile',
-    FORGOTTEN_PASSWORD = '/signup',
+    FORGOTTEN_PASSWORD = '/forgotten-password',
     PASSWORD_RESET = '/password-reset',
     OAUTH2_REDIRECT = '/oauth2/redirect',
     ACTIVATE_ACCOUNT = '/activate-account',

@@ -37,6 +37,12 @@ function Signup(props: SignUpProps) {
 
     function handleSubmit(event: React.FormEvent<EventTarget>) {
         event.preventDefault();
+        setPasswordValidationStarted(true);
+        setPasswordValid(isPasswordValid(password));
+        setNameValidationStarted(true);
+        setNameValid(name.length >= 4);
+        setEmailValidationStarted(true);
+        setEmailValid(isEmailValid(email));
         if (emailValid && passwordValid && nameValid) {
             const signUpRequest: SignUpRequest = {name: name, email: email, password: password}
             props.signUp(signUpRequest);
@@ -118,16 +124,14 @@ function Signup(props: SignUpProps) {
                                     </div>
 
                                 </div>
-                                    <div className='align-self-center flex-grow-1'><MDBBtn
-                                        className="background-color-primary color-background rounded z-depth-1 w-100 bold"
+                                    <div className='align-self-center flex-grow-1 m-0'><MDBBtn
+                                        className="background-color-primary color-background rounded z-depth-1 w-100 bold m-auto"
                                         type="submit"
                                         disabled={props.loading}>{t('ns1:signupLabel')}</MDBBtn></div>
 
                             </form>
                     </MDBCol>
                     <MDBCol md="1"/>
-
-
                 </MDBRow>
             </MDBContainer>
         </div>
