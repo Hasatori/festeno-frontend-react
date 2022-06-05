@@ -96,8 +96,6 @@ function Login(props: RouteComponentProps & LoginProps) {
         };
         props.loginRecoveryCode(loginRequest);
     }
-
-    if (!props.twoFactorRequired) {
         return (
             <div className="background-overlay">
             <MDBContainer className="custom-center-row">
@@ -114,64 +112,113 @@ function Login(props: RouteComponentProps & LoginProps) {
                     </MDBCol>
                     <MDBCol md="1"/>
                     <MDBCol className='mt-5 mx-auto p-3' md='5' sm="8" center>
-                        <div className="mb-3"><span className="color-secondary">{t('ns1:newUserLoginQuestion')}</span>
-                            <Link className="ml-1 link-yellow"
-                                  to={Routes.SIGNUP}>{t('ns1:signupLabel')}!</Link></div>
-                        <form onSubmit={handleRegularLogin}
-                              noValidate>
-                            <label
-                                htmlFor="email"
-                                className="color-primary m-0 p-0"
-                            >
-                                {t('ns1:usernameOrEmailLabel')}
-                            </label>
-                            <input
-                                type="email"
-                                id="email"
-                                className="form-control background-color-grey border-grey color-secondary"
-                                value={email} onChange={(event) => setEmail(event.target.value)} required
-                            />
-                            <br/>
-                            <br/>
-                            <label
-                                htmlFor="password"
-                                className="color-primary m-0 p-0"
-                            >
-                                {t('ns1:passwordLabel')}
-                            </label>
-                            <input
-                                type="password"
-                                id="password"
-                                className="form-control background-color-grey border-grey color-secondary"
-                                value={password} onChange={(event) => setPassword(event.target.value)} required
-                            />
-                            <br/>
-                            <br/>
-                            <div className="d-flex"><span className="link"> <Link className="link-yellow"
-                                to={Routes.FORGOTTEN_PASSWORD}>{t('ns1:forgotPasswordQuestion')}</Link></span>
-                            </div>
-                            <div className='d-flex flex-row justify-content-around mt-3'>
-                                <div className='align-self-center flex-grow-1'><MDBBtn
-                                    className="background-color-primary color-background rounded z-depth-1 w-100 bold"
-                                    type="submit"
-                                    disabled={props.loading}>{t('ns1:loginLabel')}</MDBBtn></div>
-                                <div className='align-self-center flex-grow-1 text-center color-secondary'>or</div>
-                                <div
-                                    className='align-self-center flex-grow-0 px-2 py-1'>
-                                    <O2AuthAuthentication {...props} registration={false}/>
+                        {!props.twoFactorRequired?
+                        <>
+                            <div className="mb-3"><span className="color-secondary">{t('ns1:newUserLoginQuestion')}</span>
+                                <Link className="ml-1 link-yellow"
+                                      to={Routes.SIGNUP}>{t('ns1:signupLabel')}!</Link></div>
+                            <form onSubmit={handleRegularLogin}
+                                  noValidate>
+                                <label
+                                    htmlFor="email"
+                                    className="color-primary m-0 p-0"
+                                >
+                                    {t('ns1:usernameOrEmailLabel')}
+                                </label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    className="form-control background-color-grey border-grey color-secondary"
+                                    value={email} onChange={(event) => setEmail(event.target.value)} required
+                                />
+                                <br/>
+                                <br/>
+                                <label
+                                    htmlFor="password"
+                                    className="color-primary m-0 p-0"
+                                >
+                                    {t('ns1:passwordLabel')}
+                                </label>
+                                <input
+                                    type="password"
+                                    id="password"
+                                    className="form-control background-color-grey border-grey color-secondary"
+                                    value={password} onChange={(event) => setPassword(event.target.value)} required
+                                />
+                                <br/>
+                                <br/>
+                                <div className="d-flex"><span className="link"> <Link className="link-yellow"
+                                                                                      to={Routes.FORGOTTEN_PASSWORD}>{t('ns1:forgotPasswordQuestion')}</Link></span>
                                 </div>
-                            </div>
+                                <div className='d-flex flex-row justify-content-around mt-3'>
+                                    <div className='align-self-center flex-grow-1'><MDBBtn
+                                        className="background-color-primary color-background rounded z-depth-1 w-100 bold"
+                                        type="submit"
+                                        disabled={props.loading}>{t('ns1:loginLabel')}</MDBBtn></div>
+                                    <div className='align-self-center flex-grow-1 text-center color-secondary'>or</div>
+                                    <div
+                                        className='align-self-center flex-grow-0 px-2 py-1'>
+                                        <O2AuthAuthentication {...props} registration={false}/>
+                                    </div>
+                                </div>
+                            </form></>
+                        :userRecoveryCode?
+                                <form onSubmit={handleRecoveyCodeLogin}>
+                                    <label
+                                        htmlFor="code"
+                                        className="color-primary m-0 p-0"
+                                    >
+                                        {t('ns1:recoveryCodeLabel')}
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="code"
+                                        className="form-control background-color-grey border-grey color-secondary"
+                                        value={recoveryCode} onChange={(event) => setRecoveryCode(event.target.value)}
+                                        required
+                                    />
+                                    <div className="text-center py-4 mt-3">
+                                        <div className="text-center my-2">
+
+                                            <MDBBtn  className="background-color-primary color-background rounded z-depth-1 w-100 bold" type="submit"
+                                                     disabled={props.loading}>{t('ns1:loginLabel')}</MDBBtn>
+                                        </div>
+                                    </div>
+                                </form>
+                                :<>
+                                    <form onSubmit={handleTwoFactorLogin}>
+                                        <label
+                                            htmlFor="code"
+                                            className="color-primary m-0 p-0"
+                                        >
+                                            {t('ns1:twoFactorCodeLabel')}
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="code"
+                                            className="form-control background-color-grey border-grey color-secondary"
+                                            value={code} onChange={(event) => setCode(event.target.value)} required
+                                        />
+                                        <div className="text-center py-4 mt-1">
+                                            <div className="text-center my-2">
+
+                                                <MDBBtn  className="background-color-primary color-background rounded z-depth-1 w-100 bold" type="submit"
+                                                         disabled={props.loading}>{t('ns1:loginLabel')}</MDBBtn>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div className="mb-3"><span className="color-secondary">{t('ns1:havingProblemsLoginTwoFactorQuestion')}</span>
+                                        <Link
+                                            className="ml-1 link-yellow" onClick={() => {
+                                            setUseRecoveryCode(true)
+                                        }}
+                                            to="#">{t('ns1:useRecoveryCodeLabel')}</Link>
+                                    </div></>
 
 
-                        </form>
+                        }
 
-                        {/*   </MDBCardBody>
-                            <MDBCardFooter>
-                                <div className="text-center mb-1">{t('ns1:orLoginWithSuggestion')}</div>
 
-                                {<O2AuthAuthentication {...props} registration={false}/>}
-                            </MDBCardFooter>
-                        </MDBCard>*/}
                     </MDBCol>
                     <MDBCol md="1"/>
 
@@ -180,89 +227,7 @@ function Login(props: RouteComponentProps & LoginProps) {
             </MDBContainer>
             </div>
         );
-    } else if (userRecoveryCode) {
-        return (<MDBContainer className="mt-5">
-                <MDBRow>
-                    <MDBCol md="3"/>
-                    <MDBCol md="6">
-                        <MDBCard>
 
-                            <MDBCardBody>
-                                <p className="h4 text-center">{t('ns1:loginHeading')}</p>
-                                <form onSubmit={handleRecoveyCodeLogin}>
-                                    <label
-                                        htmlFor="code"
-                                        className="grey-text font-weight-light"
-                                    >
-                                        {t('ns1:recoveryCodeLabel')}
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="code"
-                                        className="form-control"
-                                        value={recoveryCode} onChange={(event) => setRecoveryCode(event.target.value)}
-                                        required
-                                    />
-                                    <div className="text-center py-4 mt-3">
-                                        <div className="text-center my-2">
-
-                                            <button className="btn btn-block btn-primary p-1" type="submit"
-                                                    disabled={props.loading}>{t('ns1:loginLabel')}</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </MDBCardBody>
-                        </MDBCard>
-                    </MDBCol>
-                    <MDBCol md="3"/>
-                </MDBRow>
-            </MDBContainer>
-        )
-    } else {
-        return (
-            <MDBContainer className="mt-5">
-                <MDBRow>
-                    <MDBCol md="3"/>
-                    <MDBCol md="6">
-                        <MDBCard>
-
-                            <MDBCardBody>
-                                <p className="h4 text-center">{t('ns1:loginHeading')}</p>
-                                <form onSubmit={handleTwoFactorLogin}>
-                                    <label
-                                        htmlFor="code"
-                                        className="grey-text font-weight-light"
-                                    >
-                                        {t('ns1:twoFactorCodeLabel')}
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="code"
-                                        className="form-control"
-                                        value={code} onChange={(event) => setCode(event.target.value)} required
-                                    />
-                                    <div className="text-center py-4 mt-1">
-                                        <div className="text-center my-2">
-
-                                            <button className="btn btn-block btn-primary p-1" type="submit"
-                                                    disabled={props.loading}>{t('ns1:loginLabel')}</button>
-                                        </div>
-                                    </div>
-                                </form>
-                                <span
-                                    className="font-weight-light-blue flex-center">{t('ns1:havingProblemsLoginTwoFactorQuestion')}
-                                    <Link
-                                        className="ml-1" onClick={() => {
-                                        setUseRecoveryCode(true)
-                                    }}
-                                        to="#">{t('ns1:useRecoveryCodeLabel')}</Link></span>
-                            </MDBCardBody>
-                        </MDBCard>
-                    </MDBCol>
-                    <MDBCol md="3"/>
-                </MDBRow>
-            </MDBContainer>)
-    }
 }
 
 export interface LoginRequest {
