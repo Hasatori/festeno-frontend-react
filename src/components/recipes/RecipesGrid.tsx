@@ -52,7 +52,10 @@ function RecipesGrid(props: RecipesGridProps) {
                         {props.pagination && props.pagination.maxPages > 1 ? <MDBRow center={isSmallScreen}
                                                                                      className={'px-5 mt-5'}><RecipesPaginationEl{...props.pagination}/></MDBRow> : null}
                         <MDBRow>
-                            {props.recipes.map((recipe: RecipeOverview, index) => {
+                            {props.recipes.filter((recipe, index, self) =>
+                                index === self.findIndex((t) => (
+                                    t.title === recipe.title && t.title === recipe.title
+                                ))).map((recipe: RecipeOverview, index) => {
                                 return (
                                     <MDBCol md='6' xl='3' sm="12" className='mt-5 px-4'>
 
