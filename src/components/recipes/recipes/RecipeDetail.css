@@ -446,6 +446,7 @@ a:hover {
   padding: 3px;
   border-radius: 5px;
   opacity: 0.9;
+  z-index: 10000 !important;
 }
 
 .favourite:hover {
