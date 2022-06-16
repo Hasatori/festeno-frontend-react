@@ -158,7 +158,7 @@ function RecipesPaginationEl(pagination: RecipesPagination) {
                     <MDBPageItem active={value === pagination.current}
                                  disabled={pagination.loading}>
                         <MDBPageNav>
-                            <span onClick={() => pagination.onSelected(value)}> {value} </span>
+                            <span onClick={() => pagination.onSelected(value)}> {value+1} </span>
                         </MDBPageNav>
                     </MDBPageItem>
                 )
