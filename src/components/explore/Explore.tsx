@@ -149,7 +149,7 @@ function Explore(props: ExploreProps) {
     const [dietType, setDietType] = useState<string>(dietTypes.find((dietType) => {
         return dietType == query.get(DIET_TYPE) ?? notSelectedOption
     }) ?? notSelectedOption);
-    const specificDiets = ["low fat", "low carbohydrates", "high protein", "gluten free", "Low Lactose", "Sugar free"];
+    const specificDiets = ["low fat", "low carbohydrates", "high protein", "gluten free", "low Lactose", "sugar free"];
     const [dietSubTypes, setDietSubTypes] = useState<Array<string>>(getArrayFromQuery(DIET_SUB_TYPE, query, (val) => specificDiets.includes(val)));
     const [wantedFood, setWantedFood] = useState<Array<string>>(getArrayFromQuery(WANTED_FOOD, query));
     const [wantedFoodVal, setWantedFoodVal] = useState("");
@@ -285,14 +285,14 @@ function Explore(props: ExploreProps) {
                         <MDBRow>
                             <MDBCol md='3' sm='6' className={"mt-5"}>
                                 <div className='d-flex flex-column'>
-                                    <div>Name or keyword</div>
+                                    <div className="bold">Keyword</div>
                                     <div className='d-flex flex-column'>
                                         <div className='d-flex flex-row'>
                                             <div className='d-flex align-self-center mr-1'>
                                                 <div className="my-0">
                                                     <input
                                                         type="text"
-                                                        placeholder='name or keyword'
+                                                        placeholder='type in keyword'
                                                         className='form-control'
                                                         value={nameOrKeyword === null ? "" : nameOrKeyword}
                                                         onChange={(event) => {
@@ -315,7 +315,7 @@ function Explore(props: ExploreProps) {
                         <MDBRow>
                             <MDBCol md='3' sm='6' className={"mt-5"}>
                                 <div className='d-flex flex-column'>
-                                    <div>Diet types</div>
+                                    <div className="bold">Diet types</div>
                                     <div className='d-flex flex-column'>
                                         <select onChange={(event => {
                                             setDietType(event.target.value);
@@ -338,7 +338,7 @@ function Explore(props: ExploreProps) {
                             </MDBCol>
                             <MDBCol md='3' sm='6' className={"mt-5"}>
                                 <div className='d-flex flex-column'>
-                                    <div>Specific diet</div>
+                                    <div className="bold">Specific diet</div>
                                     <div className='d-flex flex-column'>
                                         {specificDiets.map((value) => {
                                             return (
@@ -380,7 +380,7 @@ function Explore(props: ExploreProps) {
                             </MDBCol>
                             <MDBCol md='3' sm='6' className={"mt-5"}>
                                 <div className='d-flex flex-column'>
-                                    <div>Cuisine</div>
+                                    <div className="bold">Cuisine</div>
                                     <div className='d-flex flex-column'>
                                         <select
                                             disabled={props.loading}
@@ -406,7 +406,7 @@ function Explore(props: ExploreProps) {
                         <MDBRow>
                             <MDBCol xl='3' sm='6' className={"mt-5"}>
                                 <div className='d-flex flex-column'>
-                                    <div>Wanted food</div>
+                                    <div className="bold">Wanted ingredients</div>
                                     <div className='d-flex flex-column'>
                                         <div className='d-flex flex-row'>
                                             <div className='d-flex align-self-center mr-1'>
@@ -466,7 +466,7 @@ function Explore(props: ExploreProps) {
                             </MDBCol>
                             <MDBCol xl='3' sm='6' className={"mt-5"}>
                                 <div className='d-flex flex-column'>
-                                    <div>Without ingredient</div>
+                                    <div className="bold">Not wanted ingredients</div>
                                     <div className='d-flex flex-column'>
                                         <div className='d-flex flex-row'>
                                             <div className='d-flex align-self-center mr-1'>
