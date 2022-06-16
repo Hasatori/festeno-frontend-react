@@ -161,7 +161,7 @@ function RecipesPaginationEl(pagination: RecipesPagination) {
                     <MDBPageItem active={value === pagination.current}
                                  disabled={pagination.loading}>
                         <MDBPageNav>
-                            <span onClick={() => pagination.onSelected(value)}> {value+1} </span>
+                            <span onClick={() => pagination.onSelected(value)}> {(index === 0 && value > 0)?"...":null} {value+1} {index === paginationItems.length -1 && pagination.maxPages > paginationItems.length  ?'...':null} </span>
                         </MDBPageNav>
                     </MDBPageItem>
                 )
