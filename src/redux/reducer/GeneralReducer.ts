@@ -211,7 +211,7 @@ export default function generalReducer(state = initialState, action: GeneralActi
                 ...state,
                 recipe: {
                     ...action.recipe,
-                    isInFavourites: state.favouriteRecipes.map((recipeOverview)=>{return recipeOverview.id}).includes(state?.recipe?.id.toString())
+                    isInFavourites: state.favouriteRecipes.map((recipeOverview)=>{return recipeOverview.id}).includes(state?.recipe?.id?.toString())
                 }
             }
         case "LOAD_RECIPE_TAGS":
@@ -311,7 +311,7 @@ export default function generalReducer(state = initialState, action: GeneralActi
                 feed: feed,
                 recipe: {
                     ...state.recipe,
-                    isInFavourites: action.favouriteRecipes.map((recipeOverview)=>{return recipeOverview.id.toString()}).includes(state?.recipe?.id.toString())
+                    isInFavourites: action.favouriteRecipes.map((recipeOverview)=>{return recipeOverview?.id?.toString()}).includes(state?.recipe?.id?.toString())
                 }
             }
         case "REDIRECT":
