@@ -19,7 +19,7 @@ $color-period-item-inactive-background:#343434;
 .period-big-button {
   color: #FAFAFA;
   border-color: $color-secondary;
-  background-color: $color-period-item-inactive-background !important;
+  background-color: $color-background !important;
 }
 
 .period-big-button:hover {
@@ -30,13 +30,6 @@ $color-period-item-inactive-background:#343434;
   border-radius: $button-border-radius;
   padding: 15px 20px;
   font-size: 1.3rem;
-}
-
-.period-wrapper{
-  background-color: $color-background;
-  overflow-x: scroll;
-  padding: 5px;
-  border-radius: 15px;
 }
 
 .action-button {
