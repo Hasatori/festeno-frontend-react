@@ -281,7 +281,7 @@ function Explore(props: ExploreProps) {
                         <>hide filters <i className="ml-1 fas fa-angle-up"/></>}</MDBBtn>
                 </div>
                 {!filterHidden ?
-                    <div className='background-color-secondary border-light-grey rounded p-3'>
+                    <div className='background-color-secondary border-very-light-grey rounded p-3'>
                         <MDBRow>
                             <MDBCol md='3' sm='6' className={"mt-5"}>
                                 <div className='d-flex flex-column'>
