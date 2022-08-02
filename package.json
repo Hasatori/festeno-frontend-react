@@ -22,6 +22,7 @@
     "i18next": "^19.8.4",
     "i18next-browser-languagedetector": "^6.0.1",
     "js-cookie": "^2.2.1",
+    "mdb-react-ui-kit": "^4.1.0",
     "mdbreact": "^4.27.0",
     "my-ui-lib": "^1.2.2",
     "react-cookie": "^4.0.3",

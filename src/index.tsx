@@ -7,6 +7,7 @@ import App, {User} from "./components/App";
 import ReactDOM from 'react-dom';
 import React from 'react';
 import './i18n/I18nConfig';
+import 'mdb-react-ui-kit/dist/css/mdb.min.css'
 
 export const store = configureStore();
 export interface AppProps {

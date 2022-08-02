@@ -89,6 +89,15 @@ export interface RecipeImage {
     id: number;
 }
 
+
+interface RecipeReview {
+    authorId: number
+    authorName: string,
+    timestamp: Date,
+    text: string,
+    rating: number
+}
+
 export interface Recipe {
     id: string,
     title: string,
@@ -108,7 +117,8 @@ export interface Recipe {
     fiber: Fiber,
     salt: Salt,
     energy: Energy,
-    isInFavourites: boolean
+    isInFavourites: boolean,
+    recipeReviews: Array<RecipeReview>
 }
 
 const notLoading = {

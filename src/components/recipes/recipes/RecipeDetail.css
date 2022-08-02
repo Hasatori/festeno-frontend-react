@@ -2,6 +2,7 @@
 body {
   background-color: #F9F9F9 !important;
   color: #333333 !important;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
 }
 
 .hover-pointer-cursor:hover {
@@ -457,6 +458,10 @@ a:hover {
 
 .favourite:hover {
   opacity: 1;
+}
+
+.reviews-text-area {
+  resize: none;
 }
 
 /*# sourceMappingURL=RecipeDetail.css.map */
