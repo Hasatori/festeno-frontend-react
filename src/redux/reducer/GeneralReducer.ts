@@ -89,6 +89,15 @@ export interface RecipeImage {
     id: number;
 }
 
+
+export interface RecipeReview {
+    authorId: number
+    authorName: string,
+    timestamp: Date,
+    text: string,
+    rating: number
+}
+
 export interface Recipe {
     id: string,
     title: string,
@@ -108,7 +117,8 @@ export interface Recipe {
     fiber: Fiber,
     salt: Salt,
     energy: Energy,
-    isInFavourites: boolean
+    isInFavourites: boolean,
+    recipeReviews: Array<RecipeReview>
 }
 
 const notLoading = {
@@ -312,6 +322,16 @@ export default function generalReducer(state = initialState, action: GeneralActi
                 recipe: {
                     ...state.recipe,
                     isInFavourites: action.favouriteRecipes.map((recipeOverview)=>{return recipeOverview?.id?.toString()}).includes(state?.recipe?.id?.toString())
+                }
+            }
+        case "SUBMIT_REVIEW":
+            const newRecipeReviews = state.recipe.recipeReviews.filter((review)=>review.authorId!== action.review.authorId);
+            newRecipeReviews.push(action.review)
+            return {
+                ...state,
+                recipe: {
+                    ...state.recipe,
+                    recipeReviews: newRecipeReviews
                 }
             }
         case "REDIRECT":

@@ -229,6 +229,7 @@ export interface RecipesPreferences {
 }
 
 export interface User {
+    id:number;
     name: string;
     email: string;
     profileImage: Image;

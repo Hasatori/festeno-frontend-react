@@ -1,10 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
 body {
   background-color: #F9F9F9 !important;
+  color: #333333 !important;
 }
 
 .hover-pointer-cursor:hover {
   cursor: pointer;
+}
+
+.divider {
+  content: "";
+  border-bottom: 1px solid #B0B0B0;
 }
 
 .dot, .smaller-dot, .small-dot {
@@ -94,7 +100,7 @@ body {
   border: 1px solid #B2B2B2 !important;
 }
 
-.border-light-grey {
+.border-very-light-grey {
   border: 1px solid #DDDDDD !important;
 }
 
@@ -360,7 +366,7 @@ a:hover {
   padding: 10px;
   margin: 4px;
   display: inline-block;
-  background-color: #DDDDDD;
+  background-color: #B0B0B0;
   border-radius: 11px;
 }
 
@@ -428,7 +434,7 @@ a:hover {
   background-color: #FFF27E !important;
   color: #181818;
   font-weight: bold;
-  border: 1px solid #DDDDDD;
+  border: 1px solid #B0B0B0;
   border-radius: 11px;
   opacity: 0.9;
 }
@@ -490,7 +496,7 @@ a:hover {
 
 .meal-time-item {
   height: 45px;
-  border: 1px solid #DDDDDD;
+  border: 1px solid #B0B0B0;
   border-radius: 7px;
 }
 

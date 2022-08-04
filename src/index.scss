@@ -3,19 +3,28 @@
 $color-primary: #FFF27E;
 $color-secondary: #F9F9F9;
 $color-background: #181818;
+$color-background-text:#333333;
 $color-background-transparent: rgba(24, 24, 24, 0.5);
 $color-grey: #4F5150;
 $color-danger: #d9534f;
-$color-light-grey: #DDDDDD;
+$color-light-grey: 	#B0B0B0;
+$color-very-light-grey: 	#DDDDDD;
 $color-success: #02C016;
 $button-border-radius: 11px;
 
 body {
   background-color: $color-secondary !important;
+  color: $color-background-text  !important;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
 }
 
 .hover-pointer-cursor:hover {
   cursor: pointer;
+}
+
+.divider {
+  content: '';
+  border-bottom: 1px solid $color-light-grey;
 }
 
 .dot, .smaller-dot, .small-dot {
@@ -104,8 +113,8 @@ body {
   border: 1px solid #B2B2B2 !important;
 }
 
-.border-light-grey {
-  border: 1px solid $color-light-grey !important;
+.border-very-light-grey {
+  border: 1px solid $color-very-light-grey  !important;
 }
 
 * {
