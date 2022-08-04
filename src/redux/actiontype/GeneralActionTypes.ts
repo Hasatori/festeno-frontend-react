@@ -27,6 +27,8 @@ export const REMOVE_FROM_FAVOURITE = 'REMOVE_FROM_FAVOURITE';
 export const LOAD_FAVOURITE_RECIPES = 'LOAD_FAVOURITE_RECIPES';
 export const REDIRECT = "REDIRECT";
 export const REDIRECT_DONE = "REDIRECT_DONE";
+export const SUBMIT_REVIEW = 'SUBMIT_REVIEW';
+
 export interface InProgressAction extends Action {
     type: typeof IN_PROGRESS,
     message: string;
@@ -71,6 +73,7 @@ export interface WarningAction extends Action {
 export interface DismissWarning extends Action {
     type: typeof DISMISS_WARNING
 }
+
 export interface Redirect extends Action {
     type: typeof REDIRECT,
     url: string
@@ -121,6 +124,13 @@ export interface LoadFavouriteRecipes extends Action {
     favouriteRecipes: Array<RecipeOverview>
 }
 
+
+export interface SubmitReview extends Action {
+    readonly type: typeof SUBMIT_REVIEW
+    review: NewRecipeReview
+}
+
+
 export const inProgressActionCreator: ActionCreator<InProgressAction> = (message: string) => {
     return configureStore().dispatch({type: IN_PROGRESS, message: message});
 };
@@ -152,8 +162,8 @@ export const dismissInfo: ActionCreator<DismissInfo> = () => {
 export const dismissFailure: ActionCreator<DismissFailure> = () => {
     return configureStore().dispatch({type: DISMISS_FAILURE});
 };
-export const dismissRedirect: ActionCreator<Redirect> = (url:string) => {
-    return configureStore().dispatch({type: REDIRECT,url:url});
+export const dismissRedirect: ActionCreator<Redirect> = (url: string) => {
+    return configureStore().dispatch({type: REDIRECT, url: url});
 };
 
 export const dismissRedirectDone: ActionCreator<RedirectDone> = () => {
@@ -198,13 +208,13 @@ export const loadFavouriteRecipes: ActionCreator<ThunkAction<void,
 export const loadRecipe: ActionCreator<ThunkAction<void,
     void,
     void,
-    AnyAction>> = (id:string) => {
+    AnyAction>> = (id: string) => {
     return async (dispatch: Dispatch) => {
         dispatch(inProgressActionCreator("Loading recipe"));
         API({
             url: `${process.env.REACT_APP_REST_API_URL}/recipes/recipe?id=${id}`,
             method: 'GET'
-        }).then((response:AxiosResponse<Recipe>) => {
+        }).then((response: AxiosResponse<Recipe>) => {
             console.log(response.data.title);
             dispatch({type: LOAD_RECIPE, recipe: response.data})
             dispatch(doneActionCreator(""));
@@ -289,6 +299,31 @@ export const removeFromFavourite: ActionCreator<ThunkAction<void,
     };
 };
 
+export const addReview: ActionCreator<ThunkAction<void,
+    void,
+    void,
+    AnyAction>> = (newRecipeReview: NewRecipeReview) => {
+    return async (dispatch: Dispatch) => {
+        API({
+            url: process.env.REACT_APP_REST_API_URL + "/recipes/review",
+            method: 'POST',
+            data: newRecipeReview
+        }).then((response) => {
+            dispatch({type: SUBMIT_REVIEW, review: newRecipeReview})
+        }).catch(error => {
+            //dispatch(failureActionCreator((error.response && error.response.data && error.response.data.message) || i18next.t('ns1:defaultErrorMessage')));
+        });
+    };
+};
+export interface NewRecipeReview {
+    authorName:string;
+    recipeId: number;
+    authorId: number;
+    text: string;
+    rating: number;
+    timestamp:Date;
+}
+
 export type GeneralActionTypes =
     InProgressAction
     | FailureAction
@@ -309,4 +344,5 @@ export type GeneralActionTypes =
     | LoadFavouriteRecipes
     | Redirect
     | RedirectDone
+    | SubmitReview
     ;

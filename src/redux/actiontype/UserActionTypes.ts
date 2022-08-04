@@ -9,14 +9,16 @@ import {
     dismissRedirect,
     doneActionCreator,
     failureActionCreator,
-    GeneralActionTypes, infoActionCreator,
-    inProgressActionCreator, loadFavouriteRecipes,
+    GeneralActionTypes,
+    infoActionCreator,
+    inProgressActionCreator,
+    NewRecipeReview,
     successActionCreator
 } from "./GeneralActionTypes";
 import {SignUpRequest} from "../../components/user/signup/Signup";
 import {ResetPasswordRequest} from "../../components/user/forgottenpassword/PasswordReset";
 import {ChangePasswordRequest} from "../../components/user/account/ChangePassword";
-import axios, {AxiosResponse} from "axios";
+import {AxiosResponse} from "axios";
 import i18next from "i18next";
 import {UpdateProfileRequest} from "../../components/user/account/Profile";
 import {VerifyTwoFactor} from "../../components/user/account/TwoFactorSetup";
@@ -34,6 +36,8 @@ export const TWO_FACTOR_DISABLED = 'TWO_FACTOR_DISABLED';
 export const TWO_FACTOR_ENABLED = 'TWO_FACTOR_ENABLED';
 export const EMPTY_BACKUP_CODES = 'EMPTY_BACKUP_CODES';
 export const PASSWORD_RESET = 'PASSWORD_RESET';
+
+
 export interface LoginSuccessAction extends Action {
     readonly  type: typeof LOGIN_SUCCESS,
     readonly accessToken: string;
@@ -88,6 +92,7 @@ export interface TwoFactorEnabled extends Action {
 export interface EmptyBackupCodes extends Action {
     readonly  type: typeof EMPTY_BACKUP_CODES
 }
+
 export interface PasswordReset extends Action {
     readonly type: typeof PASSWORD_RESET
     userEmail: string
@@ -122,7 +127,8 @@ export const refreshTokenActionCreator: ActionCreator<ThunkAction<void, void, vo
             method: 'GET'
         }).then((response) => {
             dispatch({type: TOKEN_REFRESHED, accessToken: response.data.accessToken})
-        }).catch((error)=>{});
+        }).catch((error) => {
+        });
     };
 };
 export const loginTwoFactorActionCreator: ActionCreator<ThunkAction<void, void, TwoFactorLoginRequest, LoginSuccessAction>> = (loginRequest: TwoFactorLoginRequest) => {
@@ -374,7 +380,7 @@ export const getNewBackupCodes: ActionCreator<ThunkAction<void, void, void, Gene
     };
 };
 
-export const saveRecipePreferences: ActionCreator<ThunkAction<void, void, void, GeneralActionTypes>> = (foodPreferenceRequest:FoodPreferencesRequest) => {
+export const saveRecipePreferences: ActionCreator<ThunkAction<void, void, void, GeneralActionTypes>> = (foodPreferenceRequest: FoodPreferencesRequest) => {
     return async (dispatch: ThunkDispatch<any, any, AnyAction>) => {
         dispatch(inProgressActionCreator('Saving user recipes preferences'));
         API({
@@ -390,7 +396,6 @@ export const saveRecipePreferences: ActionCreator<ThunkAction<void, void, void, 
         });
     };
 };
-
 
 export type UserActionTypes =
     LoginSuccessAction
