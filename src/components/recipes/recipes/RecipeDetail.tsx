@@ -143,7 +143,7 @@ function RecipeDetail(props: RecipeProps) {
                         <MDBRow>
                             <MDBCol className="mt-3">
                                 <MDBRow>
-                                    <MDBCol md={"12"} lg={"6"} xl={"8"}>
+                                    <MDBCol md={"12"} lg={"6"}>
                                         {props?.recipe?.recipeImages?.length === 1 ?
                                             <MDBView>
                                                 <LazyLoadImage
@@ -321,9 +321,10 @@ function RecipeDetail(props: RecipeProps) {
                         <div className='divider'/>
                         <MDBRow className="mt-5">
                             <MDBCol>
+                                <div className="h4-responsive mb-3"><b>Reviews</b></div>
                                 {currentUserReview === undefined ?
                                     <>
-                                        <div className="h4-responsive mb-3"><b>Reviews</b></div>
+
                                          <div className="d-flex flex-column">
                                             <MDBTextArea label='review text...'
                                                          className={submitted && reviewText === "" ? 'reviews-text-area is-invalid' : 'reviews-text-area'}
