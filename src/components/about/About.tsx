@@ -24,8 +24,8 @@ export default function About() {
             </MDBTypography>
             <MDBBox tag='p' className="mt-5 lead">Wanna have feed with recipes tailored just for you?</MDBBox>
             <MDBBox tag='p' className="mt-5 lead">
-               All you need to do is to just create an <Link className="ml-1 link-black"
-                                                              to={Routes.SIGNUP}>account</Link>, login and fill then a short
+               All you need to do just create an <Link className="ml-1 link-black"
+                                                              to={Routes.SIGNUP}>account</Link>, login and fill a short
                 questionnaire.
             </MDBBox>
 
@@ -39,7 +39,7 @@ export default function About() {
             </MDBRow>
             <MDBBox tag='p' className="mt-5 lead">
                 Based on your preferences Festeno will generate a personalized feed. Feed will be regularly
-                updated so there will be always something new to try out!
+                updated so there will be always something new for you to try out!
             </MDBBox>
             <MDBRow className='border-light-grey  my-5'>
                 <MDBCol lg="10" md="12" className="mb-4  mx-auto">
