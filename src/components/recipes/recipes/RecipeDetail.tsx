@@ -22,7 +22,7 @@ import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
 import {
     addReview,
-    addToFavourite, dismissFailure, failureActionCreator,
+    addToFavourite, dismissFailure, failureActionCreator, infoActionCreator,
     loadRecipe,
     NewRecipeReview,
     removeFromFavourite
@@ -52,14 +52,16 @@ interface RecipeProps {
     addToFavourite: (recipeOverview: RecipeOverview) => void
     removeFromFavourite: (recipeOverview: RecipeOverview) => void
     review: (newRecipeReview: NewRecipeReview) => void,
-    currentUser: User
+    currentUser: User,
+    loggedIn:boolean
 }
 
 function mapStateToProps(state: AppState, props: RecipeProps) {
     return {
         recipe: state.generalState.recipe,
         loading: state.generalState.loading,
-        currentUser: state.userState.currentUser
+        currentUser: state.userState.currentUser,
+        loggedIn: state.userState.loggedIn
     }
 }
 
@@ -85,13 +87,23 @@ function RecipeDetail(props: RecipeProps) {
     useEffect(()=>{
         setRating(currentUserReview?.rating??null);
         setReviewText(currentUserReview?.text??"");
-        setRatingStart(new Array(5).fill({filled: false},currentUserReview?.rating,5).fill({filled: true},0,currentUserReview?.rating))
+        setRatingStart(new Array(5).fill({filled: false},currentUserReview?.rating?? 0,5).fill({filled: true},0,currentUserReview?.rating??0))
     },[currentUserReview])
 
     function submitReview() {
-        setSubmitted(true);
+        if (!props.loggedIn){
+            store.dispatch(infoActionCreator("You need to be logged in in order to review a recipe."))
+            history.push(Routes.LOGIN);
+            return;
+        }
+        if (reviewText === currentUserReview?.text && rating === currentUserReview?.rating){
+            setEditComment(false);
+            setSubmitted(true);
+            return;
+        }
         if (reviewText !== "" && rating !== null) {
             setEditComment(false);
+            setSubmitted(true);
             props.review({
                 authorId: props.currentUser.id,
                 rating: rating ?? 1,
@@ -311,7 +323,7 @@ function RecipeDetail(props: RecipeProps) {
                                 {currentUserReview === undefined ?
                                     <>
                                         <div className="h4-responsive mb-3"><b>Reviews</b></div>
-                                        <div className="d-flex flex-column">
+                                         <div className="d-flex flex-column">
                                             <MDBTextArea label='review text...'
                                                          className={submitted && reviewText === "" ? 'reviews-text-area is-invalid' : 'reviews-text-area'}
                                                          rows={4}
@@ -371,7 +383,9 @@ function RecipeDetail(props: RecipeProps) {
                                 }).map((review, index) => {
                                     return (
                                         <div className="d-flex flex-column border-very-light-grey p-3 position-relative">
-                                            {review.authorName === currentUserReview?.authorName?<div className="edit-review-wrapper hover-pointer-cursor"> <MDBIcon fas icon="pen" onClick={()=>setEditComment(true)} />
+                                            {review.authorName === currentUserReview?.authorName?<div className="edit-review-wrapper hover-pointer-cursor">
+                                                {editComment? <MDBIcon fas icon="times" onClick={()=>setEditComment(false)} />:
+                                                    <MDBIcon fas icon="pen" onClick={()=>setEditComment(true)} />}
                                                </div>:null}
                                             {review.authorName === currentUserReview?.authorName?  <span className="your-review-badge" color="dark">your review</span>:null}
                                             <div className="d-flex flex-row">
