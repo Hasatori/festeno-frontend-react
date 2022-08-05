@@ -47,6 +47,7 @@ import Explore from "./explore/Explore";
 import {Recipes} from "./recipes/Recipes";
 import {Routes} from "../util/Constants";
 import About from "./about/About";
+import {FunctionNotAvailableYet} from "./functionnotyetavailable/FunctionNotAvailableYet";
 
 function mapStateToProps(state: AppState, props: AppProps) {
     return {
@@ -182,8 +183,7 @@ function App(appProps: AppProps) {
                                 authenticationPath: Routes.LOGIN,
                                 redirectPathOnAuthentication: Routes.FEED
                             }} exact={true}
-                            render={(props) => <Home loading={appProps.loading} feed={[]} loadFeed={() => {
-                            }} user={appProps.user}/>}/>
+                            render={(props) => <FunctionNotAvailableYet/>}/>
                         <PrivateRoute
                             path={[Routes.PROFILE]}
                             {...{
