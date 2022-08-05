@@ -91,6 +91,7 @@ function RecipeDetail(props: RecipeProps) {
     },[currentUserReview])
 
     function submitReview() {
+        setSubmitted(true);
         if (!props.loggedIn){
             store.dispatch(infoActionCreator("You need to be logged in in order to review a recipe."))
             history.push(Routes.LOGIN);
@@ -103,7 +104,7 @@ function RecipeDetail(props: RecipeProps) {
         }
         if (reviewText !== "" && rating !== null) {
             setEditComment(false);
-            setSubmitted(true);
+
             props.review({
                 authorId: props.currentUser.id,
                 rating: rating ?? 1,

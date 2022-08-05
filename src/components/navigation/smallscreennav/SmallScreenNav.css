@@ -2,6 +2,7 @@
 body {
   background-color: #F9F9F9 !important;
   color: #333333 !important;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
 }
 
 .hover-pointer-cursor:hover {

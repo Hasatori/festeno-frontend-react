@@ -2,6 +2,7 @@
 body {
   background-color: #F9F9F9 !important;
   color: #333333 !important;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
 }
 
 .hover-pointer-cursor:hover {
@@ -454,10 +455,8 @@ a:hover {
 
 .loadingBackground {
   position: fixed;
-  width: 100%;
-  /* Full width (cover the whole page) */
-  height: 100%;
-  /* Full height (cover the whole page) */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
   top: 0;
   left: 0;
   right: 0;
