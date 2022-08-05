@@ -93,7 +93,7 @@ function RecipeDetail(props: RecipeProps) {
     function submitReview() {
         setSubmitted(true);
         if (!props.loggedIn){
-            store.dispatch(infoActionCreator("You need to be logged in in order to review a recipe."))
+            store.dispatch(infoActionCreator("You need to be logged in order to review a recipe."))
             history.push(Routes.LOGIN);
             return;
         }
